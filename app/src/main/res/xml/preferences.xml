@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="General">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/camera_on_start"
+            android:summary="@string/camera_on_start_summary"
+            android:title="@string/camera_on_start" />
+    </PreferenceCategory>
+</PreferenceScreen>
