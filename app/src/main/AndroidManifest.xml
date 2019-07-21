@@ -5,6 +5,8 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
 
     <application
         android:allowBackup="true"
@@ -24,6 +26,16 @@
             android:name=".SettingsActivity"
             android:label="@string/settings"
             android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".WebviewActivity"
+            android:parentActivityName=".MainActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:host="fediphotoreturn" android:scheme="fediphoto" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
