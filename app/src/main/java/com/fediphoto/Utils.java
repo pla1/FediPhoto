@@ -185,5 +185,16 @@ public class Utils {
         }
         return null;
     }
+    public static String getProperty(JsonElement jsonElement, String propertyName) {
+        if (jsonElement == null) {
+            return "";
+        }
+        JsonElement property = jsonElement.getAsJsonObject().get(propertyName);
+        if (property != null && !property.isJsonNull()) {
+            return property.getAsString();
+        }
+        return "";
+    }
+
 
 }

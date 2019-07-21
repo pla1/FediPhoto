@@ -89,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static enum Literals {
         client_name, redirect_uris, scopes, website, access_token, POST, urlString, authorization_code,
-        token, client_id, client_secret, redirect_uri, me, exipires_in, created_at, milliseconds, grant_type, code, accounts
+        token, client_id, client_secret, redirect_uri, me, exipires_in, created_at, milliseconds,
+        grant_type, code, accounts, account, instance, text, followers, visibility, unlisted, PUBLIC, dateFormat
     }
 
 
@@ -251,10 +252,15 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.accounts:
                 JsonObject settings = Utils.getSettings(context);
-                JsonElement accounts = settings.get("accounts");
+                JsonElement accounts = settings.get(Literals.accounts.name());
                 Log.i(TAG, String.format("Settings: \n%s", accounts.toString()));
                 if (accounts == null || accounts.getAsJsonArray().size() == 0) {
                     askForInstance();
+                } else {
+                    // TODO ask for multiple choice
+                    Intent intent = new Intent(context, AccountActivity.class);
+                    intent.putExtra(Literals.account.name(), settings.getAsJsonArray(Literals.accounts.name()).get(0).toString());
+                    startActivity(intent);
                 }
                 Log.i(TAG, "Accounts activity");
                 return true;

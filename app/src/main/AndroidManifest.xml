@@ -27,6 +27,9 @@
             android:label="@string/settings"
             android:parentActivityName=".MainActivity" />
         <activity
+            android:name=".AccountActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".WebviewActivity"
             android:parentActivityName=".MainActivity" >
             <intent-filter>
