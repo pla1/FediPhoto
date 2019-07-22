@@ -383,6 +383,7 @@ public class MainActivity extends AppCompatActivity {
             JsonObject settings = Utils.getSettings(context);
             JsonArray jsonArray = settings.getAsJsonArray(Literals.accounts.name());
             instance = Utils.getProperty(jsonArray.get(0), Literals.instance.name());
+            token = Utils.getProperty(jsonArray.get(0), Literals.access_token.name());
             String fileName = file.getName();
 
             String boundary = new BigInteger(256, new Random()).toString();
@@ -403,9 +404,26 @@ public class MainActivity extends AppCompatActivity {
                 urlConnection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
                 urlConnection.setDoOutput(true);
                 String json = params.toString();
-                //     urlConnection.setRequestProperty("Content-length", Integer.toString(json.length()));
                 outputStream = urlConnection.getOutputStream();
                 writer = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"), true);
+
+
+                writer.append("--" + boundary).append(LINE_FEED);
+                writer.append("Content-Disposition: form-data; name=\"access_token\"").append(LINE_FEED);
+                writer.append("Content-Type: text/plain; charset=UTF-8").append(LINE_FEED);
+                writer.append(LINE_FEED);
+                writer.append(token).append(LINE_FEED);
+                writer.flush();
+
+
+
+                writer.append("--" + boundary).append(LINE_FEED);
+                writer.append("Content-Disposition: form-data; name=\"file\"").append(LINE_FEED);
+                writer.append("Content-Type: text/plain; charset=UTF-8").append(LINE_FEED);
+                writer.append(LINE_FEED);
+                writer.append(fileName).append(LINE_FEED);
+                writer.flush();
+
 
                 writer.append("--" + boundary).append(LINE_FEED);
                 writer.append("Content-Disposition: form-data; name=\"file\"; filename=\"" + fileName + "\"").append(LINE_FEED);
@@ -419,7 +437,7 @@ public class MainActivity extends AppCompatActivity {
                 byte[] buffer = new byte[4096];
                 int bytesRead = -1;
                 while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    Log.i(TAG, new String(buffer));
+                  //  Log.i(TAG, new String(buffer));
                     outputStream.write(buffer, 0, bytesRead);
                 }
                 outputStream.flush();
