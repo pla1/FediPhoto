@@ -334,7 +334,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.accounts:
                 JsonObject settings = Utils.getSettings(context);
                 JsonElement accounts = settings.get(Literals.accounts.name());
-                Log.i(TAG, String.format("Settings: \n%s", accounts.toString()));
                 if (accounts == null || accounts.getAsJsonArray().size() == 0) {
                     askForInstance();
                 } else {

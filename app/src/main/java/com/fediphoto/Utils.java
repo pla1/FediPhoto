@@ -164,7 +164,11 @@ public class Utils {
             close(bufferedReader);
         }
         JsonParser jsonParser = new JsonParser();
-        return jsonParser.parse(sb.toString()).getAsJsonObject();
+        JsonElement jsonElement = jsonParser.parse(sb.toString());
+        if (jsonElement == null || jsonElement.isJsonNull()) {
+            return new JsonObject();
+        }
+        return jsonElement.getAsJsonObject();
     }
 
     public static boolean isJsonObject(JsonElement jsonElement) {
