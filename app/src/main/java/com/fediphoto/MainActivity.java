@@ -32,6 +32,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -51,6 +52,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.zip.DataFormatException;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -296,6 +298,81 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    class WorkerPostStatus extends AsyncTask<JsonElement, Void, JsonObject> {
+        private String instance;
+
+        @Override
+        protected JsonObject doInBackground(JsonElement... jsonElements) {
+            createAppResults = new JsonObject();
+
+            JsonObject params = new JsonObject();
+            JsonObject settings = Utils.getSettings(context);
+            JsonArray jsonArray = settings.getAsJsonArray(Literals.accounts.name());
+            instance = Utils.getProperty(jsonArray.get(0), Literals.instance.name());
+            token = Utils.getProperty(jsonArray.get(0), Literals.access_token.name());
+            String text = Utils.getProperty(jsonArray.get(0), Literals.instance.name());
+            String dateFormat = Utils.getProperty(jsonArray.get(0), Literals.dateFormat.name());
+            if (Utils.isNotBlank(dateFormat)) {
+                String dateDisplay = new SimpleDateFormat(dateFormat).format(new Date());
+                text.concat(" \nPhoto taken at ").concat(dateDisplay);
+            }
+
+            JsonElement mediaJsonElement = jsonElements[0];
+            params.addProperty(Literals.client_name.name(), "FediPhoto for Android ");
+            String urlString = String.format("https://%s/api/v1/statuses", instance);
+            Log.i(TAG, "URL " + urlString);
+            HttpsURLConnection urlConnection;
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+            JsonObject jsonObject = null;
+            try {
+                URL url = new URL(urlString);
+                urlConnection = (HttpsURLConnection) url.openConnection();
+                urlConnection.setRequestProperty("Cache-Control", "no-cache");
+                urlConnection.setRequestProperty("Accept", "application/json");
+                urlConnection.setRequestProperty("User-Agent", "FediPhoto");
+                urlConnection.setUseCaches(false);
+                urlConnection.setRequestMethod(Literals.POST.name());
+                urlConnection.setRequestProperty("Content-type", "application/json; charset=UTF-8");
+                urlConnection.setDoOutput(true);
+                String json = params.toString();
+                urlConnection.setRequestProperty("Content-length", Integer.toString(json.length()));
+                outputStream = urlConnection.getOutputStream();
+                outputStream.write(json.getBytes());
+                outputStream.flush();
+                int responseCode = urlConnection.getResponseCode();
+                Log.i(TAG, String.format("Response code: %d\n", responseCode));
+                urlConnection.setInstanceFollowRedirects(true);
+                inputStream = urlConnection.getInputStream();
+                InputStreamReader isr = new InputStreamReader(inputStream);
+                Gson gson = new Gson();
+                jsonObject = gson.fromJson(isr, JsonObject.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                Utils.close(inputStream, outputStream);
+            }
+            return jsonObject;
+        }
+
+        @Override
+        protected void onPostExecute(JsonObject jsonObject) {
+            super.onPostExecute(jsonObject);
+            Log.i(TAG, "OUTPUT: " + jsonObject.toString());
+            createAppResults = jsonObject;
+            String urlString = String.format("https://%s/oauth/authorize?scope=%s&response_type=code&redirect_uri=%s&client_id=%s",
+                    instance, Utils.urlEncodeComponent("write read follow push"), Utils.urlEncodeComponent(jsonObject.get("redirect_uri").getAsString()), jsonObject.get("client_id").getAsString());
+            Intent intent = new Intent(context, WebviewActivity.class);
+            intent.putExtra("urlString", urlString);
+            startActivityForResult(intent, TOKEN_REQUEST);
+
+        }
+    }
+
+
+
+
+
     class WorkerAuthorize extends AsyncTask<String, Void, JsonObject> {
         private String instance;
 
@@ -362,12 +439,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    class WorkerUpload extends AsyncTask<File, Void, ArrayList<String>> {
+    class WorkerUpload extends AsyncTask<File, Void, JsonElement> {
         private File file;
 
         @Override
-        protected ArrayList<String> doInBackground(File... files) {
-            ArrayList<String> response = new ArrayList<>();
+        protected JsonElement doInBackground(File... files) {
+            JsonElement responseJsonElement = null;
             JsonObject params = new JsonObject();
             this.file = files[0];
             if (file == null) {
@@ -416,7 +493,6 @@ public class MainActivity extends AppCompatActivity {
                 writer.flush();
 
 
-
                 writer.append("--" + boundary).append(LINE_FEED);
                 writer.append("Content-Disposition: form-data; name=\"file\"").append(LINE_FEED);
                 writer.append("Content-Type: text/plain; charset=UTF-8").append(LINE_FEED);
@@ -437,7 +513,7 @@ public class MainActivity extends AppCompatActivity {
                 byte[] buffer = new byte[4096];
                 int bytesRead = -1;
                 while ((bytesRead = inputStream.read(buffer)) != -1) {
-                  //  Log.i(TAG, new String(buffer));
+                    //  Log.i(TAG, new String(buffer));
                     outputStream.write(buffer, 0, bytesRead);
                 }
                 outputStream.flush();
@@ -454,31 +530,38 @@ public class MainActivity extends AppCompatActivity {
                 outputStream.flush();
 
                 int responseCode = urlConnection.getResponseCode();
-                Log.i(TAG, String.format("Response code: %d\n", responseCode));
+                String responseCodeMessage = String.format("Response code: %d\n", responseCode);
+                Toast.makeText(context, responseCodeMessage, Toast.LENGTH_LONG).show();
+                Log.i(TAG, responseCodeMessage);
                 urlConnection.setInstanceFollowRedirects(true);
                 inputStream = urlConnection.getInputStream();
                 InputStreamReader isr = new InputStreamReader(inputStream);
+                JsonParser jsonParser = new JsonParser();
                 BufferedReader reader = new BufferedReader(isr);
+
                 String line = null;
+                StringBuilder responseBody = new StringBuilder();
                 while ((line = reader.readLine()) != null) {
-                    response.add(line);
+                    responseBody.append(line);
                 }
                 reader.close();
                 urlConnection.disconnect();
-
+                responseJsonElement = jsonParser.parse(responseBody.toString());
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 Utils.close(inputStream, outputStream, writer);
             }
-            return response;
+            return responseJsonElement;
         }
 
         @Override
-        protected void onPostExecute(ArrayList<String> response) {
-            super.onPostExecute(response);
-            for (String s : response) {
-                Log.i(TAG, String.format("Response: %s", s));
+        protected void onPostExecute(JsonElement responseJsonElement) {
+            super.onPostExecute(responseJsonElement);
+            if (responseJsonElement == null) {
+                Log.i(TAG, "Response JsonElement is null");
+            } else {
+                Log.i(TAG, String.format("Response: %s", responseJsonElement.toString()));
             }
         }
     }

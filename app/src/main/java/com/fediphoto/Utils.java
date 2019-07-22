@@ -3,6 +3,7 @@ package com.fediphoto;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.util.Log;
+import android.util.Xml;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -29,6 +30,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
@@ -182,14 +184,16 @@ public class Utils {
             return false;
         }
     }
+
     public static String urlEncodeComponent(String s) {
         try {
-            return URLEncoder.encode(s, "UTF-8");
+            return URLEncoder.encode(s, StandardCharsets.UTF_8.toString());
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         return null;
     }
+
     public static String getProperty(JsonElement jsonElement, String propertyName) {
         if (jsonElement == null) {
             return "";
@@ -206,5 +210,14 @@ public class Utils {
         int stringId = applicationInfo.labelRes;
         return stringId == 0 ? applicationInfo.nonLocalizedLabel.toString() : context.getString(stringId);
     }
+
+    public static boolean isBlank(String s) {
+        return (s == null || s.trim().length() == 0);
+    }
+
+    public static boolean isNotBlank(String s) {
+        return !isBlank(s);
+    }
+
 
 }
