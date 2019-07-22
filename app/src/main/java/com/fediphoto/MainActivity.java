@@ -6,8 +6,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
@@ -27,12 +31,18 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.net.ssl.HttpsURLConnection;
+
+import static android.os.Environment.getExternalStoragePublicDirectory;
 
 public class MainActivity extends AppCompatActivity {
     private final int CAMERA_REQUEST = 1239;
@@ -47,25 +57,39 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button button = findViewById(R.id.button_camera);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button buttonCamera = findViewById(R.id.button_camera);
+        buttonCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                startActivityForResult(intent, CAMERA_REQUEST);
+                try {
+                    File file = createPhotoFile();
+                    Uri photoUri = FileProvider.getUriForFile(context, "com.fediphoto.fileprovider", file);
+                    Log.i(TAG, String.format("photo URI: %s", photoUri.toString()));
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                    startActivityForResult(intent, CAMERA_REQUEST);
+                } catch (IOException e) {
+                    Toast.makeText(context, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                }
             }
         });
 
     }
 
+    private File createPhotoFile() throws IOException {
+        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String fileName = String.format("%s_%s", Utils.getApplicationName(context) , timestamp);
+        File storageDir =getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        if (!storageDir.exists() && !storageDir.mkdir())
+            Log.w(TAG, "Couldn't create photo folder: " + storageDir.getAbsolutePath());
+        File file = File.createTempFile(fileName, ".jpg", storageDir);
+        Log.i(TAG, String.format("Photo file %s", file.getAbsoluteFile()));
+        return file;
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-            Bitmap image = (Bitmap) data.getExtras().get("data");
-            if (image == null) {
-                Log.i(TAG, "Image is null.");
-            } else {
-                Log.i(TAG, String.format("Image byte count: %d", image.getByteCount()));
-            }
+           Log.i(TAG, "Camera request returned.");
         }
         if (requestCode == TOKEN_REQUEST && resultCode == Activity.RESULT_OK) {
             token = data.getStringExtra(Literals.token.name());
@@ -202,10 +226,67 @@ public class MainActivity extends AppCompatActivity {
                 if (accounts == null) {
                     accounts = new JsonArray();
                 }
+                jsonObject.addProperty(Literals.instance.name(), instance[0]);
                 accounts.add(jsonObject);
                 settings.add(Literals.accounts.name(), accounts);
                 Utils.writeSettings(context, settings);
                 Log.i(TAG, String.format("Settings after save:\n%s\n", Utils.getSettings(context).toString()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                Utils.close(inputStream, outputStream);
+            }
+            return jsonObject;
+        }
+
+        @Override
+        protected void onPostExecute(JsonObject jsonObject) {
+            super.onPostExecute(jsonObject);
+            Log.i(TAG, "OUTPUT: " + jsonObject.toString());
+        }
+    }
+
+
+
+    class WorkerUpload extends AsyncTask<String, Void, JsonObject> {
+        private String instance;
+
+        @Override
+        protected JsonObject doInBackground(String... instance) {
+            JsonObject params = new JsonObject();
+            this.instance = instance[0];
+
+            // TODO  get the current settings.
+            JsonObject settings = Utils.getSettings(context);
+            String urlString = String.format("https://%s/api/v1/media", instance);
+            Log.i(TAG, "URL " + urlString);
+            HttpsURLConnection urlConnection;
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+            JsonObject jsonObject = null;
+            try {
+                URL url = new URL(urlString);
+                urlConnection = (HttpsURLConnection) url.openConnection();
+                urlConnection.setRequestProperty("Cache-Control", "no-cache");
+                urlConnection.setRequestProperty("Accept", "application/json");
+                urlConnection.setRequestProperty("User-Agent", "FediPhoto");
+                urlConnection.setUseCaches(false);
+                urlConnection.setRequestMethod(Literals.POST.name());
+                urlConnection.setRequestProperty("Content-type", "application/json; charset=UTF-8");
+                urlConnection.setDoOutput(true);
+                String json = params.toString();
+                urlConnection.setRequestProperty("Content-length", Integer.toString(json.length()));
+                outputStream = urlConnection.getOutputStream();
+                outputStream.write(json.getBytes());
+                outputStream.flush();
+                int responseCode = urlConnection.getResponseCode();
+                Log.i(TAG, String.format("Response code: %d\n", responseCode));
+                urlConnection.setInstanceFollowRedirects(true);
+                inputStream = urlConnection.getInputStream();
+                InputStreamReader isr = new InputStreamReader(inputStream);
+                Gson gson = new Gson();
+                jsonObject = gson.fromJson(isr, JsonObject.class);
+
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {

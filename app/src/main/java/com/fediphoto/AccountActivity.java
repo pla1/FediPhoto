@@ -3,16 +3,21 @@ package com.fediphoto;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class AccountActivity extends Activity {
@@ -42,8 +47,21 @@ public class AccountActivity extends Activity {
         if (MainActivity.Literals.PUBLIC.name().equals(Utils.getProperty(account, MainActivity.Literals.visibility.name()))) {
             radioVisibilityPublic.setChecked(true);
         }
-        final EditText editTextDateFormat = findViewById(R.id.editTextText);
+        final EditText editTextDateFormat = findViewById(R.id.editTextDateFormat);
         editTextDateFormat.setText(Utils.getProperty(account, MainActivity.Literals.dateFormat.name()));
+        final StringBuilder dateFormat = new StringBuilder(editTextDateFormat.getText().toString());
+        editTextDateFormat.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if (!dateFormat.toString().equals(editTextDateFormat.getText().toString())) {
+                    SimpleDateFormat sdf = new SimpleDateFormat(editTextDateFormat.getText().toString());
+                    Toast.makeText(context, sdf.format(new Date()), Toast.LENGTH_SHORT).show();
+                } else {
+                    dateFormat.replace(0, dateFormat.length(), editTextDateFormat.getText().toString());
+                }
+                return false;
+            }
+        });
         Button buttonSave = findViewById(R.id.buttonSave);
         Button buttonCancel = findViewById(R.id.buttonCancel);
         buttonCancel.setOnClickListener(new View.OnClickListener() {

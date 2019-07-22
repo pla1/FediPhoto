@@ -67,7 +67,7 @@
         android:id="@+id/editTextDateFormat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="EEE MMM dd yyyy hh:mm:ss a"/>
+        android:text="EEEE MMMM dd, yyyy hh:mm:ss a"/>
 
     <LinearLayout
         android:layout_width="match_parent"
