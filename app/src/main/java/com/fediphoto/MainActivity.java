@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.ExifInterface;
@@ -14,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -63,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
     private final int TOKEN_REQUEST = 269;
     private final int REQUEST_PERMISSION_CAMERA = 369;
     private final int REQUEST_PERMISSION_STORAGE = 469;
+    private final String DEFAULT_GPS_COORDINATES_FORMAT = "https://maps.google.com?q=%s,%s";
+    private final String DEFAULT_DATE_FORMAT = "EEEE MMMM dd, yyyy hh:mm:ss a z";
     private final String TAG = this.getClass().getCanonicalName();
     private final Context context = this;
     private final Activity activity = this;
@@ -109,6 +113,12 @@ public class MainActivity extends AppCompatActivity {
                 || settings.getAsJsonArray(Literals.accounts.name()) == null
                 || settings.getAsJsonArray(Literals.accounts.name()).size() == 0) {
             askForInstance();
+        }
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean cameraOnStart = sharedPreferences.getBoolean(getString(R.string.camera_on_start), true);
+        Log.i(TAG, String.format("Camera on start setting: %s",cameraOnStart));
+        if (cameraOnStart) {
+            dispatchTakePictureIntent();
         }
     }
 
@@ -189,22 +199,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-            Log.i(TAG, "Camera request returned OK.");
-            File file = new File(photoFileName);
-            Log.i(TAG, String.format("File %s exists %s", file.getAbsoluteFile(), file.exists()));
-            WorkerUpload worker = new WorkerUpload();
-            worker.execute(file);
-            Bundle extras = intent.getExtras();
-            if (extras == null) {
-                Log.i(TAG, "Extras from intent is null.");
-                return;
-            }
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            if (imageBitmap == null) {
-                Log.i(TAG, "Image bitmap is null");
+        Log.i(TAG, String.format("Request code %d Result code %d", requestCode, resultCode));
+        if (requestCode == CAMERA_REQUEST ) {
+            if (resultCode == Activity.RESULT_OK) {
+                Log.i(TAG, "Camera request returned OK.");
+                File file = new File(photoFileName);
+                Log.i(TAG, String.format("File %s exists %s", file.getAbsoluteFile(), file.exists()));
+                WorkerUpload worker = new WorkerUpload();
+                worker.execute(file);
             } else {
-                Log.i(TAG, String.format("%d bytes in image bitmap.", imageBitmap.getByteCount()));
+                File file = new File(photoFileName);
+                boolean fileDeleted = file.delete();
+                Log.i(TAG, String.format("File %s deleted %s", photoFileName,  fileDeleted));
             }
 
         }
@@ -304,27 +310,32 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected JsonObject doInBackground(JsonElement... jsonElements) {
-            createAppResults = new JsonObject();
             JsonObject params = new JsonObject();
             JsonObject settings = Utils.getSettings(context);
             JsonElement mediaJsonElement = jsonElements[0];
-            JsonArray jsonArray = settings.getAsJsonArray(Literals.accounts.name());
-            instance = Utils.getProperty(jsonArray.get(0), Literals.instance.name());
-            token = Utils.getProperty(jsonArray.get(0), Literals.access_token.name());
-            String visibility = Utils.getProperty(jsonArray.get(0), Literals.visibility.name());
-            String text = Utils.getProperty(jsonArray.get(0), Literals.text.name());
+            JsonArray settingsJsonArray = settings.getAsJsonArray(Literals.accounts.name());
+            instance = Utils.getProperty(settingsJsonArray.get(0), Literals.instance.name());
+            token = Utils.getProperty(settingsJsonArray.get(0), Literals.access_token.name());
+            String visibility = Utils.getProperty(settingsJsonArray.get(0), Literals.visibility.name());
+            StringBuilder status = new StringBuilder();
+            status.append(Utils.getProperty(settingsJsonArray.get(0), Literals.text.name()));
             String latitude = Utils.getProperty(mediaJsonElement, Literals.latitude.name());
             String longitude = Utils.getProperty(mediaJsonElement, Literals.longitude.name());
             if (Utils.isNotBlank(latitude)) {
-               text = text.concat(String.format("\n%s,%s", latitude, longitude)) ;
+                String gpsCoordinatesFormat = Utils.getProperty(settingsJsonArray.get(0), Literals.gpsCoordinatesFormat.name());
+                if (gpsCoordinatesFormat.split("%s").length == 2) {
+                    status.append("\n").append(String.format(gpsCoordinatesFormat, latitude, longitude));
+                } else {
+                    status.append("\n").append(latitude).append(",").append(longitude);
+                }
             }
-            String dateFormat = Utils.getProperty(jsonArray.get(0), Literals.dateFormat.name());
+            String dateFormat = Utils.getProperty(settingsJsonArray.get(0), Literals.dateFormat.name());
             if (Utils.isNotBlank(dateFormat)) {
                 String dateDisplay = new SimpleDateFormat(dateFormat).format(new Date());
-                text = text.concat(" \nPhoto timestamp ").concat(dateDisplay);
+                status.append("\n").append(dateDisplay);
             }
-            params.addProperty(Literals.status.name(), text);
-            params.addProperty(Literals.access_token.name(), Utils.getProperty(jsonArray.get(0), Literals.access_token.name()));
+            params.addProperty(Literals.status.name(), status.toString());
+            params.addProperty(Literals.access_token.name(), Utils.getProperty(settingsJsonArray.get(0), Literals.access_token.name()));
             params.addProperty(Literals.visibility.name(), visibility);
 
             JsonArray mediaJsonArray = new JsonArray();
@@ -424,6 +435,8 @@ public class MainActivity extends AppCompatActivity {
                     accounts = new JsonArray();
                 }
                 jsonObject.addProperty(Literals.instance.name(), instance[0]);
+                jsonObject.addProperty(Literals.gpsCoordinatesFormat.name(), DEFAULT_GPS_COORDINATES_FORMAT);
+                jsonObject.addProperty(Literals.dateFormat.name(), DEFAULT_DATE_FORMAT);
                 accounts.add(jsonObject);
                 settings.add(Literals.accounts.name(), accounts);
                 Utils.writeSettings(context, settings);
@@ -574,6 +587,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
     private JsonElement addCoordinates(File file, JsonElement jsonElement) {
         if (file == null || !file.exists()) {
             return jsonElement;
@@ -588,7 +602,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-       return jsonElement;
+        return jsonElement;
     }
 
     private void askForInstance() {
@@ -643,4 +657,8 @@ public class MainActivity extends AppCompatActivity {
                 return super.onContextItemSelected(item);
         }
     }
+
+
+
+
 }

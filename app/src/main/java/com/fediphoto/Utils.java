@@ -14,6 +14,7 @@ import com.google.gson.JsonParser;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -30,6 +31,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
@@ -219,5 +221,28 @@ public class Utils {
         return !isBlank(s);
     }
 
+    private static void copyFile(File sourceFilePath, File destinationFilePath) {
+        try {
+            if (!sourceFilePath.exists()) {
+                return;
+            }
+            FileChannel source = null;
+            FileChannel destination = null;
+            source = new FileInputStream(sourceFilePath).getChannel();
+            destination = new FileOutputStream(destinationFilePath).getChannel();
+            if (destination != null && source != null) {
+                destination.transferFrom(source, 0, source.size());
+            }
+            if (source != null) {
+                source.close();
+            }
+            if (destination != null) {
+                destination.close();
+            }
 
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
 }
