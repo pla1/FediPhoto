@@ -49,7 +49,9 @@ public class AccountActivity extends Activity {
         }
         final EditText editTextDateFormat = findViewById(R.id.editTextDateFormat);
         editTextDateFormat.setText(Utils.getProperty(account, MainActivity.Literals.dateFormat.name()));
-        final StringBuilder dateFormat = new StringBuilder(editTextDateFormat.getText().toString());
+        final EditText editTextGpsCoordinatesFormat = findViewById(R.id.editTextGpsCoordinatesFormat);
+        editTextGpsCoordinatesFormat.setText(Utils.getProperty(account, MainActivity.Literals.gpsCoordinatesFormat.name()));
+        final StringBuilder dateFormat = new StringBuilder();
         editTextDateFormat.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
@@ -76,6 +78,7 @@ public class AccountActivity extends Activity {
                 JsonObject accountJsonObject = account.getAsJsonObject();
                 accountJsonObject.addProperty(MainActivity.Literals.text.name(), editTextText.getText().toString());
                 accountJsonObject.addProperty(MainActivity.Literals.dateFormat.name(), editTextDateFormat.getText().toString());
+                accountJsonObject.addProperty(MainActivity.Literals.gpsCoordinatesFormat.name(), editTextGpsCoordinatesFormat.getText().toString());
                 if (radioVisibilityFollowers.isChecked()) {
                     accountJsonObject.addProperty(MainActivity.Literals.visibility.name(), MainActivity.Literals.followers.name());
                 }

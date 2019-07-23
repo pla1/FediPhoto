@@ -27,6 +27,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="textNoSuggestions"
         android:text="Text for post:" />
 
     <EditText
@@ -67,7 +68,21 @@
         android:id="@+id/editTextDateFormat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="EEEE MMMM dd, yyyy hh:mm:ss a"/>
+        android:text="EEEE MMMM dd, yyyy hh:mm:ss a"
+        android:inputType="textNoSuggestions"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="GPS coordinates format:" />
+
+    <EditText
+        android:id="@+id/editTextGpsCoordinatesFormat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="https://maps.google.com?q=%s,%s"
+        android:inputType="textNoSuggestions"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"

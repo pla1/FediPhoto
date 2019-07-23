@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -231,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
         client_name, redirect_uris, scopes, website, access_token, POST, urlString, authorization_code,
         token, client_id, client_secret, redirect_uri, me, exipires_in, created_at, milliseconds,
         grant_type, code, accounts, account, instance, text, followers, visibility, unlisted, PUBLIC, dateFormat,
-        OK, Cancel, description, file
+        OK, Cancel, description, file, media_ids, id, status, url, longitude, latitude, gpsCoordinatesFormat
     }
 
 
@@ -304,20 +305,31 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected JsonObject doInBackground(JsonElement... jsonElements) {
             createAppResults = new JsonObject();
-
             JsonObject params = new JsonObject();
             JsonObject settings = Utils.getSettings(context);
+            JsonElement mediaJsonElement = jsonElements[0];
             JsonArray jsonArray = settings.getAsJsonArray(Literals.accounts.name());
             instance = Utils.getProperty(jsonArray.get(0), Literals.instance.name());
             token = Utils.getProperty(jsonArray.get(0), Literals.access_token.name());
-            String text = Utils.getProperty(jsonArray.get(0), Literals.instance.name());
+            String visibility = Utils.getProperty(jsonArray.get(0), Literals.visibility.name());
+            String text = Utils.getProperty(jsonArray.get(0), Literals.text.name());
+            String latitude = Utils.getProperty(mediaJsonElement, Literals.latitude.name());
+            String longitude = Utils.getProperty(mediaJsonElement, Literals.longitude.name());
+            if (Utils.isNotBlank(latitude)) {
+               text = text.concat(String.format("\n%s,%s", latitude, longitude)) ;
+            }
             String dateFormat = Utils.getProperty(jsonArray.get(0), Literals.dateFormat.name());
             if (Utils.isNotBlank(dateFormat)) {
                 String dateDisplay = new SimpleDateFormat(dateFormat).format(new Date());
-                text.concat(" \nPhoto taken at ").concat(dateDisplay);
+                text = text.concat(" \nPhoto timestamp ").concat(dateDisplay);
             }
+            params.addProperty(Literals.status.name(), text);
+            params.addProperty(Literals.access_token.name(), Utils.getProperty(jsonArray.get(0), Literals.access_token.name()));
+            params.addProperty(Literals.visibility.name(), visibility);
 
-            JsonElement mediaJsonElement = jsonElements[0];
+            JsonArray mediaJsonArray = new JsonArray();
+            mediaJsonArray.add(Utils.getProperty(mediaJsonElement, Literals.id.name()));
+            params.add(Literals.media_ids.name(), mediaJsonArray);
             params.addProperty(Literals.client_name.name(), "FediPhoto for Android ");
             String urlString = String.format("https://%s/api/v1/statuses", instance);
             Log.i(TAG, "URL " + urlString);
@@ -336,6 +348,7 @@ public class MainActivity extends AppCompatActivity {
                 urlConnection.setRequestProperty("Content-type", "application/json; charset=UTF-8");
                 urlConnection.setDoOutput(true);
                 String json = params.toString();
+                Log.i(TAG, String.format("Posting JSON: %s", json));
                 urlConnection.setRequestProperty("Content-length", Integer.toString(json.length()));
                 outputStream = urlConnection.getOutputStream();
                 outputStream.write(json.getBytes());
@@ -359,19 +372,11 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(JsonObject jsonObject) {
             super.onPostExecute(jsonObject);
             Log.i(TAG, "OUTPUT: " + jsonObject.toString());
-            createAppResults = jsonObject;
-            String urlString = String.format("https://%s/oauth/authorize?scope=%s&response_type=code&redirect_uri=%s&client_id=%s",
-                    instance, Utils.urlEncodeComponent("write read follow push"), Utils.urlEncodeComponent(jsonObject.get("redirect_uri").getAsString()), jsonObject.get("client_id").getAsString());
-            Intent intent = new Intent(context, WebviewActivity.class);
-            intent.putExtra("urlString", urlString);
-            startActivityForResult(intent, TOKEN_REQUEST);
-
+            String message = String.format("Status posted: %s\n", jsonObject.get(Literals.url.name()).getAsString());
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+            Log.i(TAG, message);
         }
     }
-
-
-
-
 
     class WorkerAuthorize extends AsyncTask<String, Void, JsonObject> {
         private String instance;
@@ -471,6 +476,7 @@ public class MainActivity extends AppCompatActivity {
             OutputStream outputStream = null;
             JsonObject jsonObject = null;
             PrintWriter writer = null;
+
             try {
                 URL url = new URL(urlString);
                 urlConnection = (HttpsURLConnection) url.openConnection();
@@ -531,7 +537,7 @@ public class MainActivity extends AppCompatActivity {
 
                 int responseCode = urlConnection.getResponseCode();
                 String responseCodeMessage = String.format("Response code: %d\n", responseCode);
-                Toast.makeText(context, responseCodeMessage, Toast.LENGTH_LONG).show();
+                //  Toast.makeText(context, responseCodeMessage, Toast.LENGTH_LONG).show();
                 Log.i(TAG, responseCodeMessage);
                 urlConnection.setInstanceFollowRedirects(true);
                 inputStream = urlConnection.getInputStream();
@@ -561,11 +567,29 @@ public class MainActivity extends AppCompatActivity {
             if (responseJsonElement == null) {
                 Log.i(TAG, "Response JsonElement is null");
             } else {
+                addCoordinates(file, responseJsonElement);
                 Log.i(TAG, String.format("Response: %s", responseJsonElement.toString()));
+                WorkerPostStatus worker = new WorkerPostStatus();
+                worker.execute(responseJsonElement);
             }
         }
     }
-
+    private JsonElement addCoordinates(File file, JsonElement jsonElement) {
+        if (file == null || !file.exists()) {
+            return jsonElement;
+        }
+        try {
+            ExifInterface exifInterface = new ExifInterface(file.getAbsolutePath());
+            float[] latLong = new float[2];
+            if (exifInterface.getLatLong(latLong)) {
+                jsonElement.getAsJsonObject().addProperty(Literals.latitude.name(), latLong[0]);
+                jsonElement.getAsJsonObject().addProperty(Literals.longitude.name(), latLong[1]);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+       return jsonElement;
+    }
 
     private void askForInstance() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
