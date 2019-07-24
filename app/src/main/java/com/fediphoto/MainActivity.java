@@ -456,7 +456,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+// TODO look at using this https://developer.android.com/topic/libraries/architecture/workmanager/basics.html
     class WorkerUpload extends AsyncTask<File, Void, JsonElement> {
         private File file;
 
