@@ -44,6 +44,11 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/radioVisibilityDirect"
+            android:text="Direct"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/radioVisibilityFollowers"
             android:text="Followers"/>
         <RadioButton

@@ -1,6 +1,7 @@
 package com.fediphoto;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -8,19 +9,25 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
+
 import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
@@ -48,14 +55,9 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.net.URL;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Random;
-import java.util.zip.DataFormatException;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -109,14 +111,16 @@ public class MainActivity extends AppCompatActivity {
         checkPermissionCamera();
         checkPermissionStorage();
         JsonObject settings = Utils.getSettings(context);
+        boolean cameraOnStart = false;
         if (!Utils.isJsonObject(settings)
                 || settings.getAsJsonArray(Literals.accounts.name()) == null
                 || settings.getAsJsonArray(Literals.accounts.name()).size() == 0) {
             askForInstance();
+        } else {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            cameraOnStart = sharedPreferences.getBoolean(getString(R.string.camera_on_start), false);
         }
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean cameraOnStart = sharedPreferences.getBoolean(getString(R.string.camera_on_start), true);
-        Log.i(TAG, String.format("Camera on start setting: %s",cameraOnStart));
+        Log.i(TAG, String.format("Camera on start setting: %s", cameraOnStart));
         if (cameraOnStart) {
             dispatchTakePictureIntent();
         }
@@ -200,17 +204,23 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         Log.i(TAG, String.format("Request code %d Result code %d", requestCode, resultCode));
-        if (requestCode == CAMERA_REQUEST ) {
+        if (requestCode == CAMERA_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
                 Log.i(TAG, "Camera request returned OK.");
                 File file = new File(photoFileName);
                 Log.i(TAG, String.format("File %s exists %s", file.getAbsoluteFile(), file.exists()));
                 WorkerUpload worker = new WorkerUpload();
+                @SuppressLint("RestrictedApi")
+                Data data = new Data.Builder().put(Literals.fileName.name(), file.getAbsolutePath()).build();
                 worker.execute(file);
+                OneTimeWorkRequest uploadWorkRequest = new OneTimeWorkRequest
+                        .Builder(UploadWorker.class)
+                        .setInputData(data).build();
+                WorkManager.getInstance(context).enqueue(uploadWorkRequest);
             } else {
                 File file = new File(photoFileName);
                 boolean fileDeleted = file.delete();
-                Log.i(TAG, String.format("File %s deleted %s", photoFileName,  fileDeleted));
+                Log.i(TAG, String.format("File %s deleted %s", photoFileName, fileDeleted));
             }
 
         }
@@ -238,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
         client_name, redirect_uris, scopes, website, access_token, POST, urlString, authorization_code,
         token, client_id, client_secret, redirect_uri, me, exipires_in, created_at, milliseconds,
         grant_type, code, accounts, account, instance, text, followers, visibility, unlisted, PUBLIC, dateFormat,
-        OK, Cancel, description, file, media_ids, id, status, url, longitude, latitude, gpsCoordinatesFormat
+        OK, Cancel, description, file, media_ids, id, status, url, longitude, latitude, gpsCoordinatesFormat, direct, fileName
     }
 
 
@@ -456,7 +466,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-// TODO look at using this https://developer.android.com/topic/libraries/architecture/workmanager/basics.html
+    // TODO look at using this https://developer.android.com/topic/libraries/architecture/workmanager/basics.html
     class WorkerUpload extends AsyncTask<File, Void, JsonElement> {
         private File file;
 
@@ -657,8 +667,5 @@ public class MainActivity extends AppCompatActivity {
                 return super.onContextItemSelected(item);
         }
     }
-
-
-
 
 }

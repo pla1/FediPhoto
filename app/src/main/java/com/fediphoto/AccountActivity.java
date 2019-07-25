@@ -35,9 +35,13 @@ public class AccountActivity extends Activity {
         textViewUserUrl.setText(Utils.getProperty(account, MainActivity.Literals.me.name()));
         final EditText editTextText = findViewById(R.id.editTextText);
         editTextText.setText(Utils.getProperty(account, MainActivity.Literals.text.name()));
+        final RadioButton radioVisibilityDirect = findViewById(R.id.radioVisibilityDirect);
         final RadioButton radioVisibilityUnlisted = findViewById(R.id.radioVisibilityUnlisted);
         final RadioButton radioVisibilityFollowers = findViewById(R.id.radioVisibilityFollowers);
         final RadioButton radioVisibilityPublic = findViewById(R.id.radioVisibilityPublic);
+        if (MainActivity.Literals.direct.name().equals(Utils.getProperty(account, MainActivity.Literals.visibility.name()))) {
+            radioVisibilityDirect.setChecked(true);
+        }
         if (MainActivity.Literals.followers.name().equals(Utils.getProperty(account, MainActivity.Literals.visibility.name()))) {
             radioVisibilityFollowers.setChecked(true);
         }
@@ -79,6 +83,9 @@ public class AccountActivity extends Activity {
                 accountJsonObject.addProperty(MainActivity.Literals.text.name(), editTextText.getText().toString());
                 accountJsonObject.addProperty(MainActivity.Literals.dateFormat.name(), editTextDateFormat.getText().toString());
                 accountJsonObject.addProperty(MainActivity.Literals.gpsCoordinatesFormat.name(), editTextGpsCoordinatesFormat.getText().toString());
+                if (radioVisibilityDirect.isChecked()) {
+                    accountJsonObject.addProperty(MainActivity.Literals.visibility.name(), MainActivity.Literals.direct.name());
+                }
                 if (radioVisibilityFollowers.isChecked()) {
                     accountJsonObject.addProperty(MainActivity.Literals.visibility.name(), MainActivity.Literals.followers.name());
                 }
