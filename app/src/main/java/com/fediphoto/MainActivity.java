@@ -16,18 +16,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.work.Data;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkManager;
-import androidx.work.Worker;
-import androidx.work.WorkerParameters;
-
 import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
@@ -37,6 +25,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -55,8 +52,10 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Random;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -127,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case REQUEST_PERMISSION_CAMERA: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -169,19 +168,11 @@ public class MainActivity extends AppCompatActivity {
                 != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
                 Toast.makeText(context, "Need permission to write to external storage.", Toast.LENGTH_LONG).show();
             } else {
-                // No explanation needed; request the permission
                 ActivityCompat.requestPermissions(activity,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         REQUEST_PERMISSION_STORAGE);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
             }
         } else {
             Log.i(TAG, "External storage permission already granted.");
@@ -189,11 +180,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private File createPhotoFile() throws IOException {
-        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss_").format(new Date());
+        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss_", Locale.US).format(new Date());
         String fileName = String.format("%s_%s", Utils.getApplicationName(context), timestamp);
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         //  File storageDir = getDataDir();
-        if (!storageDir.exists() && !storageDir.mkdir()) {
+        if (storageDir == null || (!storageDir.exists() && !storageDir.mkdir())) {
             Log.w(TAG, "Couldn't create photo folder: " + storageDir.getAbsolutePath());
         }
         File file = File.createTempFile(fileName, ".jpg", storageDir);
@@ -244,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    public static enum Literals {
+    public enum Literals {
         client_name, redirect_uris, scopes, website, access_token, POST, urlString, authorization_code,
         token, client_id, client_secret, redirect_uri, me, exipires_in, created_at, milliseconds,
         grant_type, code, accounts, account, instance, text, followers, visibility, unlisted, PUBLIC, dateFormat,
@@ -341,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
             }
             String dateFormat = Utils.getProperty(settingsJsonArray.get(0), Literals.dateFormat.name());
             if (Utils.isNotBlank(dateFormat)) {
-                String dateDisplay = new SimpleDateFormat(dateFormat).format(new Date());
+                String dateDisplay = new SimpleDateFormat(dateFormat, Locale.US).format(new Date());
                 status.append("\n").append(dateDisplay);
             }
             params.addProperty(Literals.status.name(), status.toString());
@@ -400,18 +391,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     class WorkerAuthorize extends AsyncTask<String, Void, JsonObject> {
-        private String instance;
 
         @Override
         protected JsonObject doInBackground(String... instance) {
             JsonObject params = new JsonObject();
-            this.instance = instance[0];
             params.addProperty(Literals.client_id.name(), createAppResults.get(Literals.client_id.name()).getAsString());
             params.addProperty(Literals.client_secret.name(), createAppResults.get(Literals.client_secret.name()).getAsString());
             params.addProperty(Literals.grant_type.name(), Literals.authorization_code.name());
             params.addProperty(Literals.code.name(), token);
             params.addProperty(Literals.redirect_uri.name(), createAppResults.get(Literals.redirect_uri.name()).getAsString());
-            String urlString = String.format("https://%s/oauth/token", instance);
+            String urlString = String.format("https://%s/oauth/token", instance[0]);
             Log.i(TAG, "URL " + urlString);
             HttpsURLConnection urlConnection;
             InputStream inputStream = null;
@@ -511,10 +500,10 @@ public class MainActivity extends AppCompatActivity {
                 urlConnection.setDoOutput(true);
                 String json = params.toString();
                 outputStream = urlConnection.getOutputStream();
-                writer = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"), true);
+                writer = new PrintWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), true);
 
 
-                writer.append("--" + boundary).append(LINE_FEED);
+                writer.append("--").append(boundary).append(LINE_FEED);
                 writer.append("Content-Disposition: form-data; name=\"access_token\"").append(LINE_FEED);
                 writer.append("Content-Type: text/plain; charset=UTF-8").append(LINE_FEED);
                 writer.append(LINE_FEED);
@@ -522,7 +511,7 @@ public class MainActivity extends AppCompatActivity {
                 writer.flush();
 
 
-                writer.append("--" + boundary).append(LINE_FEED);
+                writer.append("--").append(boundary).append(LINE_FEED);
                 writer.append("Content-Disposition: form-data; name=\"file\"").append(LINE_FEED);
                 writer.append("Content-Type: text/plain; charset=UTF-8").append(LINE_FEED);
                 writer.append(LINE_FEED);
@@ -530,8 +519,8 @@ public class MainActivity extends AppCompatActivity {
                 writer.flush();
 
 
-                writer.append("--" + boundary).append(LINE_FEED);
-                writer.append("Content-Disposition: form-data; name=\"file\"; filename=\"" + fileName + "\"").append(LINE_FEED);
+                writer.append("--").append(boundary).append(LINE_FEED);
+                writer.append("Content-Disposition: form-data; name=\"file\"; filename=\"").append(fileName).append("\"").append(LINE_FEED);
                 writer.append("Content-Type: image/jpeg").append(LINE_FEED);
                 writer.append("Content-Transfer-Encoding: binary").append(LINE_FEED);
                 writer.append(LINE_FEED);
@@ -540,7 +529,7 @@ public class MainActivity extends AppCompatActivity {
 
                 inputStream = new FileInputStream(file);
                 byte[] buffer = new byte[4096];
-                int bytesRead = -1;
+                int bytesRead;
                 while ((bytesRead = inputStream.read(buffer)) != -1) {
                     //  Log.i(TAG, new String(buffer));
                     outputStream.write(buffer, 0, bytesRead);
@@ -553,13 +542,13 @@ public class MainActivity extends AppCompatActivity {
 
 
                 writer.append(LINE_FEED).flush();
-                writer.append("--" + boundary + "--").append(LINE_FEED);
+                writer.append("--").append(boundary).append("--").append(LINE_FEED);
                 writer.close();
 
                 outputStream.flush();
 
                 int responseCode = urlConnection.getResponseCode();
-                String responseCodeMessage = String.format("Response code: %d\n", responseCode);
+                String responseCodeMessage = String.format(Locale.US,"Response code: %d\n", responseCode);
                 //  Toast.makeText(context, responseCodeMessage, Toast.LENGTH_LONG).show();
                 Log.i(TAG, responseCodeMessage);
                 urlConnection.setInstanceFollowRedirects(true);
@@ -568,7 +557,7 @@ public class MainActivity extends AppCompatActivity {
                 JsonParser jsonParser = new JsonParser();
                 BufferedReader reader = new BufferedReader(isr);
 
-                String line = null;
+                String line;
                 StringBuilder responseBody = new StringBuilder();
                 while ((line = reader.readLine()) != null) {
                     responseBody.append(line);

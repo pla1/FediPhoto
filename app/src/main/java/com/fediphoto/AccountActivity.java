@@ -18,10 +18,11 @@ import com.google.gson.JsonParser;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class AccountActivity extends Activity {
-    private Context context = this;
+    private final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,7 @@ public class AccountActivity extends Activity {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
                 if (!dateFormat.toString().equals(editTextDateFormat.getText().toString())) {
-                    SimpleDateFormat sdf = new SimpleDateFormat(editTextDateFormat.getText().toString());
+                    SimpleDateFormat sdf = new SimpleDateFormat(editTextDateFormat.getText().toString(), Locale.US);
                     Toast.makeText(context, sdf.format(new Date()), Toast.LENGTH_SHORT).show();
                 } else {
                     dateFormat.replace(0, dateFormat.length(), editTextDateFormat.getText().toString());

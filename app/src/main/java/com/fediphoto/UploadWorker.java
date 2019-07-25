@@ -18,6 +18,7 @@ public class UploadWorker extends Worker {
         super(context, params);
     }
 
+    @NonNull
     @Override
     public Result doWork() {
         Log.i(TAG, String.format("UploadWorker test started %s", new Date()));

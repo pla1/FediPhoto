@@ -9,15 +9,13 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 public class WebviewActivity extends Activity {
-    private String urlString;
     private final String TAG = this.getClass().getCanonicalName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(TAG, String.format("Web view url %s", urlString));
         setContentView(R.layout.activity_webview);
-        WebView webView = (WebView) findViewById(R.id.webview);
+        WebView webView = findViewById(R.id.webview);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient() {

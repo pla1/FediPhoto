@@ -2,15 +2,12 @@ package com.fediphoto;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
-import android.util.Log;
-import android.util.Xml;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -32,7 +29,6 @@ import java.net.Socket;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.channels.FileChannel;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
@@ -226,8 +222,8 @@ public class Utils {
             if (!sourceFilePath.exists()) {
                 return;
             }
-            FileChannel source = null;
-            FileChannel destination = null;
+            FileChannel source;
+            FileChannel destination;
             source = new FileInputStream(sourceFilePath).getChannel();
             destination = new FileOutputStream(destinationFilePath).getChannel();
             if (destination != null && source != null) {
