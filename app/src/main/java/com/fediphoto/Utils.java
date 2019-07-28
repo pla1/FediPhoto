@@ -35,6 +35,7 @@ import java.util.Scanner;
 public class Utils {
     private final static String lineSeparator = System.getProperty("line.separator");
     private final static String TAG = "com.fediphoto.Utils";
+    public static final String LINE_FEED = "\r\n";
 
     public static void main(String[] args) {
 
@@ -136,7 +137,13 @@ public class Utils {
         }
         return classNames.toString();
     }
-
+    public static long getLong(String s) {
+        try {
+            return Long.parseLong(s);
+        } catch (NumberFormatException nfe) {
+            return 0;
+        }
+    }
 
     public static URL getUrl(String urlString) {
         try {
