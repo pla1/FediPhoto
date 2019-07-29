@@ -1,7 +1,10 @@
 <resources>
-    <string name="app_name">FediPhoto</string>
+    <string name="app_name">Fedi Photo</string>
     <string name="accounts">Accounts</string>
+    <string name="add_account">Add account</string>
+    <string name="remove_account">Remove account</string>
     <string name="settings">Settings</string>
     <string name="camera_on_start">Camera on start</string>
     <string name="camera_on_start_summary">Start the camera when FediPhoto starts so you can snap and post a photo quickly.</string>
+    <string name="active_active">Make this account the active one</string>
 </resources>

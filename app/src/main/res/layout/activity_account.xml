@@ -97,8 +97,13 @@
         android:layout_height="wrap_content"
         android:inputType="textNoSuggestions"
         android:text="https://maps.google.com?q=%s,%s" />
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBoxAccountActive"
+        android:text="@string/active_active"/>
 
-
+<!--
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -120,4 +125,5 @@
             android:text="Save" />
 
     </LinearLayout>
+    -->
 </LinearLayout>

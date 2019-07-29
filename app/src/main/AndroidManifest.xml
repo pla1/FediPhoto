@@ -31,6 +31,7 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".AccountActivity"
+            android:label="Account"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".WebviewActivity"

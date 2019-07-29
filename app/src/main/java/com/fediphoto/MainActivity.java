@@ -24,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -63,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
     private final int TOKEN_REQUEST = 269;
     private final int REQUEST_PERMISSION_CAMERA = 369;
     private final int REQUEST_PERMISSION_STORAGE = 469;
+    private final int REQUEST_ACCOUNT = 569;
+    public static final int REQUEST_ACCOUNT_RETURN = 669;
     private final String DEFAULT_GPS_COORDINATES_FORMAT = "https://www.google.com/maps/search/?api=1&query=%s,%s";
     private final String DEFAULT_DATE_FORMAT = "EEEE MMMM dd, yyyy hh:mm:ss a z";
     private final String TAG = this.getClass().getCanonicalName();
@@ -299,12 +302,17 @@ public class MainActivity extends AppCompatActivity {
             WorkerAuthorize worker = new WorkerAuthorize();
             worker.execute(instance);
         }
+        if (requestCode == REQUEST_ACCOUNT) {
+            if (resultCode == REQUEST_ACCOUNT_RETURN) {
+                askForInstance();
+            }
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.main_menu, menu);
+        menuInflater.inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -312,7 +320,8 @@ public class MainActivity extends AppCompatActivity {
         client_name, redirect_uris, scopes, website, access_token, POST, urlString, authorization_code,
         token, client_id, client_secret, redirect_uri, me, exipires_in, created_at, milliseconds,
         grant_type, code, accounts, account, instance, text, followers, visibility, unlisted, PUBLIC, dateFormat,
-        OK, Cancel, description, file, media_ids, id, status, url, longitude, latitude, gpsCoordinatesFormat, direct, fileName
+        OK, Cancel, description, file, media_ids, id, status, url, longitude, latitude, gpsCoordinatesFormat, direct, fileName,
+        accountIndexSelected, accountIndexActive
     }
 
 
@@ -470,6 +479,34 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
+    private void multipleChoiceAccount() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle("Select account...");
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        JsonObject settings = Utils.getSettings(context);
+        JsonElement accounts = settings.get(Literals.accounts.name());
+        JsonArray jsonArray = accounts.getAsJsonArray();
+        int index = 0;
+        for (JsonElement jsonElement : jsonArray) {
+            String instance = Utils.getProperty(jsonElement, Literals.instance.name());
+            adapter.add(String.format("%d %s", index++, instance));
+        }
+        alertDialog.setAdapter(adapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                JsonObject settings = Utils.getSettings(context);
+                settings.addProperty(Literals.accountIndexSelected.name(), which);
+                Utils.writeSettings(context, settings);
+                String selectedItem = adapter.getItem(which);
+                Log.i(TAG, "Selected instance: " + selectedItem);
+                Intent intent = new Intent(context, AccountActivity.class);
+                startActivityForResult(intent, REQUEST_ACCOUNT);
+            }
+        });
+        alertDialog.show();
+
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -480,9 +517,13 @@ public class MainActivity extends AppCompatActivity {
                     askForInstance();
                 } else {
                     // TODO ask for multiple choice
-                    Intent intent = new Intent(context, AccountActivity.class);
-                    intent.putExtra(Literals.account.name(), settings.getAsJsonArray(Literals.accounts.name()).get(0).toString());
-                    startActivity(intent);
+                    if (accounts.getAsJsonArray().size() > 1) {
+                        multipleChoiceAccount();
+                    } else {
+                        Intent intent = new Intent(context, AccountActivity.class);
+                        startActivityForResult(intent, REQUEST_ACCOUNT);
+                    }
+
                 }
                 Log.i(TAG, "Accounts activity");
                 return true;

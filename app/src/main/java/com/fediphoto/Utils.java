@@ -2,9 +2,11 @@ package com.fediphoto;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -41,7 +43,34 @@ public class Utils {
 
     }
 
+    public static int getInt(String s) {
+        if (isBlank(s)) {
+            return 0;
+        }
+        try {
+            return Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            Log.i(TAG, String.format("Unable to parse \"%s\" to int.", s));
+        }
+        return 0;
+    }
+
+    public static JsonElement getAccountFromSettings(Context context) {
+        JsonObject settings = getSettings(context);
+        int accountSelectedIndex = Utils.getInt(Utils.getProperty(settings, MainActivity.Literals.accountIndexSelected.name()));
+        JsonArray jsonArray = settings.getAsJsonArray(MainActivity.Literals.accounts.name());
+        if (jsonArray != null && !jsonArray.isJsonNull() && jsonArray.size() > 0) {
+            if (accountSelectedIndex < jsonArray.size()) {
+                return jsonArray.get(accountSelectedIndex);
+            } else {
+                return jsonArray.get(0);
+            }
+        }
+        return null;
+    }
+
     public static void writeSettings(Context context, JsonObject jsonObject) {
+        Log.i(TAG, String.format("Write settings: %s", jsonObject.toString()));
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try (FileOutputStream openFileOutput = context.openFileOutput("settings.json", Context.MODE_PRIVATE)) {
             openFileOutput.write(gson.toJson(jsonObject).getBytes());
@@ -137,6 +166,7 @@ public class Utils {
         }
         return classNames.toString();
     }
+
     public static long getLong(String s) {
         try {
             return Long.parseLong(s);
@@ -175,7 +205,21 @@ public class Utils {
         if (jsonElement == null || jsonElement.isJsonNull()) {
             return new JsonObject();
         }
-        return jsonElement.getAsJsonObject();
+        JsonObject jsonObject =jsonElement.getAsJsonObject();
+        int accountQuantity =  jsonObject.getAsJsonArray(MainActivity.Literals.accounts.name()).size();
+        int accountIndexSelected = Utils.getInt(Utils.getProperty(jsonObject, MainActivity.Literals.accountIndexSelected.name()));
+        int accountIndexActive = Utils.getInt(Utils.getProperty(jsonObject, MainActivity.Literals.accountIndexActive.name()));
+        Log.i(TAG, String.format("Account quantity %d selected %d active %d.", accountQuantity, accountIndexSelected, accountIndexActive));
+        if (accountQuantity <= accountIndexSelected) {
+            jsonObject.addProperty(MainActivity.Literals.accountIndexSelected.name(), 0);
+            writeSettings(context, jsonObject);
+
+        if (accountQuantity <= accountIndexActive) {
+            jsonObject.addProperty(MainActivity.Literals.accountIndexActive.name(), 0);
+            writeSettings(context, jsonObject);
+        }
+        Log.i(TAG, String.format("getSettings: %s", jsonObject.toString()));
+        return jsonObject;
     }
 
     public static boolean isJsonObject(JsonElement jsonElement) {
@@ -248,4 +292,5 @@ public class Utils {
         }
 
     }
+
 }
