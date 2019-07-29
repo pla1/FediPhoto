@@ -95,48 +95,12 @@ public class AccountActivity extends AppCompatActivity {
                 return false;
             }
         });
-        /*
-        Button buttonSave = findViewById(R.id.buttonSave);
-        Button buttonCancel = findViewById(R.id.buttonCancel);
-        buttonCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-        buttonSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                JsonObject accountJsonObject = account.getAsJsonObject();
-                accountJsonObject.addProperty(MainActivity.Literals.text.name(), editTextText.getText().toString());
-                accountJsonObject.addProperty(MainActivity.Literals.dateFormat.name(), editTextDateFormat.getText().toString());
-                accountJsonObject.addProperty(MainActivity.Literals.gpsCoordinatesFormat.name(), editTextGpsCoordinatesFormat.getText().toString());
-                if (radioVisibilityDirect.isChecked()) {
-                    accountJsonObject.addProperty(MainActivity.Literals.visibility.name(), MainActivity.Literals.direct.name());
-                }
-                if (radioVisibilityFollowers.isChecked()) {
-                    accountJsonObject.addProperty(MainActivity.Literals.visibility.name(), MainActivity.Literals.followers.name());
-                }
-                if (radioVisibilityPublic.isChecked()) {
-                    accountJsonObject.addProperty(MainActivity.Literals.visibility.name(), MainActivity.Literals.PUBLIC.name());
-                }
-                if (radioVisibilityUnlisted.isChecked()) {
-                    accountJsonObject.addProperty(MainActivity.Literals.visibility.name(), MainActivity.Literals.unlisted.name());
-                }
-                // TODO replace the correct array row
-                JsonObject settings = new JsonObject();
-                JsonArray jsonArray = new JsonArray();
-                jsonArray.add(account);
-                settings.add(MainActivity.Literals.accounts.name(), jsonArray);
-                Utils.writeSettings(context, settings);
-                finish();
-            }
-        });
-        */
-
     }
 
     private void save() {
+        if (account == null) {
+            return;
+        }
         JsonObject accountJsonObject = account.getAsJsonObject();
         accountJsonObject.addProperty(MainActivity.Literals.text.name(), editTextText.getText().toString());
         accountJsonObject.addProperty(MainActivity.Literals.dateFormat.name(), editTextDateFormat.getText().toString());
@@ -153,10 +117,13 @@ public class AccountActivity extends AppCompatActivity {
         if (radioVisibilityUnlisted.isChecked()) {
             accountJsonObject.addProperty(MainActivity.Literals.visibility.name(), MainActivity.Literals.unlisted.name());
         }
+        if (checkBoxActiveAccount.isChecked()) {
+            settings.addProperty(MainActivity.Literals.accountIndexActive.name(), accountIndexSelected);
+        }
         JsonArray accounts = settings.getAsJsonArray(MainActivity.Literals.accounts.name());
-        if (accounts== null || accounts.isJsonNull() || accounts.size() == 0) {
+        if (accounts == null || accounts.isJsonNull() || accounts.size() == 0) {
             accounts = new JsonArray();
-            accounts.add(account);
+            accounts.add(accountJsonObject);
             settings.add(MainActivity.Literals.accounts.name(), accounts);
         } else {
             Log.i(TAG, String.format("Save account at selected index: %d", accountIndexSelected));
@@ -202,7 +169,7 @@ public class AccountActivity extends AppCompatActivity {
             case R.id.remove_account:
                 Log.i(TAG, "Remove account.");
                 JsonArray accounts = settings.getAsJsonArray(MainActivity.Literals.accounts.name());
-                if (accounts== null || accounts.isJsonNull() || accounts.size() == 0) {
+                if (accounts == null || accounts.isJsonNull() || accounts.size() == 0) {
                     Log.i(TAG, "No account to remove.");
                     Toast.makeText(context, "No account to remove.", Toast.LENGTH_LONG).show();
                 } else {
@@ -211,8 +178,9 @@ public class AccountActivity extends AppCompatActivity {
                     settings.addProperty(MainActivity.Literals.accountIndexActive.name(), 0);
                     settings.addProperty(MainActivity.Literals.accountIndexSelected.name(), 0);
                     Utils.writeSettings(context, settings);
+                    account = null;
                 }
-                setResult(Activity.RESULT_OK, intent);
+                setResult(MainActivity.RESULT_OK, intent);
                 finish();
                 return true;
             default:

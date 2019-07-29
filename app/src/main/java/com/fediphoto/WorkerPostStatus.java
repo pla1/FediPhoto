@@ -40,25 +40,22 @@ public class WorkerPostStatus extends Worker {
     public Result doWork() {
         Data data = getInputData();
         JsonObject params = new JsonObject();
-        JsonObject settings = Utils.getSettings(context);
-        //   JsonElement mediaJsonElement = jsonElements[0];
-        JsonArray settingsJsonArray = settings.getAsJsonArray(MainActivity.Literals.accounts.name());
-        String instance = Utils.getProperty(settingsJsonArray.get(0), MainActivity.Literals.instance.name());
-        String token = Utils.getProperty(settingsJsonArray.get(0), MainActivity.Literals.access_token.name());
-        String visibility = Utils.getProperty(settingsJsonArray.get(0), MainActivity.Literals.visibility.name());
+        JsonElement account= Utils.getAccountFromSettings(context);
+        String instance = Utils.getProperty(account, MainActivity.Literals.instance.name());
+        String visibility = Utils.getProperty(account, MainActivity.Literals.visibility.name());
         StringBuilder status = new StringBuilder();
-        status.append(Utils.getProperty(settingsJsonArray.get(0), MainActivity.Literals.text.name()));
+        status.append(Utils.getProperty(account, MainActivity.Literals.text.name()));
         double latitude = data.getDouble(MainActivity.Literals.latitude.name(), 0);
         double longitude = data.getDouble(MainActivity.Literals.longitude.name(), 0);
         if (latitude != 0) {
-            String gpsCoordinatesFormat = Utils.getProperty(settingsJsonArray.get(0), MainActivity.Literals.gpsCoordinatesFormat.name());
+            String gpsCoordinatesFormat = Utils.getProperty(account, MainActivity.Literals.gpsCoordinatesFormat.name());
             if (gpsCoordinatesFormat.split("%s").length == 2) {
                 status.append("\n").append(String.format(gpsCoordinatesFormat, latitude, longitude));
             } else {
                 status.append("\n").append(latitude).append(",").append(longitude);
             }
         }
-        String dateFormat = Utils.getProperty(settingsJsonArray.get(0), MainActivity.Literals.dateFormat.name());
+        String dateFormat = Utils.getProperty(account, MainActivity.Literals.dateFormat.name());
         if (Utils.isNotBlank(dateFormat)) {
             long milliseconds = data.getLong(MainActivity.Literals.milliseconds.name(), 0);
             if (milliseconds != 0) {
@@ -67,7 +64,7 @@ public class WorkerPostStatus extends Worker {
             }
         }
         params.addProperty(MainActivity.Literals.status.name(), status.toString());
-        params.addProperty(MainActivity.Literals.access_token.name(), Utils.getProperty(settingsJsonArray.get(0), MainActivity.Literals.access_token.name()));
+        params.addProperty(MainActivity.Literals.access_token.name(), Utils.getProperty(account, MainActivity.Literals.access_token.name()));
         params.addProperty(MainActivity.Literals.visibility.name(), visibility);
 
         JsonArray mediaJsonArray = new JsonArray();

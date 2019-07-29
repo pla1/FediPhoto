@@ -43,6 +43,18 @@ public class Utils {
 
     }
 
+    public static boolean isBlank(String s) {
+        if (s == null || s.trim().length() == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isNotBlank(String s) {
+        return !isBlank(s);
+
+    }
+
     public static int getInt(String s) {
         if (isBlank(s)) {
             return 0;
@@ -70,7 +82,7 @@ public class Utils {
     }
 
     public static void writeSettings(Context context, JsonObject jsonObject) {
-        Log.i(TAG, String.format("Write settings: %s", jsonObject.toString()));
+        Log.i(TAG, String.format("Write settings file %s:", jsonObject.toString()));
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try (FileOutputStream openFileOutput = context.openFileOutput("settings.json", Context.MODE_PRIVATE)) {
             openFileOutput.write(gson.toJson(jsonObject).getBytes());
@@ -205,18 +217,18 @@ public class Utils {
         if (jsonElement == null || jsonElement.isJsonNull()) {
             return new JsonObject();
         }
-        JsonObject jsonObject =jsonElement.getAsJsonObject();
-        int accountQuantity =  jsonObject.getAsJsonArray(MainActivity.Literals.accounts.name()).size();
+        JsonObject jsonObject = jsonElement.getAsJsonObject();
+        int accountQuantity = jsonObject.getAsJsonArray(MainActivity.Literals.accounts.name()).size();
         int accountIndexSelected = Utils.getInt(Utils.getProperty(jsonObject, MainActivity.Literals.accountIndexSelected.name()));
         int accountIndexActive = Utils.getInt(Utils.getProperty(jsonObject, MainActivity.Literals.accountIndexActive.name()));
         Log.i(TAG, String.format("Account quantity %d selected %d active %d.", accountQuantity, accountIndexSelected, accountIndexActive));
-        if (accountQuantity <= accountIndexSelected) {
+        if (accountQuantity < accountIndexSelected) {
             jsonObject.addProperty(MainActivity.Literals.accountIndexSelected.name(), 0);
             writeSettings(context, jsonObject);
-
-        if (accountQuantity <= accountIndexActive) {
-            jsonObject.addProperty(MainActivity.Literals.accountIndexActive.name(), 0);
-            writeSettings(context, jsonObject);
+            if (accountQuantity < accountIndexActive) {
+                jsonObject.addProperty(MainActivity.Literals.accountIndexActive.name(), 0);
+                writeSettings(context, jsonObject);
+            }
         }
         Log.i(TAG, String.format("getSettings: %s", jsonObject.toString()));
         return jsonObject;
@@ -260,13 +272,7 @@ public class Utils {
         return stringId == 0 ? applicationInfo.nonLocalizedLabel.toString() : context.getString(stringId);
     }
 
-    public static boolean isBlank(String s) {
-        return (s == null || s.trim().length() == 0);
-    }
 
-    public static boolean isNotBlank(String s) {
-        return !isBlank(s);
-    }
 
     private static void copyFile(File sourceFilePath, File destinationFilePath) {
         try {

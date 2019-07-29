@@ -48,7 +48,6 @@ public class WorkerUpload extends Worker {
         String fileName = data.getString(MainActivity.Literals.fileName.name());
         File file = new File(fileName);
         Log.i(TAG, String.format("File name %s file exists %s", fileName, file.exists()));
-        JsonObject params = new JsonObject();
         if (file == null) {
             Toast.makeText(context, "File is null.", Toast.LENGTH_LONG).show();
             return null;
@@ -57,12 +56,9 @@ public class WorkerUpload extends Worker {
             Toast.makeText(context, String.format("File \"%s\" does not exist.", file.getAbsoluteFile()), Toast.LENGTH_LONG).show();
             return null;
         }
-
-        // TODO  get the current settings.
-        JsonObject settings = Utils.getSettings(context);
-        JsonArray jsonArray = settings.getAsJsonArray(MainActivity.Literals.accounts.name());
-        String instance = Utils.getProperty(jsonArray.get(0), MainActivity.Literals.instance.name());
-        String token = Utils.getProperty(jsonArray.get(0), MainActivity.Literals.access_token.name());
+        JsonElement account = Utils.getAccountFromSettings(context);
+        String instance = Utils.getProperty(account, MainActivity.Literals.instance.name());
+        String token = Utils.getProperty(account, MainActivity.Literals.access_token.name());
         String boundary = new BigInteger(256, new Random()).toString();
         String urlString = String.format("https://%s/api/v1/media", instance);
         Log.i(TAG, "URL " + urlString);
@@ -70,7 +66,6 @@ public class WorkerUpload extends Worker {
         InputStream inputStream = null;
         OutputStream outputStream = null;
         PrintWriter writer = null;
-
         try {
             URL url = new URL(urlString);
             urlConnection = (HttpsURLConnection) url.openConnection();
