@@ -65,9 +65,8 @@ public class MainActivity extends AppCompatActivity {
     private final int REQUEST_PERMISSION_CAMERA = 369;
     private final int REQUEST_PERMISSION_STORAGE = 469;
     private final int REQUEST_ACCOUNT = 569;
+    private final int REQUEST_STATUS = 769;
     public static final int REQUEST_ACCOUNT_RETURN = 669;
-    private final String DEFAULT_GPS_COORDINATES_FORMAT = "https://www.google.com/maps/search/?api=1&query=%s,%s";
-    private final String DEFAULT_DATE_FORMAT = "EEEE MMMM dd, yyyy hh:mm:ss a z";
     private final String TAG = this.getClass().getCanonicalName();
     private final Context context = this;
     private final Activity activity = this;
@@ -321,7 +320,7 @@ public class MainActivity extends AppCompatActivity {
         token, client_id, client_secret, redirect_uri, me, exipires_in, created_at, milliseconds,
         grant_type, code, accounts, account, instance, text, followers, visibility, unlisted, PUBLIC, dateFormat,
         OK, Cancel, description, file, media_ids, id, status, url, longitude, latitude, gpsCoordinatesFormat, direct, fileName,
-        accountIndexSelected, accountIndexActive
+        accountIndexSelected, accountIndexActive, statuses, label, statusIndexActive, statusIndexSelected
     }
 
 
@@ -432,8 +431,6 @@ public class MainActivity extends AppCompatActivity {
                     accounts = new JsonArray();
                 }
                 jsonObject.addProperty(Literals.instance.name(), instance[0]);
-                jsonObject.addProperty(Literals.gpsCoordinatesFormat.name(), DEFAULT_GPS_COORDINATES_FORMAT);
-                jsonObject.addProperty(Literals.dateFormat.name(), DEFAULT_DATE_FORMAT);
                 accounts.add(jsonObject);
                 settings.add(Literals.accounts.name(), accounts);
                 Utils.writeSettings(context, settings);
@@ -507,12 +504,42 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void multipleChoiceStatuses() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle("Select status...");
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        JsonObject settings = Utils.getSettings(context);
+        JsonElement statuses = settings.get(Literals.statuses.name());
+        JsonArray jsonArray = statuses.getAsJsonArray();
+        int index = 0;
+        for (JsonElement jsonElement : jsonArray) {
+            String label = Utils.getProperty(jsonElement, Literals.label.name());
+            adapter.add(String.format("%d %s", index++, label));
+        }
+        alertDialog.setAdapter(adapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                JsonObject settings = Utils.getSettings(context);
+                settings.addProperty(Literals.statusIndexSelected.name(), which);
+                Utils.writeSettings(context, settings);
+                String selectedItem = adapter.getItem(which);
+                Log.i(TAG, "Selected status: " + selectedItem);
+                Intent intent = new Intent(context, StatusConfigActivity.class);
+                startActivityForResult(intent, REQUEST_STATUS);
+            }
+        });
+        alertDialog.show();
+
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        JsonObject settings = Utils.getSettings(context);
+        JsonElement accounts = settings.get(Literals.accounts.name());
+        JsonElement statuses = settings.get(Literals.statuses.name());
+        Intent intent = null;
         switch (item.getItemId()) {
             case R.id.accounts:
-                JsonObject settings = Utils.getSettings(context);
-                JsonElement accounts = settings.get(Literals.accounts.name());
                 if (accounts == null || accounts.getAsJsonArray().size() == 0) {
                     askForInstance();
                 } else {
@@ -520,18 +547,25 @@ public class MainActivity extends AppCompatActivity {
                     if (accounts.getAsJsonArray().size() > 1) {
                         multipleChoiceAccount();
                     } else {
-                        Intent intent = new Intent(context, AccountActivity.class);
+                        intent = new Intent(context, AccountActivity.class);
                         startActivityForResult(intent, REQUEST_ACCOUNT);
                     }
-
                 }
                 Log.i(TAG, "Accounts activity");
                 return true;
             case R.id.settings:
                 Log.i(TAG, "Settings menu option.");
-                Intent intent = new Intent(context, SettingsActivity.class);
+                intent = new Intent(context, SettingsActivity.class);
                 startActivity(intent);
-
+                return true;
+            case R.id.status_config:
+                if (statuses != null && !statuses.isJsonNull() && statuses.getAsJsonArray().size() > 1) {
+                    multipleChoiceStatuses();
+                } else {
+                    intent = new Intent(context, StatusConfigActivity.class);
+                    startActivityForResult(intent, REQUEST_STATUS);
+                }
+                Log.i(TAG, "Statuses activity");
                 return true;
             default:
                 Log.i(TAG, "Default menu option.");

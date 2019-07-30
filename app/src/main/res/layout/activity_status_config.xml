@@ -1,0 +1,99 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/editTextLabel"
+        android:text="@string/label_for_status" />
+
+    <EditText
+        android:id="@+id/editTextLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/editTextText"
+        android:text="@string/text_for_post" />
+
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textNoSuggestions" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/post_visibility" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radioVisibilityDirect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Direct" />
+
+        <RadioButton
+            android:id="@+id/radioVisibilityFollowers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Followers" />
+
+        <RadioButton
+            android:id="@+id/radioVisibilityUnlisted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Unlisted" />
+
+        <RadioButton
+            android:id="@+id/radioVisibilityPublic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Public" />
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/editTextDateFormat"
+        android:text="Date format:" />
+
+    <EditText
+        android:id="@+id/editTextDateFormat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textNoSuggestions"
+        android:text="EEEE MMMM dd, yyyy hh:mm:ss a" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/editTextGpsCoordinatesFormat"
+        android:text="GPS coordinates format:" />
+
+    <EditText
+        android:id="@+id/editTextGpsCoordinatesFormat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textNoSuggestions" />
+
+    <CheckBox
+        android:id="@+id/checkBoxStatusActive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/active_status" />
+
+
+</LinearLayout>

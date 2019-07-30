@@ -2,9 +2,16 @@
     <string name="app_name">Fedi Photo</string>
     <string name="accounts">Accounts</string>
     <string name="add_account">Add account</string>
+    <string name="add_status">Add status config</string>
     <string name="remove_account">Remove this account</string>
+    <string name="remove_status">Remove this status config</string>
     <string name="settings">Settings</string>
     <string name="camera_on_start">Camera on start</string>
-    <string name="camera_on_start_summary">Start the camera when FediPhoto starts so you can snap and post a photo quickly.</string>
-    <string name="active_active">Make this account the active one</string>
+    <string name="camera_on_start_summary">Start the camera when Fedi Photo starts so you can snap and post a photo quickly.</string>
+    <string name="active_account">Make this account the active one</string>
+    <string name="active_status">Make this status the active one</string>
+    <string name="text_for_post">Text for post:</string>
+    <string name="status_config">Status configs</string>
+    <string name="label_for_status">Label this status</string>
+    <string name="post_visibility">Post visibility:</string>
 </resources>

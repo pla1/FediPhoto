@@ -81,6 +81,20 @@ public class Utils {
         return null;
     }
 
+    public static JsonObject getStatusFromSettings(Context context) {
+        JsonObject settings = getSettings(context);
+        int statusSelectedIndex = Utils.getInt(Utils.getProperty(settings, MainActivity.Literals.statusIndexSelected.name()));
+        JsonArray jsonArray = settings.getAsJsonArray(MainActivity.Literals.statuses.name());
+        if (jsonArray != null && !jsonArray.isJsonNull() && jsonArray.size() > 0) {
+            if (statusSelectedIndex < jsonArray.size()) {
+                return jsonArray.get(statusSelectedIndex).getAsJsonObject();
+            } else {
+                return jsonArray.get(0).getAsJsonObject();
+            }
+        }
+        return null;
+    }
+
     public static void writeSettings(Context context, JsonObject jsonObject) {
         Log.i(TAG, String.format("Write settings file %s:", jsonObject.toString()));
         Gson gson = new GsonBuilder().setPrettyPrinting().create();

@@ -41,36 +41,37 @@ public class WorkerPostStatus extends Worker {
         Data data = getInputData();
         JsonObject params = new JsonObject();
         JsonElement account= Utils.getAccountFromSettings(context);
+        JsonObject statusConfig = Utils.getStatusFromSettings(context);
         String instance = Utils.getProperty(account, MainActivity.Literals.instance.name());
-        String visibility = Utils.getProperty(account, MainActivity.Literals.visibility.name());
-        StringBuilder status = new StringBuilder();
-        status.append(Utils.getProperty(account, MainActivity.Literals.text.name()));
+        String visibility = Utils.getProperty(statusConfig, MainActivity.Literals.visibility.name());
+        StringBuilder sb = new StringBuilder();
+        sb.append(Utils.getProperty(statusConfig, MainActivity.Literals.text.name()));
         double latitude = data.getDouble(MainActivity.Literals.latitude.name(), 0);
         double longitude = data.getDouble(MainActivity.Literals.longitude.name(), 0);
         if (latitude != 0) {
-            String gpsCoordinatesFormat = Utils.getProperty(account, MainActivity.Literals.gpsCoordinatesFormat.name());
+            String gpsCoordinatesFormat = Utils.getProperty(statusConfig, MainActivity.Literals.gpsCoordinatesFormat.name());
             if (gpsCoordinatesFormat.split("%s").length == 2) {
-                status.append("\n").append(String.format(gpsCoordinatesFormat, latitude, longitude));
+                sb.append("\n").append(String.format(gpsCoordinatesFormat, latitude, longitude));
             } else {
-                status.append("\n").append(latitude).append(",").append(longitude);
+                sb.append("\n").append(latitude).append(",").append(longitude);
             }
         }
-        String dateFormat = Utils.getProperty(account, MainActivity.Literals.dateFormat.name());
+        String dateFormat = Utils.getProperty(statusConfig, MainActivity.Literals.dateFormat.name());
         if (Utils.isNotBlank(dateFormat)) {
             long milliseconds = data.getLong(MainActivity.Literals.milliseconds.name(), 0);
             if (milliseconds != 0) {
                 String dateDisplay = new SimpleDateFormat(dateFormat, Locale.US).format(new Date(milliseconds));
-                status.append("\n").append(dateDisplay);
+                sb.append("\n").append(dateDisplay);
             }
         }
-        params.addProperty(MainActivity.Literals.status.name(), status.toString());
+        params.addProperty(MainActivity.Literals.status.name(), sb.toString());
         params.addProperty(MainActivity.Literals.access_token.name(), Utils.getProperty(account, MainActivity.Literals.access_token.name()));
         params.addProperty(MainActivity.Literals.visibility.name(), visibility);
 
         JsonArray mediaJsonArray = new JsonArray();
         mediaJsonArray.add(data.getString(MainActivity.Literals.id.name()));
         params.add(MainActivity.Literals.media_ids.name(), mediaJsonArray);
-        params.addProperty(MainActivity.Literals.client_name.name(), "FediPhoto for Android ");
+        params.addProperty(MainActivity.Literals.client_name.name(), "Fedi Photo for Android ");
         String urlString = String.format("https://%s/api/v1/statuses", instance);
         Log.i(TAG, "URL " + urlString);
         HttpsURLConnection urlConnection;

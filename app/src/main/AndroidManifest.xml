@@ -34,6 +34,10 @@
             android:label="Account"
             android:parentActivityName=".MainActivity" />
         <activity
+            android:name=".StatusConfigActivity"
+            android:label="Status Config"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".WebviewActivity"
             android:parentActivityName=".MainActivity" >
             <intent-filter>

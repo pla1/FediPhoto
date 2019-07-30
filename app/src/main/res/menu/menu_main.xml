@@ -8,4 +8,9 @@
         android:id="@+id/settings"
         android:icon="@drawable/ic_launcher_background"
         android:title="@string/settings" />
+
+    <item
+        android:id="@+id/status_config"
+        android:icon="@drawable/ic_launcher_background"
+        android:title="@string/status_config" />
 </menu>
