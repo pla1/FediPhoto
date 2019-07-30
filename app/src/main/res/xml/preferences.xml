@@ -6,5 +6,11 @@
             android:key="@string/camera_on_start"
             android:summary="@string/camera_on_start_summary"
             android:title="@string/camera_on_start" />
+         <ListPreference
+             android:key="actionAfterPost"
+             android:title="Action after posting photo"
+             android:summary="%s"
+             android:entries="@array/actionAfterPostEntries"
+             android:entryValues="@array/actionAfterPostValues"/>
     </PreferenceCategory>
 </PreferenceScreen>

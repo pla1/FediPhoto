@@ -288,7 +288,7 @@ public class Utils {
 
 
 
-    private static void copyFile(File sourceFilePath, File destinationFilePath) {
+    public static void copyFile(File sourceFilePath, File destinationFilePath) {
         try {
             if (!sourceFilePath.exists()) {
                 return;

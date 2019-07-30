@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
 
     private File createPhotoFile() throws IOException {
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss_", Locale.US).format(new Date());
-        String fileName = String.format("%s_%s", Utils.getApplicationName(context), timestamp);
+        String fileName = String.format("%s_%s", Utils.getApplicationName(context).replaceAll(" ","_"), timestamp);
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         //  File storageDir = getDataDir();
         if (storageDir == null || (!storageDir.exists() && !storageDir.mkdir())) {
@@ -247,6 +247,7 @@ public class MainActivity extends AppCompatActivity {
                 .put(Literals.latitude.name(), latitude)
                 .put(Literals.longitude.name(), longitude)
                 .put(Literals.milliseconds.name(), file.lastModified())
+                .put(Literals.fileName.name(), photoFileName)
                 .put(Literals.id.name(), id)
                 .build();
 
@@ -274,10 +275,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
-
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         Log.i(TAG, String.format("Request code %d Result code %d", requestCode, resultCode));
         if (requestCode == CAMERA_REQUEST) {
@@ -321,7 +319,8 @@ public class MainActivity extends AppCompatActivity {
         token, client_id, client_secret, redirect_uri, me, exipires_in, created_at, milliseconds,
         grant_type, code, accounts, account, instance, text, followers, visibility, unlisted, PUBLIC, dateFormat,
         OK, Cancel, description, file, media_ids, id, status, url, longitude, latitude, gpsCoordinatesFormat, direct, fileName,
-        accountIndexSelected, accountIndexActive, statuses, label, statusIndexActive, statusIndexSelected
+        accountIndexSelected, accountIndexActive, statuses, label, statusIndexActive, statusIndexSelected,
+        leave, copy, move, delete
     }
 
 

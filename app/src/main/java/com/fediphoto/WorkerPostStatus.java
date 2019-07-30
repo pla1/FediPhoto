@@ -1,8 +1,10 @@
 package com.fediphoto;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.work.Data;
@@ -14,6 +16,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -38,16 +41,16 @@ public class WorkerPostStatus extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        Data data = getInputData();
+        Data dataInput = getInputData();
         JsonObject params = new JsonObject();
-        JsonElement account= Utils.getAccountFromSettings(context);
+        JsonElement account = Utils.getAccountFromSettings(context);
         JsonObject statusConfig = Utils.getStatusFromSettings(context);
         String instance = Utils.getProperty(account, MainActivity.Literals.instance.name());
         String visibility = Utils.getProperty(statusConfig, MainActivity.Literals.visibility.name());
         StringBuilder sb = new StringBuilder();
         sb.append(Utils.getProperty(statusConfig, MainActivity.Literals.text.name()));
-        double latitude = data.getDouble(MainActivity.Literals.latitude.name(), 0);
-        double longitude = data.getDouble(MainActivity.Literals.longitude.name(), 0);
+        double latitude = dataInput.getDouble(MainActivity.Literals.latitude.name(), 0);
+        double longitude = dataInput.getDouble(MainActivity.Literals.longitude.name(), 0);
         if (latitude != 0) {
             String gpsCoordinatesFormat = Utils.getProperty(statusConfig, MainActivity.Literals.gpsCoordinatesFormat.name());
             if (gpsCoordinatesFormat.split("%s").length == 2) {
@@ -58,7 +61,7 @@ public class WorkerPostStatus extends Worker {
         }
         String dateFormat = Utils.getProperty(statusConfig, MainActivity.Literals.dateFormat.name());
         if (Utils.isNotBlank(dateFormat)) {
-            long milliseconds = data.getLong(MainActivity.Literals.milliseconds.name(), 0);
+            long milliseconds = dataInput.getLong(MainActivity.Literals.milliseconds.name(), 0);
             if (milliseconds != 0) {
                 String dateDisplay = new SimpleDateFormat(dateFormat, Locale.US).format(new Date(milliseconds));
                 sb.append("\n").append(dateDisplay);
@@ -69,7 +72,7 @@ public class WorkerPostStatus extends Worker {
         params.addProperty(MainActivity.Literals.visibility.name(), visibility);
 
         JsonArray mediaJsonArray = new JsonArray();
-        mediaJsonArray.add(data.getString(MainActivity.Literals.id.name()));
+        mediaJsonArray.add(dataInput.getString(MainActivity.Literals.id.name()));
         params.add(MainActivity.Literals.media_ids.name(), mediaJsonArray);
         params.addProperty(MainActivity.Literals.client_name.name(), "Fedi Photo for Android ");
         String urlString = String.format("https://%s/api/v1/statuses", instance);
@@ -101,16 +104,56 @@ public class WorkerPostStatus extends Worker {
             Gson gson = new Gson();
             JsonObject jsonObject = gson.fromJson(isr, JsonObject.class);
             Log.i(TAG, String.format("Output: %s", jsonObject.toString()));
-            Data outputData = new Data.Builder()
+            Data dataOutput = new Data.Builder()
                     .putString(MainActivity.Literals.url.name(), Utils.getProperty(jsonObject, MainActivity.Literals.url.name()))
                     .build();
-            return Result.success(outputData);
+            actionAfterPost(dataInput);
+            return Result.success(dataOutput);
         } catch (Exception e) {
             e.printStackTrace();
             return Result.retry();
         } finally {
             Utils.close(inputStream, outputStream);
         }
+    }
+
+    private void actionAfterPost(Data data) {
+        String fileName = data.getString(MainActivity.Literals.fileName.name());
+        File file = new File(fileName);
+        if (!file.exists()) {
+            Log.i(TAG, String.format("File %s not found. No action after post taken.", fileName));
+            return;
+        }
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String actionAfterPost = sharedPreferences.getString("actionAfterPost", "leave");
+        Log.i(TAG, String.format("Action after post \"%s\" on file %s", actionAfterPost, fileName));
+        if (MainActivity.Literals.delete.name().equals(actionAfterPost)) {
+            boolean fileDeleted = file.delete();
+            Log.i(TAG, String.format("File %s deleted %s", fileName, fileDeleted));
+        }
+        if (MainActivity.Literals.copy.name().equals(actionAfterPost)) {
+            File fileNew = getNewFile(file);
+            Utils.copyFile(file, fileNew);
+            Log.i(TAG, String.format("File %s copied to %s.", fileName, fileNew.getAbsoluteFile()));
+        }
+        if (MainActivity.Literals.move.name().equals(actionAfterPost)) {
+            File fileNew = getNewFile(file);
+            Utils.copyFile(file, fileNew);
+            boolean fileDeleted = file.delete();
+            Log.i(TAG, String.format("File %s copied to %s and deleted %s.", fileName, fileNew.getAbsolutePath(), fileDeleted));
+        }
+        if (MainActivity.Literals.leave.name().equals(actionAfterPost)) {
+            Log.i(TAG, String.format("File %s left in place.", fileName));
+        }
+    }
+
+    private File getNewFile(File file) {
+        String appNameFolder = Utils.getApplicationName(context).replaceAll(" ","_");
+        File pictureFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File finalFolder = new File(pictureFolder, appNameFolder);
+        finalFolder.mkdirs();
+        File fileNew = new File(String.format("%s/%s", finalFolder.getAbsolutePath(), file.getName()));
+        return fileNew;
     }
 
 }
