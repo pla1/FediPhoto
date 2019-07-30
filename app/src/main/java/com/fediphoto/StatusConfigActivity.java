@@ -46,9 +46,7 @@ public class StatusConfigActivity extends AppCompatActivity {
     private final String DEFAULT_GPS_COORDINATES_FORMAT = "https://www.google.com/maps/search/?api=1&query=%s,%s";
     private final String DEFAULT_DATE_FORMAT = "EEEE MMMM dd, yyyy hh:mm:ss a z";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    private void setup() {
         setContentView(R.layout.activity_status_config);
         settings = Utils.getSettings(context);
         status = Utils.getStatusFromSettings(context);
@@ -100,6 +98,12 @@ public class StatusConfigActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setup();
     }
 
     private void save() {
@@ -170,15 +174,22 @@ public class StatusConfigActivity extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = new Intent(context, MainActivity.class);
+        JsonArray statuses;
         switch (item.getItemId()) {
-            case R.id.add_account:
-                Log.i(TAG, "Add account.");
-                setResult(MainActivity.REQUEST_ACCOUNT_RETURN, intent);
-                finish();
+            case R.id.add_status:
+                Log.i(TAG, "Add status.");
+                statuses = settings.getAsJsonArray(MainActivity.Literals.statuses.name());
+                JsonObject newStatus = new JsonObject();
+                newStatus.addProperty(MainActivity.Literals.gpsCoordinatesFormat.name(), DEFAULT_GPS_COORDINATES_FORMAT);
+                newStatus.addProperty(MainActivity.Literals.dateFormat.name(), DEFAULT_DATE_FORMAT);
+                statuses.add(newStatus);
+                settings.addProperty(MainActivity.Literals.statusIndexSelected.name(), statuses.size() - 1);
+                Utils.writeSettings(context, settings);
+                setup();
                 return true;
-            case R.id.remove_account:
+            case R.id.remove_status:
                 Log.i(TAG, "Remove status config.");
-                JsonArray statuses = settings.getAsJsonArray(MainActivity.Literals.accounts.name());
+                statuses = settings.getAsJsonArray(MainActivity.Literals.statuses.name());
                 if (statuses == null || statuses.isJsonNull() || statuses.size() == 0) {
                     Log.i(TAG, "No status to remove.");
                     Toast.makeText(context, "No status to remove.", Toast.LENGTH_LONG).show();

@@ -5,7 +5,7 @@
         android:icon="@drawable/ic_launcher_background"
         android:title="@string/add_status" />
     <item
-        android:id="@+id/remove_account"
+        android:id="@+id/remove_status"
         android:icon="@drawable/ic_launcher_background"
         android:title="@string/remove_status" />
 </menu>

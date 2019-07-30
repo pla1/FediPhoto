@@ -14,7 +14,7 @@
         android:id="@+id/editTextLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName|textCapWords" />
 
     <TextView
         android:layout_width="match_parent"

@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private final int REQUEST_ACCOUNT = 569;
     private final int REQUEST_STATUS = 769;
     public static final int REQUEST_ACCOUNT_RETURN = 669;
+    public static final String CHECKMARK = "✔";
     private final String TAG = this.getClass().getCanonicalName();
     private final Context context = this;
     private final Activity activity = this;
@@ -485,8 +486,12 @@ public class MainActivity extends AppCompatActivity {
         JsonArray jsonArray = accounts.getAsJsonArray();
         int index = 0;
         for (JsonElement jsonElement : jsonArray) {
-            String instance = Utils.getProperty(jsonElement, Literals.instance.name());
-            adapter.add(String.format("%d %s", index++, instance));
+            String me = Utils.getProperty(jsonElement, Literals.me.name());
+            String checkmark = "";
+            if (index == Utils.getInt(Utils.getProperty(settings, Literals.accountIndexSelected.name()))) {
+                checkmark = CHECKMARK;
+            }
+            adapter.add(String.format("%s %d %s", checkmark, index++, me));
         }
         alertDialog.setAdapter(adapter, new DialogInterface.OnClickListener() {
             @Override
@@ -514,7 +519,11 @@ public class MainActivity extends AppCompatActivity {
         int index = 0;
         for (JsonElement jsonElement : jsonArray) {
             String label = Utils.getProperty(jsonElement, Literals.label.name());
-            adapter.add(String.format("%d %s", index++, label));
+            String checkmark = "";
+            if (index == Utils.getInt(Utils.getProperty(settings, Literals.statusIndexSelected.name()))) {
+                checkmark = CHECKMARK;
+            }
+            adapter.add(String.format("%s %d %s", checkmark, index++, label));
         }
         alertDialog.setAdapter(adapter, new DialogInterface.OnClickListener() {
             @Override
