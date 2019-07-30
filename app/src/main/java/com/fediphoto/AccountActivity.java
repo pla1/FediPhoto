@@ -99,6 +99,7 @@ public class AccountActivity extends AppCompatActivity {
                     settings.addProperty(MainActivity.Literals.accountIndexSelected.name(), 0);
                     Utils.writeSettings(context, settings);
                     account = null;
+                    Toast.makeText(context, "Account removed and account 0 is now the active selected account.", Toast.LENGTH_LONG).show();
                 }
                 setResult(MainActivity.RESULT_OK, intent);
                 finish();

@@ -333,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
             createAppResults = new JsonObject();
             JsonObject params = new JsonObject();
             this.instance = instance[0];
-            params.addProperty(Literals.client_name.name(), "FediPhoto for Android ");
+            params.addProperty(Literals.client_name.name(), "Fedi Photo for Android ");
             params.addProperty(Literals.redirect_uris.name(), "fediphoto://fediphotoreturn");
             params.addProperty(Literals.scopes.name(), "read write follow push");
             params.addProperty(Literals.website.name(), "https://fediphoto.com");
@@ -487,11 +487,11 @@ public class MainActivity extends AppCompatActivity {
         int index = 0;
         for (JsonElement jsonElement : jsonArray) {
             String me = Utils.getProperty(jsonElement, Literals.me.name());
-            String checkmark = "";
-            if (index == Utils.getInt(Utils.getProperty(settings, Literals.accountIndexSelected.name()))) {
-                checkmark = CHECKMARK;
+            String checkMark = "";
+            if (index == Utils.getInt(Utils.getProperty(settings, Literals.accountIndexActive.name()))) {
+                checkMark = CHECKMARK;
             }
-            adapter.add(String.format("%s %d %s", checkmark, index++, me));
+            adapter.add(String.format(Locale.US,"%s %d %s", checkMark, index++, me));
         }
         alertDialog.setAdapter(adapter, new DialogInterface.OnClickListener() {
             @Override
@@ -520,10 +520,10 @@ public class MainActivity extends AppCompatActivity {
         for (JsonElement jsonElement : jsonArray) {
             String label = Utils.getProperty(jsonElement, Literals.label.name());
             String checkmark = "";
-            if (index == Utils.getInt(Utils.getProperty(settings, Literals.statusIndexSelected.name()))) {
+            if (index == Utils.getInt(Utils.getProperty(settings, Literals.statusIndexActive.name()))) {
                 checkmark = CHECKMARK;
             }
-            adapter.add(String.format("%s %d %s", checkmark, index++, label));
+            adapter.add(String.format(Locale.US, "%s %d %s", checkmark, index++, label));
         }
         alertDialog.setAdapter(adapter, new DialogInterface.OnClickListener() {
             @Override

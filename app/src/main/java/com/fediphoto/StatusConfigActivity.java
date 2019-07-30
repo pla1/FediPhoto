@@ -192,7 +192,7 @@ public class StatusConfigActivity extends AppCompatActivity {
                 statuses = settings.getAsJsonArray(MainActivity.Literals.statuses.name());
                 if (statuses == null || statuses.isJsonNull() || statuses.size() == 0) {
                     Log.i(TAG, "No status to remove.");
-                    Toast.makeText(context, "No status to remove.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "No status config to remove.", Toast.LENGTH_LONG).show();
                 } else {
                     statuses.remove(statusIndexSelected);
                     settings.add(MainActivity.Literals.statuses.name(), statuses);
@@ -200,6 +200,7 @@ public class StatusConfigActivity extends AppCompatActivity {
                     settings.addProperty(MainActivity.Literals.statusIndexSelected.name(), 0);
                     Utils.writeSettings(context, settings);
                     status = null;
+                    Toast.makeText(context, "Status config removed and status 0 is now the selected active status.", Toast.LENGTH_LONG).show();
                 }
                 setResult(MainActivity.RESULT_OK, intent);
                 finish();
