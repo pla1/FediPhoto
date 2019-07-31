@@ -67,7 +67,7 @@ public class Utils {
         return 0;
     }
 
-    public static JsonObject getAccountFromSettings(Context context) {
+    public static JsonObject getAccountSelectedFromSettings(Context context) {
         JsonObject settings = getSettings(context);
         int accountSelectedIndex = Utils.getInt(Utils.getProperty(settings, MainActivity.Literals.accountIndexSelected.name()));
         JsonArray jsonArray = settings.getAsJsonArray(MainActivity.Literals.accounts.name());
@@ -80,10 +80,36 @@ public class Utils {
         }
         return null;
     }
+    public static JsonObject getAccountActiveFromSettings(Context context) {
+        JsonObject settings = getSettings(context);
+        int accountSelectedIndex = Utils.getInt(Utils.getProperty(settings, MainActivity.Literals.accountIndexActive.name()));
+        JsonArray jsonArray = settings.getAsJsonArray(MainActivity.Literals.accounts.name());
+        if (jsonArray != null && !jsonArray.isJsonNull() && jsonArray.size() > 0) {
+            if (accountSelectedIndex < jsonArray.size()) {
+                return jsonArray.get(accountSelectedIndex).getAsJsonObject();
+            } else {
+                return jsonArray.get(0).getAsJsonObject();
+            }
+        }
+        return null;
+    }
 
-    public static JsonObject getStatusFromSettings(Context context) {
+    public static JsonObject getStatusSelectedFromSettings(Context context) {
         JsonObject settings = getSettings(context);
         int statusSelectedIndex = Utils.getInt(Utils.getProperty(settings, MainActivity.Literals.statusIndexSelected.name()));
+        JsonArray jsonArray = settings.getAsJsonArray(MainActivity.Literals.statuses.name());
+        if (jsonArray != null && !jsonArray.isJsonNull() && jsonArray.size() > 0) {
+            if (statusSelectedIndex < jsonArray.size()) {
+                return jsonArray.get(statusSelectedIndex).getAsJsonObject();
+            } else {
+                return jsonArray.get(0).getAsJsonObject();
+            }
+        }
+        return null;
+    }
+    public static JsonObject getStatusActiveFromSettings(Context context) {
+        JsonObject settings = getSettings(context);
+        int statusSelectedIndex = Utils.getInt(Utils.getProperty(settings, MainActivity.Literals.statusIndexActive.name()));
         JsonArray jsonArray = settings.getAsJsonArray(MainActivity.Literals.statuses.name());
         if (jsonArray != null && !jsonArray.isJsonNull() && jsonArray.size() > 0) {
             if (statusSelectedIndex < jsonArray.size()) {
@@ -226,6 +252,9 @@ public class Utils {
         } finally {
             close(bufferedReader);
         }
+        if (sb.length() == 0) {
+            return new JsonObject();
+        }
         JsonParser jsonParser = new JsonParser();
         JsonElement jsonElement = jsonParser.parse(sb.toString());
         if (jsonElement == null || jsonElement.isJsonNull()) {
@@ -236,7 +265,7 @@ public class Utils {
         int accountIndexSelected = Utils.getInt(Utils.getProperty(jsonObject, MainActivity.Literals.accountIndexSelected.name()));
         int accountIndexActive = Utils.getInt(Utils.getProperty(jsonObject, MainActivity.Literals.accountIndexActive.name()));
         Log.i(TAG, String.format("Account quantity %d selected %d active %d.", accountQuantity, accountIndexSelected, accountIndexActive));
-        if (accountQuantity < accountIndexSelected) {
+        if (accountQuantity != 0 && accountQuantity < accountIndexSelected) {
             jsonObject.addProperty(MainActivity.Literals.accountIndexSelected.name(), 0);
             writeSettings(context, jsonObject);
             if (accountQuantity < accountIndexActive) {
@@ -286,6 +315,16 @@ public class Utils {
         return stringId == 0 ? applicationInfo.nonLocalizedLabel.toString() : context.getString(stringId);
     }
 
+    public static int getAccountQuantity(Context context) {
+        JsonObject settings = getSettings(context);
+        if (settings != null && !settings.isJsonNull() && isJsonObject(settings)) {
+            JsonArray accounts = settings.getAsJsonArray(MainActivity.Literals.accounts.name());
+            if (accounts != null && !accounts.isJsonNull() && accounts.isJsonArray()) {
+                return accounts.size();
+            }
+        }
+        return 0;
+    }
 
 
     public static void copyFile(File sourceFilePath, File destinationFilePath) {

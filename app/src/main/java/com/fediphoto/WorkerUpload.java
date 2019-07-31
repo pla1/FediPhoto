@@ -9,9 +9,7 @@ import androidx.work.Data;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
@@ -56,7 +54,7 @@ public class WorkerUpload extends Worker {
             Toast.makeText(context, String.format("File \"%s\" does not exist.", file.getAbsoluteFile()), Toast.LENGTH_LONG).show();
             return null;
         }
-        JsonElement account = Utils.getAccountFromSettings(context);
+        JsonElement account = Utils.getAccountSelectedFromSettings(context);
         String instance = Utils.getProperty(account, MainActivity.Literals.instance.name());
         String token = Utils.getProperty(account, MainActivity.Literals.access_token.name());
         String boundary = new BigInteger(256, new Random()).toString();

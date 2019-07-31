@@ -12,13 +12,11 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.text.SimpleDateFormat;
@@ -49,7 +47,7 @@ public class StatusConfigActivity extends AppCompatActivity {
     private void setup() {
         setContentView(R.layout.activity_status_config);
         settings = Utils.getSettings(context);
-        status = Utils.getStatusFromSettings(context);
+        status = Utils.getStatusSelectedFromSettings(context);
         if (status == null) {
             status = new JsonObject();
             status.addProperty(MainActivity.Literals.gpsCoordinatesFormat.name(), DEFAULT_GPS_COORDINATES_FORMAT);

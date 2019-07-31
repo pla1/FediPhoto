@@ -100,18 +100,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button buttonCamera = findViewById(R.id.button_camera);
-        JsonObject account = Utils.getAccountFromSettings(context);
-        JsonObject status = Utils.getStatusFromSettings(context);
+        JsonObject account = Utils.getAccountSelectedFromSettings(context);
+        JsonObject status = Utils.getStatusSelectedFromSettings(context);
         if (account != null && status != null) {
             String buttonCameraText = String.format("Camera\n%s\n%s",
-                    Utils.getAccountFromSettings(context).get(Literals.me.name()).getAsString(),
-                    Utils.getStatusFromSettings(context).get(Literals.label.name()).getAsString());
+                    Utils.getAccountActiveFromSettings(context).get(Literals.me.name()).getAsString(),
+                    Utils.getStatusActiveFromSettings(context).get(Literals.label.name()).getAsString());
             buttonCamera.setText(buttonCameraText);
         }
-
         buttonCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (Utils.getAccountQuantity(context) == 0) {
+                    askForInstance();
+                    return;
+                }
                 dispatchTakePictureIntent();
             }
         });

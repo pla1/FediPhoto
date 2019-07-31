@@ -43,8 +43,8 @@ public class WorkerPostStatus extends Worker {
     public Result doWork() {
         Data dataInput = getInputData();
         JsonObject params = new JsonObject();
-        JsonElement account = Utils.getAccountFromSettings(context);
-        JsonObject statusConfig = Utils.getStatusFromSettings(context);
+        JsonElement account = Utils.getAccountSelectedFromSettings(context);
+        JsonObject statusConfig = Utils.getStatusSelectedFromSettings(context);
         String instance = Utils.getProperty(account, MainActivity.Literals.instance.name());
         String visibility = Utils.getProperty(statusConfig, MainActivity.Literals.visibility.name());
         StringBuilder sb = new StringBuilder();

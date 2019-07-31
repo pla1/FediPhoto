@@ -32,7 +32,7 @@ public class AccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
         settings = Utils.getSettings(context);
-        account = Utils.getAccountFromSettings(context);
+        account = Utils.getAccountSelectedFromSettings(context);
         TextView textViewInstance = findViewById(R.id.textViewInstance);
         textViewInstance.setText(Utils.getProperty(account, MainActivity.Literals.instance.name()));
         TextView textViewUserUrl = findViewById(R.id.textViewUserUrl);
