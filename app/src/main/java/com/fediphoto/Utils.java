@@ -67,15 +67,15 @@ public class Utils {
         return 0;
     }
 
-    public static JsonElement getAccountFromSettings(Context context) {
+    public static JsonObject getAccountFromSettings(Context context) {
         JsonObject settings = getSettings(context);
         int accountSelectedIndex = Utils.getInt(Utils.getProperty(settings, MainActivity.Literals.accountIndexSelected.name()));
         JsonArray jsonArray = settings.getAsJsonArray(MainActivity.Literals.accounts.name());
         if (jsonArray != null && !jsonArray.isJsonNull() && jsonArray.size() > 0) {
             if (accountSelectedIndex < jsonArray.size()) {
-                return jsonArray.get(accountSelectedIndex);
+                return jsonArray.get(accountSelectedIndex).getAsJsonObject();
             } else {
-                return jsonArray.get(0);
+                return jsonArray.get(0).getAsJsonObject();
             }
         }
         return null;
