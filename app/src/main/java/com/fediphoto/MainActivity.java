@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         JsonObject account = Utils.getAccountSelectedFromSettings(context);
         JsonObject status = Utils.getStatusSelectedFromSettings(context);
         if (account != null && status != null) {
-            String buttonCameraText = String.format("Camera\n%s\n%s",
+            String buttonCameraText = String.format("Press for camera\n%s\n%s",
                     Utils.getAccountActiveFromSettings(context).get(Literals.me.name()).getAsString(),
                     Utils.getStatusActiveFromSettings(context).get(Literals.label.name()).getAsString());
             buttonCamera.setText(buttonCameraText);
