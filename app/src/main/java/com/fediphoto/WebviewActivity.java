@@ -17,7 +17,6 @@ public class WebviewActivity extends Activity {
         setContentView(R.layout.activity_webview);
         WebView webView = findViewById(R.id.webview);
         WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
