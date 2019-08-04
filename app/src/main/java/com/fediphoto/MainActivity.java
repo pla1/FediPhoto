@@ -37,6 +37,7 @@ import androidx.core.content.FileProvider;
 import androidx.lifecycle.Observer;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkContinuation;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
@@ -220,80 +221,13 @@ public class MainActivity extends AppCompatActivity {
                 .Builder(com.fediphoto.WorkerUpload.class)
                 .addTag(Literals.worker_tag_media_upload.name())
                 .setInputData(data).build();
-        UUID workRequestId = uploadWorkRequest.getId();
-        WorkManager.getInstance(context).enqueue(uploadWorkRequest);
-        WorkManager.getInstance(context).getWorkInfoByIdLiveData(workRequestId).observe(this, new Observer<WorkInfo>() {
-            @Override
-            public void onChanged(WorkInfo workInfo) {
-                WorkInfo.State state = workInfo.getState();
-                Log.i(TAG, String.format("Worker %s state changed %s. Is finished %s", workInfo.getId(), state, state.isFinished()));
-                if (state.isFinished()) {
-                    if (state == WorkInfo.State.SUCCEEDED) {
-                        Data data = workInfo.getOutputData();
-                        submitWorkerPostStatus(data.getString(Literals.id.name()));
-                    } else {
-                        Log.i(TAG, "Upload did not finished normally.");
-                    }
-                }
-            }
-        });
-    }
-
-    private void submitWorkerPostStatus(String id) {
-        Log.i(TAG, "Submit worker post status");
-        File file = new File(photoFileName);
-        if (!file.exists()) {
-            Log.i(TAG, String.format("Photo file %s does not exist.", photoFileName));
-            return;
-        }
-        double[] latLong = new double[2];
-        double latitude = 0;
-        double longitude = 0;
-        try {
-            ExifInterface exifInterface = new ExifInterface(file.getAbsolutePath());
-            latLong = exifInterface.getLatLong();
-            if (latLong != null) {
-                latitude = latLong[0];
-                longitude = latLong[1];
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Log.i(TAG, String.format("Latitude %f longitude %f", latitude, longitude));
-        @SuppressLint("RestrictedApi")
-        Data data = new Data.Builder()
-                .put(Literals.latitude.name(), latitude)
-                .put(Literals.longitude.name(), longitude)
-                .put(Literals.milliseconds.name(), file.lastModified())
-                .put(Literals.fileName.name(), photoFileName)
-                .put(Literals.id.name(), id)
-                .build();
-
+        WorkContinuation workContinuation = WorkManager.getInstance(context).beginWith(uploadWorkRequest);
         OneTimeWorkRequest postStatusWorkRequest = new OneTimeWorkRequest
                 .Builder(com.fediphoto.WorkerPostStatus.class)
                 .addTag(Literals.worker_tag_post_status.name())
                 .setInputData(data).build();
-        UUID workRequestId = postStatusWorkRequest.getId();
-        WorkManager.getInstance(context).enqueue(postStatusWorkRequest);
-        WorkManager.getInstance(context).getWorkInfoByIdLiveData(workRequestId).observe(this, new Observer<WorkInfo>() {
-            @Override
-            public void onChanged(WorkInfo workInfo) {
-                WorkInfo.State state = workInfo.getState();
-                Log.i(TAG, String.format("Worker %s state changed %s. Is finished %s", workInfo.getId(), state, state.isFinished()));
-                if (state.isFinished()) {
-                    if (state == WorkInfo.State.SUCCEEDED) {
-                        Data outputData = workInfo.getOutputData();
-                        String message = String.format("Post succeeded. %s", outputData.getString(Literals.url.name()));
-                        Log.i(TAG, message);
-                        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-                    } else {
-                        String message = String.format("Post finished with a state of %s.", state);
-                        Log.w(TAG, message);
-                        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-                    }
-                }
-            }
-        });
+        workContinuation = workContinuation.then(postStatusWorkRequest);
+        workContinuation.enqueue();
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -309,7 +243,6 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(TAG, String.format("File %s deleted %s", photoFileName, fileDeleted));
                 }
             }
-
         }
         if (requestCode == TOKEN_REQUEST && resultCode == Activity.RESULT_OK) {
             token = intent.getStringExtra(Literals.token.name());
@@ -636,12 +569,13 @@ public class MainActivity extends AppCompatActivity {
                 return super.onContextItemSelected(item);
         }
     }
+
     private void workerStatus(String tag) {
         ListenableFuture<List<WorkInfo>> workInfoList = WorkManager.getInstance(context).getWorkInfosByTag(tag);
         try {
             List<WorkInfo> workInfos = workInfoList.get(5, TimeUnit.SECONDS);
             Log.i(TAG, String.format("%d worker info quantity. Worker Info Tag %s", workInfos.size(), tag));
-            for (WorkInfo workInfo:workInfos) {
+            for (WorkInfo workInfo : workInfos) {
                 Log.i(TAG, String.format("Worker info %s. Worker Info Tag %s", workInfo.toString(), tag));
             }
         } catch (Exception e) {

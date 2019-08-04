@@ -130,6 +130,7 @@ public class WorkerUpload extends Worker {
             Log.i(TAG, String.format("Output from upload: %s", jsonElement));
             Data outputData = new Data.Builder()
                     .putString(MainActivity.Literals.id.name(), Utils.getProperty(jsonElement, MainActivity.Literals.id.name()))
+                    .putString(MainActivity.Literals.fileName.name(), fileName)
                     .build();
             return Result.success(outputData);
         } catch (Exception e) {

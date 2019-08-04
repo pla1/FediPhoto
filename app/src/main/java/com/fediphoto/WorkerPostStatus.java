@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.exifinterface.media.ExifInterface;
 import androidx.work.Data;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
@@ -17,6 +18,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -42,6 +44,7 @@ public class WorkerPostStatus extends Worker {
     @Override
     public Result doWork() {
         Data dataInput = getInputData();
+        String photoFileName = dataInput.getString(MainActivity.Literals.fileName.name());
         JsonObject params = new JsonObject();
         JsonElement account = Utils.getAccountSelectedFromSettings(context);
         JsonObject statusConfig = Utils.getStatusSelectedFromSettings(context);
@@ -49,8 +52,26 @@ public class WorkerPostStatus extends Worker {
         String visibility = Utils.getProperty(statusConfig, MainActivity.Literals.visibility.name());
         StringBuilder sb = new StringBuilder();
         sb.append(Utils.getProperty(statusConfig, MainActivity.Literals.text.name()));
-        double latitude = dataInput.getDouble(MainActivity.Literals.latitude.name(), 0);
-        double longitude = dataInput.getDouble(MainActivity.Literals.longitude.name(), 0);
+        File file = new File(photoFileName);
+        if (!file.exists()) {
+            Log.i(TAG, String.format("Photo file %s does not exist.", photoFileName));
+            return Result.failure();
+        }
+        long photoFileLastModified = file.lastModified();
+        double[] latLong;
+        double latitude = 0;
+        double longitude = 0;
+        try {
+            ExifInterface exifInterface = new ExifInterface(file.getAbsolutePath());
+            latLong = exifInterface.getLatLong();
+            if (latLong != null) {
+                latitude = latLong[0];
+                longitude = latLong[1];
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Log.i(TAG, String.format("Latitude %f longitude %f", latitude, longitude));
         if (latitude != 0) {
             String gpsCoordinatesFormat = Utils.getProperty(statusConfig, MainActivity.Literals.gpsCoordinatesFormat.name());
             if (gpsCoordinatesFormat.split("%s").length == 2) {
@@ -61,9 +82,8 @@ public class WorkerPostStatus extends Worker {
         }
         String dateFormat = Utils.getProperty(statusConfig, MainActivity.Literals.dateFormat.name());
         if (Utils.isNotBlank(dateFormat)) {
-            long milliseconds = dataInput.getLong(MainActivity.Literals.milliseconds.name(), 0);
-            if (milliseconds != 0) {
-                String dateDisplay = new SimpleDateFormat(dateFormat, Locale.US).format(new Date(milliseconds));
+            if (photoFileLastModified != 0) {
+                String dateDisplay = new SimpleDateFormat(dateFormat, Locale.US).format(new Date(photoFileLastModified));
                 sb.append("\n").append(dateDisplay);
             }
         }
