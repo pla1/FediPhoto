@@ -37,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Random;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -140,7 +141,7 @@ public class WorkerPostStatus extends Worker {
                     .putString(MainActivity.Literals.url.name(), urlForPost)
                     .build();
             actionAfterPost(dataInput);
-            sendNotification("Post success", urlForPost, 1, photoFileName);
+            sendNotification("Post success", urlForPost, photoFileName);
             return Result.success(dataOutput);
         } catch (Exception e) {
             e.printStackTrace();
@@ -189,7 +190,7 @@ public class WorkerPostStatus extends Worker {
         return fileNew;
     }
 
-    private void sendNotification(String title, String urlString, int id, String photoFileName) {
+    private void sendNotification(String title, String urlString, String photoFileName) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(urlString));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -210,7 +211,8 @@ public class WorkerPostStatus extends Worker {
                 .setSmallIcon(R.drawable.notification_icon)
                 .setLargeIcon(BitmapFactory.decodeFile(photoFileName))
                 .setAutoCancel(true);
-
+        Random random = new Random();
+        int id = random.nextInt(9999 - 1000) + 1000;
         Objects.requireNonNull(notificationManager).notify(id, notification.build());
     }
 
