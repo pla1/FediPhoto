@@ -207,7 +207,7 @@ public class WorkerPostStatus extends Worker {
                 .setContentTitle(title)
                 .setContentText(urlString)
                 .setContentIntent(pendingIntent)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.notification_icon)
                 .setLargeIcon(BitmapFactory.decodeFile(photoFileName))
                 .setAutoCancel(true);
 
