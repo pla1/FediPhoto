@@ -262,7 +262,11 @@ public class Utils {
             return new JsonObject();
         }
         JsonObject jsonObject = jsonElement.getAsJsonObject();
-        int accountQuantity = jsonObject.getAsJsonArray(MainActivity.Literals.accounts.name()).size();
+        JsonArray accounts = jsonObject.getAsJsonArray(MainActivity.Literals.accounts.name());
+        int accountQuantity = 0;
+        if (accounts!= null && accounts.isJsonArray()) {
+            accountQuantity = accounts.size();
+        }
         int accountIndexSelected = Utils.getInt(Utils.getProperty(jsonObject, MainActivity.Literals.accountIndexSelected.name()));
         int accountIndexActive = Utils.getInt(Utils.getProperty(jsonObject, MainActivity.Literals.accountIndexActive.name()));
         Log.i(TAG, String.format("Account quantity %d selected %d active %d.", accountQuantity, accountIndexSelected, accountIndexActive));

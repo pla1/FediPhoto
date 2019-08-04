@@ -40,6 +40,7 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -53,8 +54,10 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -134,6 +137,8 @@ public class MainActivity extends AppCompatActivity {
         if (cameraOnStart) {
             dispatchTakePictureIntent();
         }
+        workerStatus(Literals.worker_tag_media_upload.name());
+        workerStatus(Literals.worker_tag_post_status.name());
     }
 
     @Override
@@ -213,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         final OneTimeWorkRequest uploadWorkRequest = new OneTimeWorkRequest
                 .Builder(com.fediphoto.WorkerUpload.class)
+                .addTag(Literals.worker_tag_media_upload.name())
                 .setInputData(data).build();
         UUID workRequestId = uploadWorkRequest.getId();
         WorkManager.getInstance(context).enqueue(uploadWorkRequest);
@@ -265,6 +271,7 @@ public class MainActivity extends AppCompatActivity {
 
         OneTimeWorkRequest postStatusWorkRequest = new OneTimeWorkRequest
                 .Builder(com.fediphoto.WorkerPostStatus.class)
+                .addTag(Literals.worker_tag_post_status.name())
                 .setInputData(data).build();
         UUID workRequestId = postStatusWorkRequest.getId();
         WorkManager.getInstance(context).enqueue(postStatusWorkRequest);
@@ -296,9 +303,11 @@ public class MainActivity extends AppCompatActivity {
                 Log.i(TAG, "Camera request returned OK.");
                 submitWorkerUpload();
             } else {
-                File file = new File(photoFileName);
-                boolean fileDeleted = file.delete();
-                Log.i(TAG, String.format("File %s deleted %s", photoFileName, fileDeleted));
+                if (photoFileName != null) {
+                    File file = new File(photoFileName);
+                    boolean fileDeleted = file.delete();
+                    Log.i(TAG, String.format("File %s deleted %s", photoFileName, fileDeleted));
+                }
             }
 
         }
@@ -333,7 +342,7 @@ public class MainActivity extends AppCompatActivity {
         grant_type, code, accounts, account, instance, text, followers, visibility, unlisted, PUBLIC, dateFormat,
         OK, Cancel, description, file, media_ids, id, status, url, longitude, latitude, gpsCoordinatesFormat, direct, fileName,
         accountIndexSelected, accountIndexActive, statuses, label, statusIndexActive, statusIndexSelected,
-        leave, copy, move, delete, display_name, username, acct
+        leave, copy, move, delete, display_name, username, acct, worker_tag_media_upload, worker_tag_post_status
     }
 
 
@@ -491,8 +500,8 @@ public class MainActivity extends AppCompatActivity {
             Gson gson = new Gson();
             return gson.fromJson(isr, JsonObject.class);
         } catch (IOException e) {
-                e.printStackTrace();
-                Log.w(TAG,String.format("Error in getJsonObject URL %s ERROR %s.",urlString, e.getLocalizedMessage()));
+            e.printStackTrace();
+            Log.w(TAG, String.format("Error in getJsonObject URL %s ERROR %s.", urlString, e.getLocalizedMessage()));
         }
         return null;
     }
@@ -625,6 +634,18 @@ public class MainActivity extends AppCompatActivity {
             default:
                 Log.i(TAG, "Default menu option.");
                 return super.onContextItemSelected(item);
+        }
+    }
+    private void workerStatus(String tag) {
+        ListenableFuture<List<WorkInfo>> workInfoList = WorkManager.getInstance(context).getWorkInfosByTag(tag);
+        try {
+            List<WorkInfo> workInfos = workInfoList.get(5, TimeUnit.SECONDS);
+            Log.i(TAG, String.format("%d worker info quantity. Worker Info Tag %s", workInfos.size(), tag));
+            for (WorkInfo workInfo:workInfos) {
+                Log.i(TAG, String.format("Worker info %s. Worker Info Tag %s", workInfo.toString(), tag));
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.getLocalizedMessage());
         }
     }
 
