@@ -47,8 +47,10 @@ public class StatusConfigActivity extends AppCompatActivity {
     private void setup() {
         setContentView(R.layout.activity_status_config);
         settings = Utils.getSettings(context);
+        Log.i(TAG, String.format("Settings in StatusConfigActivity %s", settings.toString()));
         status = Utils.getStatusSelectedFromSettings(context);
         if (status == null) {
+            Log.i(TAG, "Status from settings is null. Creating blank JsonObject.");
             status = new JsonObject();
             status.addProperty(MainActivity.Literals.gpsCoordinatesFormat.name(), DEFAULT_GPS_COORDINATES_FORMAT);
             status.addProperty(MainActivity.Literals.dateFormat.name(), DEFAULT_DATE_FORMAT);
@@ -112,6 +114,7 @@ public class StatusConfigActivity extends AppCompatActivity {
             Toast.makeText(context, "Label can not be blank. Key in a meaningful name for this status config.", Toast.LENGTH_LONG).show();
             return;
         }
+        Log.i(TAG, String.format("Settings at start of save() %s", settings.toString()));
         JsonObject statusJsonObject = status.getAsJsonObject();
         statusJsonObject.addProperty(MainActivity.Literals.label.name(), editTextLabel.getText().toString());
         statusJsonObject.addProperty(MainActivity.Literals.text.name(), editTextText.getText().toString());
@@ -141,6 +144,7 @@ public class StatusConfigActivity extends AppCompatActivity {
             Log.i(TAG, String.format("Save status at selected index: %d", statusIndexSelected));
             statuses.set(statusIndexSelected, statusJsonObject);
         }
+        Log.i(TAG, String.format("Settings before write in save() %s", settings.toString()));
         Utils.writeSettings(context, settings);
         finish();
 

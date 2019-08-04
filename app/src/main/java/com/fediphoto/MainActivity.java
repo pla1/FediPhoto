@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         Button buttonCamera = findViewById(R.id.button_camera);
         JsonObject account = Utils.getAccountSelectedFromSettings(context);
         JsonObject status = Utils.getStatusSelectedFromSettings(context);
-        if (account != null && status != null) {
+        if (account != null && status != null && Utils.getAccountActiveFromSettings(context).get(Literals.me.name()) != null) {
             String buttonCameraText = String.format("Press for camera\n%s\n%s",
                     Utils.getAccountActiveFromSettings(context).get(Literals.me.name()).getAsString(),
                     Utils.getStatusActiveFromSettings(context).get(Literals.label.name()).getAsString());
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
 
     private File createPhotoFile() throws IOException {
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss_", Locale.US).format(new Date());
-        String fileName = String.format("%s_%s", Utils.getApplicationName(context).replaceAll(" ","_"), timestamp);
+        String fileName = String.format("%s_%s", Utils.getApplicationName(context).replaceAll(" ", "_"), timestamp);
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         //  File storageDir = getDataDir();
         if (storageDir == null || (!storageDir.exists() && !storageDir.mkdir())) {
@@ -288,6 +288,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         Log.i(TAG, String.format("Request code %d Result code %d", requestCode, resultCode));
         if (requestCode == CAMERA_REQUEST) {
@@ -332,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
         grant_type, code, accounts, account, instance, text, followers, visibility, unlisted, PUBLIC, dateFormat,
         OK, Cancel, description, file, media_ids, id, status, url, longitude, latitude, gpsCoordinatesFormat, direct, fileName,
         accountIndexSelected, accountIndexActive, statuses, label, statusIndexActive, statusIndexSelected,
-        leave, copy, move, delete
+        leave, copy, move, delete, display_name, username, acct
     }
 
 
@@ -437,12 +438,21 @@ public class MainActivity extends AppCompatActivity {
                 InputStreamReader isr = new InputStreamReader(inputStream);
                 Gson gson = new Gson();
                 jsonObject = gson.fromJson(isr, JsonObject.class);
+                Log.i(TAG, String.format("JSON from oauth/token %s", jsonObject.toString()));
                 JsonObject settings = Utils.getSettings(context);
                 JsonArray accounts = settings.getAsJsonArray(Literals.accounts.name());
                 if (accounts == null) {
                     accounts = new JsonArray();
                 }
                 jsonObject.addProperty(Literals.instance.name(), instance[0]);
+                urlString = String.format("https://%s/api/v1/accounts/verify_credentials", instance[0]);
+                JsonObject verifyCredentials = getJsonObject(urlString, Utils.getProperty(jsonObject, Literals.access_token.name()));
+                if (verifyCredentials != null && Utils.isJsonObject(verifyCredentials)) {
+                    jsonObject.addProperty(Literals.me.name(), Utils.getProperty(verifyCredentials, Literals.url.name()));
+                    jsonObject.addProperty(Literals.display_name.name(), Utils.getProperty(verifyCredentials, Literals.display_name.name()));
+                    jsonObject.addProperty(Literals.username.name(), Utils.getProperty(verifyCredentials, Literals.username.name()));
+                    jsonObject.addProperty(Literals.acct.name(), Utils.getProperty(verifyCredentials, Literals.acct.name()));
+                }
                 accounts.add(jsonObject);
                 settings.add(Literals.accounts.name(), accounts);
                 Utils.writeSettings(context, settings);
@@ -459,7 +469,32 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(JsonObject jsonObject) {
             super.onPostExecute(jsonObject);
             Log.i(TAG, "OUTPUT: " + jsonObject.toString());
+            JsonObject settings = Utils.getSettings(context);
+            if (settings.get(Literals.statuses.name()) == null) {
+                Toast.makeText(context, "Account created. Setup a status configuration.", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(context, StatusConfigActivity.class);
+                startActivity(intent);
+            }
         }
+    }
+
+    private JsonObject getJsonObject(String urlString, String token) {
+        Log.i(TAG, String.format("getJsonObject %s token %s.", urlString, token));
+        URL url = Utils.getUrl(urlString);
+        HttpsURLConnection urlConnection;
+        try {
+            urlConnection = (HttpsURLConnection) url.openConnection();
+            String authorization = String.format("Bearer %s", token);
+            urlConnection.setRequestProperty("Authorization", authorization);
+            InputStream is = urlConnection.getInputStream();
+            InputStreamReader isr = new InputStreamReader(is);
+            Gson gson = new Gson();
+            return gson.fromJson(isr, JsonObject.class);
+        } catch (IOException e) {
+                e.printStackTrace();
+                Log.w(TAG,String.format("Error in getJsonObject URL %s ERROR %s.",urlString, e.getLocalizedMessage()));
+        }
+        return null;
     }
 
 
@@ -502,7 +537,7 @@ public class MainActivity extends AppCompatActivity {
             if (index == Utils.getInt(Utils.getProperty(settings, Literals.accountIndexActive.name()))) {
                 checkMark = CHECKMARK;
             }
-            adapter.add(String.format(Locale.US,"%s %d %s", checkMark, index++, me));
+            adapter.add(String.format(Locale.US, "%s %d %s", checkMark, index++, me));
         }
         alertDialog.setAdapter(adapter, new DialogInterface.OnClickListener() {
             @Override

@@ -248,7 +248,8 @@ public class Utils {
                 sb.append(lineSeparator);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.i(TAG, String.format("settings.json not found. Returning new JsonObject. ERROR: %s", e.getLocalizedMessage()));
+            return new JsonObject();
         } finally {
             close(bufferedReader);
         }
