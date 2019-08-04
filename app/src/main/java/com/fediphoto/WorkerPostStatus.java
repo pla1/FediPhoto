@@ -1,12 +1,22 @@
 package com.fediphoto;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.provider.SyncStateContract;
 import android.util.Log;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 import androidx.exifinterface.media.ExifInterface;
 import androidx.work.Data;
 import androidx.work.Worker;
@@ -26,6 +36,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -124,10 +135,12 @@ public class WorkerPostStatus extends Worker {
             Gson gson = new Gson();
             JsonObject jsonObject = gson.fromJson(isr, JsonObject.class);
             Log.i(TAG, String.format("Output: %s", jsonObject.toString()));
+            String urlForPost = Utils.getProperty(jsonObject, MainActivity.Literals.url.name());
             Data dataOutput = new Data.Builder()
-                    .putString(MainActivity.Literals.url.name(), Utils.getProperty(jsonObject, MainActivity.Literals.url.name()))
+                    .putString(MainActivity.Literals.url.name(), urlForPost)
                     .build();
             actionAfterPost(dataInput);
+            sendNotification("Post success", urlForPost, 1, photoFileName);
             return Result.success(dataOutput);
         } catch (Exception e) {
             e.printStackTrace();
@@ -174,6 +187,31 @@ public class WorkerPostStatus extends Worker {
         finalFolder.mkdirs();
         File fileNew = new File(String.format("%s/%s", finalFolder.getAbsolutePath(), file.getName()));
         return fileNew;
+    }
+
+    private void sendNotification(String title, String urlString, int id, String photoFileName) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(urlString));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
+
+        NotificationManager notificationManager = (NotificationManager)getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("default", "Default", NotificationManager.IMPORTANCE_DEFAULT);
+            Objects.requireNonNull(notificationManager).createNotificationChannel(channel);
+        }
+
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(getApplicationContext(), "default")
+                .setContentTitle(title)
+                .setContentText(urlString)
+                .setContentIntent(pendingIntent)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(BitmapFactory.decodeFile(photoFileName))
+                .setAutoCancel(true);
+
+        Objects.requireNonNull(notificationManager).notify(id, notification.build());
     }
 
 }
