@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
 import androidx.exifinterface.media.ExifInterface;
@@ -140,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
         }
         workerStatus(Literals.worker_tag_media_upload.name());
         workerStatus(Literals.worker_tag_post_status.name());
+        setTitle();
     }
 
     @Override
@@ -576,11 +578,23 @@ public class MainActivity extends AppCompatActivity {
             List<WorkInfo> workInfos = workInfoList.get(5, TimeUnit.SECONDS);
             Log.i(TAG, String.format("%d worker info quantity. Worker Info Tag %s", workInfos.size(), tag));
             for (WorkInfo workInfo : workInfos) {
+                if (workInfo != null && !workInfo.getState().isFinished())
                 Log.i(TAG, String.format("Worker info %s. Worker Info Tag %s", workInfo.toString(), tag));
             }
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage());
         }
+    }
+    private void setTitle() {
+        String version = "";
+        try {
+            PackageInfo pInfo = context.getPackageManager().getPackageInfo(getPackageName(), 0);
+             version = pInfo.versionName;
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        setTitle(String.format("%s %s", Utils.getApplicationName(context), version));
     }
 
 }
