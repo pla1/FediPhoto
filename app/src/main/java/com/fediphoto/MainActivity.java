@@ -11,7 +11,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
-import androidx.exifinterface.media.ExifInterface;
 
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -35,7 +34,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-import androidx.lifecycle.Observer;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkContinuation;
@@ -58,7 +56,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -77,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
     private final Context context = this;
     private final Activity activity = this;
     private JsonObject createAppResults = new JsonObject();
+    Button buttonCamera;
     private String token;
     private String instance;
     private String photoFileName;
@@ -100,18 +98,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void setButtonCameraText() {
+        JsonObject account = Utils.getAccountActiveFromSettings(context);
+        JsonObject status = Utils.getStatusActiveFromSettings(context);
+        String me = Utils.getProperty(account, Literals.me.name());
+        String label = Utils.getProperty(status, Literals.label.name());
+        String buttonCameraText = String.format("Press for camera\n%s\n%s", me, label);
+        buttonCamera.setText(buttonCameraText);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button buttonCamera = findViewById(R.id.button_camera);
+        buttonCamera = findViewById(R.id.button_camera);
         JsonObject account = Utils.getAccountSelectedFromSettings(context);
         JsonObject status = Utils.getStatusSelectedFromSettings(context);
         if (account != null && status != null && Utils.getAccountActiveFromSettings(context).get(Literals.me.name()) != null) {
-            String buttonCameraText = String.format("Press for camera\n%s\n%s",
-                    Utils.getAccountActiveFromSettings(context).get(Literals.me.name()).getAsString(),
-                    Utils.getStatusActiveFromSettings(context).get(Literals.label.name()).getAsString());
-            buttonCamera.setText(buttonCameraText);
+            setButtonCameraText();
         }
         buttonCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -232,6 +236,7 @@ public class MainActivity extends AppCompatActivity {
         workContinuation.enqueue();
     }
 
+
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         Log.i(TAG, String.format("Request code %d Result code %d", requestCode, resultCode));
         if (requestCode == CAMERA_REQUEST) {
@@ -258,6 +263,7 @@ public class MainActivity extends AppCompatActivity {
             worker.execute(instance);
         }
         if (requestCode == REQUEST_ACCOUNT) {
+            setTitle();
             if (resultCode == REQUEST_ACCOUNT_RETURN) {
                 askForInstance();
             }
@@ -536,13 +542,12 @@ public class MainActivity extends AppCompatActivity {
         JsonObject settings = Utils.getSettings(context);
         JsonElement accounts = settings.get(Literals.accounts.name());
         JsonElement statuses = settings.get(Literals.statuses.name());
-        Intent intent = null;
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.accounts:
                 if (accounts == null || accounts.getAsJsonArray().size() == 0) {
                     askForInstance();
                 } else {
-                    // TODO ask for multiple choice
                     if (accounts.getAsJsonArray().size() > 1) {
                         multipleChoiceAccount();
                     } else {
@@ -579,17 +584,18 @@ public class MainActivity extends AppCompatActivity {
             Log.i(TAG, String.format("%d worker info quantity. Worker Info Tag %s", workInfos.size(), tag));
             for (WorkInfo workInfo : workInfos) {
                 if (workInfo != null && !workInfo.getState().isFinished())
-                Log.i(TAG, String.format("Worker info %s. Worker Info Tag %s", workInfo.toString(), tag));
+                    Log.i(TAG, String.format("Worker info %s. Worker Info Tag %s", workInfo.toString(), tag));
             }
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage());
         }
     }
+
     private void setTitle() {
         String version = "";
         try {
             PackageInfo pInfo = context.getPackageManager().getPackageInfo(getPackageName(), 0);
-             version = pInfo.versionName;
+            version = pInfo.versionName;
 
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();

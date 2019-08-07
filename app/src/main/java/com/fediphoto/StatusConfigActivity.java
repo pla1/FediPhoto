@@ -174,20 +174,24 @@ public class StatusConfigActivity extends AppCompatActivity {
         return true;
     }
 
+    private void addNewStatus() {
+        Log.i(TAG, "Add status.");
+        JsonArray statuses = settings.getAsJsonArray(MainActivity.Literals.statuses.name());
+        JsonObject newStatus = new JsonObject();
+        newStatus.addProperty(MainActivity.Literals.gpsCoordinatesFormat.name(), DEFAULT_GPS_COORDINATES_FORMAT);
+        newStatus.addProperty(MainActivity.Literals.dateFormat.name(), DEFAULT_DATE_FORMAT);
+        statuses.add(newStatus);
+        settings.addProperty(MainActivity.Literals.statusIndexSelected.name(), statuses.size() - 1);
+        Utils.writeSettings(context, settings);
+        setup();
+    }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = new Intent(context, MainActivity.class);
         JsonArray statuses;
         switch (item.getItemId()) {
             case R.id.add_status:
-                Log.i(TAG, "Add status.");
-                statuses = settings.getAsJsonArray(MainActivity.Literals.statuses.name());
-                JsonObject newStatus = new JsonObject();
-                newStatus.addProperty(MainActivity.Literals.gpsCoordinatesFormat.name(), DEFAULT_GPS_COORDINATES_FORMAT);
-                newStatus.addProperty(MainActivity.Literals.dateFormat.name(), DEFAULT_DATE_FORMAT);
-                statuses.add(newStatus);
-                settings.addProperty(MainActivity.Literals.statusIndexSelected.name(), statuses.size() - 1);
-                Utils.writeSettings(context, settings);
-                setup();
+                addNewStatus();
                 return true;
             case R.id.remove_status:
                 Log.i(TAG, "Remove status config.");
@@ -197,12 +201,17 @@ public class StatusConfigActivity extends AppCompatActivity {
                     Toast.makeText(context, "No status config to remove.", Toast.LENGTH_LONG).show();
                 } else {
                     statuses.remove(statusIndexSelected);
-                    settings.add(MainActivity.Literals.statuses.name(), statuses);
-                    settings.addProperty(MainActivity.Literals.statusIndexActive.name(), 0);
-                    settings.addProperty(MainActivity.Literals.statusIndexSelected.name(), 0);
+                    if (statuses.size() > 0) {
+                        settings.add(MainActivity.Literals.statuses.name(), statuses);
+                        settings.addProperty(MainActivity.Literals.statusIndexActive.name(), 0);
+                        settings.addProperty(MainActivity.Literals.statusIndexSelected.name(), 0);
+                        status = null;
+                        Toast.makeText(context, "Status config removed and status 0 is now the selected active status.", Toast.LENGTH_LONG).show();
+                    } else {
+                        addNewStatus();
+                        return true;
+                    }
                     Utils.writeSettings(context, settings);
-                    status = null;
-                    Toast.makeText(context, "Status config removed and status 0 is now the selected active status.", Toast.LENGTH_LONG).show();
                 }
                 setResult(MainActivity.RESULT_OK, intent);
                 finish();

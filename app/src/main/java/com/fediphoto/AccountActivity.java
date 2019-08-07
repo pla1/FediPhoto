@@ -92,14 +92,23 @@ public class AccountActivity extends AppCompatActivity {
                 if (accounts == null || accounts.isJsonNull() || accounts.size() == 0) {
                     Log.i(TAG, "No account to remove.");
                     Toast.makeText(context, "No account to remove.", Toast.LENGTH_LONG).show();
-                } else {
-                    accounts.remove(accountIndexSelected);
+                    return true;
+                }
+                accounts.remove(accountIndexSelected);
+                if (accounts.size() > 0) {
                     settings.add(MainActivity.Literals.accounts.name(), accounts);
                     settings.addProperty(MainActivity.Literals.accountIndexActive.name(), 0);
                     settings.addProperty(MainActivity.Literals.accountIndexSelected.name(), 0);
                     Utils.writeSettings(context, settings);
                     account = null;
                     Toast.makeText(context, "Account removed and account 0 is now the active selected account.", Toast.LENGTH_LONG).show();
+                } else {
+                    settings.remove(MainActivity.Literals.accounts.name());
+                    settings.remove(MainActivity.Literals.accountIndexActive.name());
+                    settings.remove(MainActivity.Literals.accountIndexSelected.name());
+                    Utils.writeSettings(context, settings);
+                    setResult(MainActivity.REQUEST_ACCOUNT_RETURN, intent);
+                    finish();
                 }
                 setResult(MainActivity.RESULT_OK, intent);
                 finish();
@@ -107,7 +116,6 @@ public class AccountActivity extends AppCompatActivity {
             default:
                 Log.i(TAG, "Default menu option.");
                 return super.onContextItemSelected(item);
-
         }
 
     }
