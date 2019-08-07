@@ -299,7 +299,7 @@ public class MainActivity extends AppCompatActivity {
             params.addProperty(Literals.redirect_uris.name(), "fediphoto://fediphotoreturn");
             params.addProperty(Literals.scopes.name(), "read write follow push");
             params.addProperty(Literals.website.name(), "https://fediphoto.com");
-            String urlString = String.format("https://%s/api/v1/apps", instance);
+            String urlString = String.format("https://%s/api/v1/apps", this.instance);
             Log.i(TAG, "URL " + urlString);
             HttpsURLConnection urlConnection;
             InputStream inputStream = null;
