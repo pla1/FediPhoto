@@ -1,0 +1,6 @@
+fediverse
+pleroma
+mastodon
+photo
+camera
+

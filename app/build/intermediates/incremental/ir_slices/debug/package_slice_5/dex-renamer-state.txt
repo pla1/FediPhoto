@@ -1,0 +1,4 @@
+#Tue Aug 06 22:05:13 EDT 2019
+base.0=/home/htplainf/projects/FediPhoto/app/build/intermediates/transforms/dexMerger/debug/5
+path.0=classes.dex
+renamed.0=classes.dex

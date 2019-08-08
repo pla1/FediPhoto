@@ -1,0 +1,496 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:2:1-72:12
+INJECTED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:2:1-72:12
+INJECTED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:2:1-72:12
+INJECTED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:2:1-72:12
+MERGED from [androidx.appcompat:appcompat:1.0.2] /home/htplainf/.gradle/caches/transforms-2/files-2.1/85885086d8c052bf9027c402fa2a8453/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /home/htplainf/.gradle/caches/transforms-2/files-2.1/497929585cad601d870be7ebedd67adf/AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/0bef1c499b1ff87412498446a08e662c/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-extensions:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/19fa6b241064b324f823b225699d1df1/AndroidManifest.xml:17:1-25:12
+MERGED from [androidx.exifinterface:exifinterface:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/d62078b459794221274b32832f946ab7/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:17:1-125:12
+MERGED from [androidx.fragment:fragment:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/d59f2dcae1f2a0fbaef57b5d78a8907d/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/19cd5a0e93681ae5493fea8ee62e5413/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/f019ff88f6001268cf3ff23cbd578aad/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/6979175b85a9c43d82bc728f7487fc8c/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] /home/htplainf/.gradle/caches/transforms-2/files-2.1/cc2d41a89f074af405d5e136264f20ea/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.media:media:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/e4f4dcb0312665993a6ae55e301f0958/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.room:room-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/5d90fd0baaf580308b2e6d1cb61789eb/AndroidManifest.xml:17:1-30:12
+MERGED from [androidx.loader:loader:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/3f2d55f455580c7805a8d1d4185d0904/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/7be44aba440d83306c6390e557ff4ed1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/49f010b7f871a8a25d6b8077e08558af/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/f64d7b75d753100d08a8818e8b82ee18/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/f8c7e2bbcbf9f33dc96d774b47738994/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/fe0115a15e2b46a36b14d527b69c0dad/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/e68d846b44c2eb12c41ad863a7692f48/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/aca653d4b7051ac30e7e59a2de0b1abf/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core:1.0.1] /home/htplainf/.gradle/caches/transforms-2/files-2.1/9c99245d4626a6f33faeb5b846ec4283/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/48cb8e0df9c669f289da7702a5571d6e/AndroidManifest.xml:17:1-25:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/8e76827728aaa61e616f1027447adef8/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-process:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/023787895cedbe13de82800f19732882/AndroidManifest.xml:17:1-30:12
+MERGED from [androidx.lifecycle:lifecycle-service:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/d45eebc0d40b379a7957ff1d8660ec41/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/68aafc234b34e40303c03597842b63f5/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/baa19db377f5266fad1321a2e6f2bc9f/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/9fc1fc08a32c8bd004fd4a6337ae767b/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/33a4d9214dd6b83cd6ca7b7d8605bc6f/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.documentfile:documentfile:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/066582fe5e7ff41730a204e23b9c90a8/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/a00cc407a56f439ba0494ffcdcab5a62/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.print:print:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/6ecf9c502b077833fef3c2e829c5656e/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/9449a4921465fec3dc5d48cd61954ff9/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.0.1] /home/htplainf/.gradle/caches/transforms-2/files-2.1/10ff3e25ae3b11b2ff101efcf35876c4/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.sqlite:sqlite-framework:2.0.1] /home/htplainf/.gradle/caches/transforms-2/files-2.1/4cd3223fa66b3a5a5c7ceb77449d51a1/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.sqlite:sqlite:2.0.1] /home/htplainf/.gradle/caches/transforms-2/files-2.1/9dd6b00114314fb1c514bf14894b5038/AndroidManifest.xml:17:1-22:12
+INJECTED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:2:1-72:12
+INJECTED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:2:1-72:12
+INJECTED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:2:1-72:12
+	package
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:3:5-28
+		INJECTED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml
+		INJECTED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:2:1-72:12
+		INJECTED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:2:1-72:12
+		INJECTED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:2:11-69
+uses-feature#android.hardware.camera
+ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:5:5-7:35
+	android:required
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:7:9-32
+	android:name
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:6:9-47
+uses-permission#android.permission.CAMERA
+ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:9:5-65
+	android:name
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:9:22-62
+uses-permission#android.permission.INTERNET
+ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:10:5-67
+	android:name
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:10:22-64
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:11:5-81
+	android:name
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:11:22-78
+application
+ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:13:5-70:19
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /home/htplainf/.gradle/caches/transforms-2/files-2.1/497929585cad601d870be7ebedd67adf/AndroidManifest.xml:9:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /home/htplainf/.gradle/caches/transforms-2/files-2.1/497929585cad601d870be7ebedd67adf/AndroidManifest.xml:9:5-20
+MERGED from [androidx.lifecycle:lifecycle-extensions:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/19fa6b241064b324f823b225699d1df1/AndroidManifest.xml:22:5-23:19
+MERGED from [androidx.lifecycle:lifecycle-extensions:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/19fa6b241064b324f823b225699d1df1/AndroidManifest.xml:22:5-23:19
+MERGED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:29:5-123:19
+MERGED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:29:5-123:19
+MERGED from [androidx.room:room-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/5d90fd0baaf580308b2e6d1cb61789eb/AndroidManifest.xml:24:5-28:19
+MERGED from [androidx.room:room-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/5d90fd0baaf580308b2e6d1cb61789eb/AndroidManifest.xml:24:5-28:19
+MERGED from [androidx.core:core:1.0.1] /home/htplainf/.gradle/caches/transforms-2/files-2.1/9c99245d4626a6f33faeb5b846ec4283/AndroidManifest.xml:22:5-89
+MERGED from [androidx.core:core:1.0.1] /home/htplainf/.gradle/caches/transforms-2/files-2.1/9c99245d4626a6f33faeb5b846ec4283/AndroidManifest.xml:22:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/48cb8e0df9c669f289da7702a5571d6e/AndroidManifest.xml:22:5-23:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/48cb8e0df9c669f289da7702a5571d6e/AndroidManifest.xml:22:5-23:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/023787895cedbe13de82800f19732882/AndroidManifest.xml:22:5-28:19
+MERGED from [androidx.lifecycle:lifecycle-process:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/023787895cedbe13de82800f19732882/AndroidManifest.xml:22:5-28:19
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.0.1] /home/htplainf/.gradle/caches/transforms-2/files-2.1/9c99245d4626a6f33faeb5b846ec4283/AndroidManifest.xml:22:18-86
+	android:supportsRtl
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:19:9-35
+	android:label
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:17:9-41
+	android:fullBackupContent
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:15:9-41
+	android:roundIcon
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:18:9-54
+	android:icon
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:16:9-43
+	android:allowBackup
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:14:9-35
+	android:theme
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:20:9-40
+activity#com.fediphoto.MainActivity
+ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:22:9-30:20
+	android:screenOrientation
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:24:13-49
+	android:name
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:23:13-41
+intent-filter#action:name:android.intent.action.MAIN+action:name:android.intent.action.VIEW+category:name:android.intent.category.LAUNCHER
+ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:25:13-29:29
+action#android.intent.action.MAIN
+ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:26:17-69
+	android:name
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:26:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:27:17-77
+	android:name
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:27:27-74
+action#android.intent.action.VIEW
+ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:28:17-69
+	android:name
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:28:25-66
+activity#com.fediphoto.SettingsActivity
+ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:31:9-35:52
+	android:screenOrientation
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:35:13-49
+	android:parentActivityName
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:34:13-55
+	android:label
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:33:13-45
+	android:name
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:32:13-45
+activity#com.fediphoto.AccountActivity
+ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:36:9-40:52
+	android:screenOrientation
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:40:13-49
+	android:parentActivityName
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:39:13-55
+	android:label
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:38:13-36
+	android:name
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:37:13-44
+activity#com.fediphoto.StatusConfigActivity
+ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:41:9-45:52
+	android:screenOrientation
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:45:13-49
+	android:parentActivityName
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:44:13-55
+	android:label
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:43:13-42
+	android:name
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:42:13-49
+activity#com.fediphoto.WebviewActivity
+ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:46:9-59:20
+	android:screenOrientation
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:49:13-49
+	android:parentActivityName
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:48:13-55
+	android:name
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:47:13-44
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:fediphotoreturn+data:scheme:fediphoto
+ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:50:13-58:29
+category#android.intent.category.DEFAULT
+ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:52:17-76
+	android:name
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:52:27-73
+category#android.intent.category.BROWSABLE
+ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:53:17-78
+	android:name
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:53:27-75
+data
+ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:55:17-57:50
+	android:host
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:56:21-51
+	android:scheme
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:57:21-47
+provider#androidx.core.content.FileProvider
+ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:61:9-69:20
+	android:grantUriPermissions
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:65:13-47
+	android:authorities
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:63:13-61
+	android:exported
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:64:13-37
+	android:name
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:62:13-62
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:66:13-68:54
+	android:resource
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:68:17-51
+	android:name
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml:67:17-67
+uses-sdk
+INJECTED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml
+INJECTED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml
+MERGED from [androidx.appcompat:appcompat:1.0.2] /home/htplainf/.gradle/caches/transforms-2/files-2.1/85885086d8c052bf9027c402fa2a8453/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat:1.0.2] /home/htplainf/.gradle/caches/transforms-2/files-2.1/85885086d8c052bf9027c402fa2a8453/AndroidManifest.xml:20:5-44
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /home/htplainf/.gradle/caches/transforms-2/files-2.1/497929585cad601d870be7ebedd67adf/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /home/htplainf/.gradle/caches/transforms-2/files-2.1/497929585cad601d870be7ebedd67adf/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/0bef1c499b1ff87412498446a08e662c/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-v4:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/0bef1c499b1ff87412498446a08e662c/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-extensions:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/19fa6b241064b324f823b225699d1df1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-extensions:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/19fa6b241064b324f823b225699d1df1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.exifinterface:exifinterface:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/d62078b459794221274b32832f946ab7/AndroidManifest.xml:20:5-44
+MERGED from [androidx.exifinterface:exifinterface:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/d62078b459794221274b32832f946ab7/AndroidManifest.xml:20:5-44
+MERGED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.fragment:fragment:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/d59f2dcae1f2a0fbaef57b5d78a8907d/AndroidManifest.xml:20:5-44
+MERGED from [androidx.fragment:fragment:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/d59f2dcae1f2a0fbaef57b5d78a8907d/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/19cd5a0e93681ae5493fea8ee62e5413/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/19cd5a0e93681ae5493fea8ee62e5413/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/f019ff88f6001268cf3ff23cbd578aad/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/f019ff88f6001268cf3ff23cbd578aad/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/6979175b85a9c43d82bc728f7487fc8c/AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/6979175b85a9c43d82bc728f7487fc8c/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] /home/htplainf/.gradle/caches/transforms-2/files-2.1/cc2d41a89f074af405d5e136264f20ea/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable:1.0.1] /home/htplainf/.gradle/caches/transforms-2/files-2.1/cc2d41a89f074af405d5e136264f20ea/AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/e4f4dcb0312665993a6ae55e301f0958/AndroidManifest.xml:20:5-44
+MERGED from [androidx.media:media:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/e4f4dcb0312665993a6ae55e301f0958/AndroidManifest.xml:20:5-44
+MERGED from [androidx.room:room-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/5d90fd0baaf580308b2e6d1cb61789eb/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.room:room-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/5d90fd0baaf580308b2e6d1cb61789eb/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.loader:loader:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/3f2d55f455580c7805a8d1d4185d0904/AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/3f2d55f455580c7805a8d1d4185d0904/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/7be44aba440d83306c6390e557ff4ed1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/7be44aba440d83306c6390e557ff4ed1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/49f010b7f871a8a25d6b8077e08558af/AndroidManifest.xml:20:5-44
+MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/49f010b7f871a8a25d6b8077e08558af/AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/f64d7b75d753100d08a8818e8b82ee18/AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/f64d7b75d753100d08a8818e8b82ee18/AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/f8c7e2bbcbf9f33dc96d774b47738994/AndroidManifest.xml:20:5-44
+MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/f8c7e2bbcbf9f33dc96d774b47738994/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/fe0115a15e2b46a36b14d527b69c0dad/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/fe0115a15e2b46a36b14d527b69c0dad/AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/e68d846b44c2eb12c41ad863a7692f48/AndroidManifest.xml:20:5-44
+MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/e68d846b44c2eb12c41ad863a7692f48/AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/aca653d4b7051ac30e7e59a2de0b1abf/AndroidManifest.xml:20:5-44
+MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/aca653d4b7051ac30e7e59a2de0b1abf/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.0.1] /home/htplainf/.gradle/caches/transforms-2/files-2.1/9c99245d4626a6f33faeb5b846ec4283/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.0.1] /home/htplainf/.gradle/caches/transforms-2/files-2.1/9c99245d4626a6f33faeb5b846ec4283/AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/48cb8e0df9c669f289da7702a5571d6e/AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/48cb8e0df9c669f289da7702a5571d6e/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/8e76827728aaa61e616f1027447adef8/AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/8e76827728aaa61e616f1027447adef8/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/023787895cedbe13de82800f19732882/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-process:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/023787895cedbe13de82800f19732882/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-service:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/d45eebc0d40b379a7957ff1d8660ec41/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-service:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/d45eebc0d40b379a7957ff1d8660ec41/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/68aafc234b34e40303c03597842b63f5/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/68aafc234b34e40303c03597842b63f5/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/baa19db377f5266fad1321a2e6f2bc9f/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/baa19db377f5266fad1321a2e6f2bc9f/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/9fc1fc08a32c8bd004fd4a6337ae767b/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/9fc1fc08a32c8bd004fd4a6337ae767b/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/33a4d9214dd6b83cd6ca7b7d8605bc6f/AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/33a4d9214dd6b83cd6ca7b7d8605bc6f/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/066582fe5e7ff41730a204e23b9c90a8/AndroidManifest.xml:20:5-44
+MERGED from [androidx.documentfile:documentfile:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/066582fe5e7ff41730a204e23b9c90a8/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/a00cc407a56f439ba0494ffcdcab5a62/AndroidManifest.xml:20:5-44
+MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/a00cc407a56f439ba0494ffcdcab5a62/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/6ecf9c502b077833fef3c2e829c5656e/AndroidManifest.xml:20:5-44
+MERGED from [androidx.print:print:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/6ecf9c502b077833fef3c2e829c5656e/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/9449a4921465fec3dc5d48cd61954ff9/AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/9449a4921465fec3dc5d48cd61954ff9/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.1] /home/htplainf/.gradle/caches/transforms-2/files-2.1/10ff3e25ae3b11b2ff101efcf35876c4/AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.1] /home/htplainf/.gradle/caches/transforms-2/files-2.1/10ff3e25ae3b11b2ff101efcf35876c4/AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite-framework:2.0.1] /home/htplainf/.gradle/caches/transforms-2/files-2.1/4cd3223fa66b3a5a5c7ceb77449d51a1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite-framework:2.0.1] /home/htplainf/.gradle/caches/transforms-2/files-2.1/4cd3223fa66b3a5a5c7ceb77449d51a1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite:2.0.1] /home/htplainf/.gradle/caches/transforms-2/files-2.1/9dd6b00114314fb1c514bf14894b5038/AndroidManifest.xml:20:5-44
+MERGED from [androidx.sqlite:sqlite:2.0.1] /home/htplainf/.gradle/caches/transforms-2/files-2.1/9dd6b00114314fb1c514bf14894b5038/AndroidManifest.xml:20:5-44
+INJECTED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml
+INJECTED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml
+		INJECTED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml
+		ADDED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml
+		INJECTED from /home/htplainf/projects/FediPhoto/app/src/main/AndroidManifest.xml
+uses-permission#android.permission.WAKE_LOCK
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:25:5-68
+	android:name
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:25:22-65
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:26:5-79
+	android:name
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:26:22-76
+uses-permission#android.permission.RECEIVE_BOOT_COMPLETED
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:27:5-81
+	android:name
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:27:22-78
+provider#androidx.work.impl.WorkManagerInitializer
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:30:9-36:35
+	android:authorities
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:32:13-68
+	android:multiprocess
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:35:13-40
+	android:exported
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:34:13-37
+	tools:targetApi
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:36:13-32
+	android:directBootAware
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:33:13-44
+	android:name
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:31:13-69
+service#androidx.work.impl.background.systemalarm.SystemAlarmService
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:38:9-43:35
+	android:enabled
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:41:13-72
+	android:exported
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:42:13-37
+	tools:targetApi
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:43:13-32
+	android:directBootAware
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:40:13-44
+	android:name
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:39:13-88
+service#androidx.work.impl.background.systemjob.SystemJobService
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:44:9-50:35
+	android:enabled
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:47:13-70
+	android:exported
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:48:13-36
+	android:permission
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:49:13-69
+	tools:targetApi
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:50:13-32
+	android:directBootAware
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:46:13-44
+	android:name
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:45:13-84
+receiver#androidx.work.impl.utils.ForceStopRunnable$BroadcastReceiver
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:52:9-57:35
+	android:enabled
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:55:13-35
+	android:exported
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:56:13-37
+	tools:targetApi
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:57:13-32
+	android:directBootAware
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:54:13-44
+	android:name
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:53:13-88
+receiver#androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:58:9-68:20
+	android:enabled
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:61:13-36
+	android:exported
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:62:13-37
+	tools:targetApi
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:63:13-32
+	android:directBootAware
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:60:13-44
+	android:name
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:59:13-106
+intent-filter#action:name:android.intent.action.ACTION_POWER_CONNECTED+action:name:android.intent.action.ACTION_POWER_DISCONNECTED
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:64:13-67:29
+action#android.intent.action.ACTION_POWER_CONNECTED
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:65:17-87
+	android:name
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:65:25-84
+action#android.intent.action.ACTION_POWER_DISCONNECTED
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:66:17-90
+	android:name
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:66:25-87
+receiver#androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:69:9-79:20
+	android:enabled
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:72:13-36
+	android:exported
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:73:13-37
+	tools:targetApi
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:74:13-32
+	android:directBootAware
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:71:13-44
+	android:name
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:70:13-104
+intent-filter#action:name:android.intent.action.BATTERY_LOW+action:name:android.intent.action.BATTERY_OKAY
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:75:13-78:29
+action#android.intent.action.BATTERY_OKAY
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:76:17-77
+	android:name
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:76:25-74
+action#android.intent.action.BATTERY_LOW
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:77:17-76
+	android:name
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:77:25-73
+receiver#androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:80:9-90:20
+	android:enabled
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:83:13-36
+	android:exported
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:84:13-37
+	tools:targetApi
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:85:13-32
+	android:directBootAware
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:82:13-44
+	android:name
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:81:13-104
+intent-filter#action:name:android.intent.action.DEVICE_STORAGE_LOW+action:name:android.intent.action.DEVICE_STORAGE_OK
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:86:13-89:29
+action#android.intent.action.DEVICE_STORAGE_LOW
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:87:17-83
+	android:name
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:87:25-80
+action#android.intent.action.DEVICE_STORAGE_OK
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:88:17-82
+	android:name
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:88:25-79
+receiver#androidx.work.impl.background.systemalarm.ConstraintProxy$NetworkStateProxy
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:91:9-100:20
+	android:enabled
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:94:13-36
+	android:exported
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:95:13-37
+	tools:targetApi
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:96:13-32
+	android:directBootAware
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:93:13-44
+	android:name
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:92:13-103
+intent-filter#action:name:android.net.conn.CONNECTIVITY_CHANGE
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:97:13-99:29
+action#android.net.conn.CONNECTIVITY_CHANGE
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:98:17-79
+	android:name
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:98:25-76
+receiver#androidx.work.impl.background.systemalarm.RescheduleReceiver
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:101:9-112:20
+	android:enabled
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:104:13-36
+	android:exported
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:105:13-37
+	tools:targetApi
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:106:13-32
+	android:directBootAware
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:103:13-44
+	android:name
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:102:13-88
+intent-filter#action:name:android.intent.action.BOOT_COMPLETED+action:name:android.intent.action.TIMEZONE_CHANGED+action:name:android.intent.action.TIME_SET
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:107:13-111:29
+action#android.intent.action.BOOT_COMPLETED
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:108:17-79
+	android:name
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:108:25-76
+action#android.intent.action.TIME_SET
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:109:17-73
+	android:name
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:109:25-70
+action#android.intent.action.TIMEZONE_CHANGED
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:110:17-81
+	android:name
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:110:25-78
+receiver#androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:113:9-122:20
+	android:enabled
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:116:13-72
+	android:exported
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:117:13-37
+	tools:targetApi
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:118:13-32
+	android:directBootAware
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:115:13-44
+	android:name
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:114:13-99
+intent-filter#action:name:androidx.work.impl.background.systemalarm.UpdateProxies
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:119:13-121:29
+action#androidx.work.impl.background.systemalarm.UpdateProxies
+ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:120:17-98
+	android:name
+		ADDED from [androidx.work:work-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/35129544fe33caf0b378e934b2b5e385/AndroidManifest.xml:120:25-95
+service#androidx.room.MultiInstanceInvalidationService
+ADDED from [androidx.room:room-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/5d90fd0baaf580308b2e6d1cb61789eb/AndroidManifest.xml:25:9-27:40
+	android:exported
+		ADDED from [androidx.room:room-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/5d90fd0baaf580308b2e6d1cb61789eb/AndroidManifest.xml:27:13-37
+	android:name
+		ADDED from [androidx.room:room-runtime:2.1.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/5d90fd0baaf580308b2e6d1cb61789eb/AndroidManifest.xml:26:13-74
+provider#androidx.lifecycle.ProcessLifecycleOwnerInitializer
+ADDED from [androidx.lifecycle:lifecycle-process:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/023787895cedbe13de82800f19732882/AndroidManifest.xml:23:9-27:43
+	android:authorities
+		ADDED from [androidx.lifecycle:lifecycle-process:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/023787895cedbe13de82800f19732882/AndroidManifest.xml:25:13-69
+	android:multiprocess
+		ADDED from [androidx.lifecycle:lifecycle-process:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/023787895cedbe13de82800f19732882/AndroidManifest.xml:27:13-40
+	android:exported
+		ADDED from [androidx.lifecycle:lifecycle-process:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/023787895cedbe13de82800f19732882/AndroidManifest.xml:26:13-37
+	android:name
+		ADDED from [androidx.lifecycle:lifecycle-process:2.0.0] /home/htplainf/.gradle/caches/transforms-2/files-2.1/023787895cedbe13de82800f19732882/AndroidManifest.xml:24:13-79
