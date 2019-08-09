@@ -571,6 +571,11 @@ public class MainActivity extends AppCompatActivity {
                 }
                 Log.i(TAG, "Statuses activity");
                 return true;
+            case R.id.about:
+                intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://fediphoto.com"));
+                startActivity(intent);
+                return true;
             default:
                 Log.i(TAG, "Default menu option.");
                 return super.onContextItemSelected(item);

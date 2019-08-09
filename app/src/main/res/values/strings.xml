@@ -14,6 +14,7 @@
     <string name="status_config">Status configs</string>
     <string name="label_for_status">Label this status</string>
     <string name="post_visibility">Post visibility:</string>
+    <string name="about">About</string>
     <string-array name="actionAfterPostEntries">
         <item>Leave photo in Fedi Photo folder</item>
         <item>Copy photo to photos folder</item>

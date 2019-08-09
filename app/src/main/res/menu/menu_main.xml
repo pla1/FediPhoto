@@ -13,4 +13,10 @@
         android:id="@+id/status_config"
         android:icon="@drawable/ic_launcher_background"
         android:title="@string/status_config" />
+
+    <item
+        android:id="@+id/about"
+        android:icon="@drawable/ic_launcher_background"
+        android:title="@string/about" />
+
 </menu>
