@@ -140,8 +140,8 @@ public class WorkerPostStatus extends Worker {
             Data dataOutput = new Data.Builder()
                     .putString(MainActivity.Literals.url.name(), urlForPost)
                     .build();
-            actionAfterPost(dataInput);
             sendNotification("Post success", urlForPost, photoFileName);
+            actionAfterPost(dataInput);
             return Result.success(dataOutput);
         } catch (Exception e) {
             e.printStackTrace();

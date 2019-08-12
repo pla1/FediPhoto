@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
 
     private File createPhotoFile() throws IOException {
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss_", Locale.US).format(new Date());
-        String fileName = String.format("%s_%s", Utils.getApplicationName(context).replaceAll(" ", "_"), timestamp);
+        String fileName = String.format("photo_%s", timestamp);
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         //  File storageDir = getDataDir();
         if (storageDir == null || (!storageDir.exists() && !storageDir.mkdir())) {
