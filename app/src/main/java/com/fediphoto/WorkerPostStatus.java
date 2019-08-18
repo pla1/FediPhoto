@@ -7,14 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.provider.SyncStateContract;
 import android.util.Log;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.exifinterface.media.ExifInterface;
@@ -153,6 +150,10 @@ public class WorkerPostStatus extends Worker {
 
     private void actionAfterPost(Data data) {
         String fileName = data.getString(MainActivity.Literals.fileName.name());
+        if (Utils.isBlank(fileName)) {
+            Log.i(TAG, "File name if blank. No action after post taken.");
+            return;
+        }
         File file = new File(fileName);
         if (!file.exists()) {
             Log.i(TAG, String.format("File %s not found. No action after post taken.", fileName));

@@ -44,15 +44,11 @@ public class Utils {
     }
 
     public static boolean isBlank(String s) {
-        if (s == null || s.trim().length() == 0) {
-            return true;
-        }
-        return false;
+        return (s == null || s.trim().length() == 0);
     }
 
     public static boolean isNotBlank(String s) {
         return !isBlank(s);
-
     }
 
     public static int getInt(String s) {

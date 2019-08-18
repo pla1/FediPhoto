@@ -44,12 +44,12 @@ public class WorkerUpload extends Worker {
         Log.i(TAG, String.format("WorkerUpload test started %s", new Date()));
         Data data = getInputData();
         String fileName = data.getString(MainActivity.Literals.fileName.name());
-        File file = new File(fileName);
-        Log.i(TAG, String.format("File name %s file exists %s", fileName, file.exists()));
-        if (file == null) {
-            Toast.makeText(context, "File is null.", Toast.LENGTH_LONG).show();
+        if (Utils.isBlank(fileName)) {
+            Toast.makeText(context, "File name is blank.", Toast.LENGTH_LONG).show();
             return null;
         }
+        File file = new File(fileName);
+        Log.i(TAG, String.format("File name %s file exists %s", fileName, file.exists()));
         if (!file.exists()) {
             Toast.makeText(context, String.format("File \"%s\" does not exist.", file.getAbsoluteFile()), Toast.LENGTH_LONG).show();
             return null;

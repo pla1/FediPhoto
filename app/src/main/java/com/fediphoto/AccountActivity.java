@@ -23,7 +23,6 @@ public class AccountActivity extends AppCompatActivity {
     private final String TAG = this.getClass().getCanonicalName();
     private JsonElement account;
     private CheckBox checkBoxActiveAccount;
-    private int accountIndexActive;
     private int accountIndexSelected;
     private JsonObject settings;
 
@@ -38,7 +37,7 @@ public class AccountActivity extends AppCompatActivity {
         TextView textViewUserUrl = findViewById(R.id.textViewUserUrl);
         textViewUserUrl.setText(Utils.getProperty(account, MainActivity.Literals.me.name()));
         checkBoxActiveAccount = findViewById(R.id.checkBoxAccountActive);
-        accountIndexActive = Utils.getInt(Utils.getProperty(settings, MainActivity.Literals.accountIndexActive.name()));
+        int accountIndexActive = Utils.getInt(Utils.getProperty(settings, MainActivity.Literals.accountIndexActive.name()));
         accountIndexSelected = Utils.getInt(Utils.getProperty(settings, MainActivity.Literals.accountIndexSelected.name()));
         checkBoxActiveAccount.setChecked(accountIndexActive == accountIndexSelected);
     }
@@ -57,17 +56,20 @@ public class AccountActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.i(TAG, "onResume");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        Log.i(TAG, "onStop");
         save();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        Log.i(TAG, "onPause");
         save();
     }
 

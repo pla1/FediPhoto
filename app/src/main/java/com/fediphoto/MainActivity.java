@@ -51,6 +51,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
     private final int REQUEST_STATUS = 769;
     public static final int REQUEST_ACCOUNT_RETURN = 669;
     public static final String CHECKMARK = "✔";
-    private final String TAG = this.getClass().getCanonicalName();
+    private final static String TAG = "com.fediphoto.MainActivity";
     private final Context context = this;
     private final Activity activity = this;
     private JsonObject createAppResults = new JsonObject();
@@ -78,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
     private String token;
     private String instance;
     private String photoFileName;
+    private MainActivity mainActivity = this;
 
     private void dispatchTakePictureIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -157,7 +159,6 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(context, "Permission to camera denied.", Toast.LENGTH_LONG).show();
                 }
-                return;
             }
             case REQUEST_PERMISSION_STORAGE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -165,7 +166,6 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(context, "Permission to write to external storage denied.", Toast.LENGTH_LONG).show();
                 }
-                return;
             }
         }
     }
@@ -259,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show();
                 return;
             }
-            WorkerAuthorize worker = new WorkerAuthorize();
+            WorkerAuthorize worker = new WorkerAuthorize(mainActivity);
             worker.execute(instance);
         }
         if (requestCode == REQUEST_ACCOUNT) {
@@ -287,12 +287,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    class WorkerCreateApp extends AsyncTask<String, Void, JsonObject> {
+    private static class WorkerCreateApp extends AsyncTask<String, Void, JsonObject> {
         private String instance;
+        private WeakReference<MainActivity> weakReference;
+
+        WorkerCreateApp(MainActivity context) {
+            this.weakReference = new WeakReference<>(context);
+        }
 
         @Override
         protected JsonObject doInBackground(String... instance) {
-            createAppResults = new JsonObject();
             JsonObject params = new JsonObject();
             this.instance = instance[0];
             params.addProperty(Literals.client_name.name(), "Fedi Photo for Android ");
@@ -339,27 +343,31 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(JsonObject jsonObject) {
             super.onPostExecute(jsonObject);
             Log.i(TAG, "OUTPUT: " + jsonObject.toString());
-            createAppResults = jsonObject;
+            weakReference.get().createAppResults = jsonObject;
             String urlString = String.format("https://%s/oauth/authorize?scope=%s&response_type=code&redirect_uri=%s&client_id=%s",
                     instance, Utils.urlEncodeComponent("write read follow push"), Utils.urlEncodeComponent(jsonObject.get("redirect_uri").getAsString()), jsonObject.get("client_id").getAsString());
-            Intent intent = new Intent(context, WebviewActivity.class);
+            Intent intent = new Intent(weakReference.get(), WebviewActivity.class);
             intent.putExtra("urlString", urlString);
-            startActivityForResult(intent, TOKEN_REQUEST);
+            weakReference.get().startActivityForResult(intent, weakReference.get().TOKEN_REQUEST);
 
         }
     }
 
 
-    class WorkerAuthorize extends AsyncTask<String, Void, JsonObject> {
+    private static class WorkerAuthorize extends AsyncTask<String, Void, JsonObject> {
+        WeakReference<MainActivity> weakReference;
+        WorkerAuthorize(MainActivity mainActivity) {
+            this.weakReference = new WeakReference<>(mainActivity);
+        }
 
         @Override
         protected JsonObject doInBackground(String... instance) {
             JsonObject params = new JsonObject();
-            params.addProperty(Literals.client_id.name(), createAppResults.get(Literals.client_id.name()).getAsString());
-            params.addProperty(Literals.client_secret.name(), createAppResults.get(Literals.client_secret.name()).getAsString());
+            params.addProperty(Literals.client_id.name(), weakReference.get().createAppResults.get(Literals.client_id.name()).getAsString());
+            params.addProperty(Literals.client_secret.name(), weakReference.get().createAppResults.get(Literals.client_secret.name()).getAsString());
             params.addProperty(Literals.grant_type.name(), Literals.authorization_code.name());
-            params.addProperty(Literals.code.name(), token);
-            params.addProperty(Literals.redirect_uri.name(), createAppResults.get(Literals.redirect_uri.name()).getAsString());
+            params.addProperty(Literals.code.name(), weakReference.get().token);
+            params.addProperty(Literals.redirect_uri.name(), weakReference.get().createAppResults.get(Literals.redirect_uri.name()).getAsString());
             String urlString = String.format("https://%s/oauth/token", instance[0]);
             Log.i(TAG, "URL " + urlString);
             HttpsURLConnection urlConnection;
@@ -389,14 +397,14 @@ public class MainActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 jsonObject = gson.fromJson(isr, JsonObject.class);
                 Log.i(TAG, String.format("JSON from oauth/token %s", jsonObject.toString()));
-                JsonObject settings = Utils.getSettings(context);
+                JsonObject settings = Utils.getSettings(weakReference.get());
                 JsonArray accounts = settings.getAsJsonArray(Literals.accounts.name());
                 if (accounts == null) {
                     accounts = new JsonArray();
                 }
                 jsonObject.addProperty(Literals.instance.name(), instance[0]);
                 urlString = String.format("https://%s/api/v1/accounts/verify_credentials", instance[0]);
-                JsonObject verifyCredentials = getJsonObject(urlString, Utils.getProperty(jsonObject, Literals.access_token.name()));
+                JsonObject verifyCredentials = weakReference.get().getJsonObject(urlString, Utils.getProperty(jsonObject, Literals.access_token.name()));
                 if (verifyCredentials != null && Utils.isJsonObject(verifyCredentials)) {
                     jsonObject.addProperty(Literals.me.name(), Utils.getProperty(verifyCredentials, Literals.url.name()));
                     jsonObject.addProperty(Literals.display_name.name(), Utils.getProperty(verifyCredentials, Literals.display_name.name()));
@@ -405,8 +413,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 accounts.add(jsonObject);
                 settings.add(Literals.accounts.name(), accounts);
-                Utils.writeSettings(context, settings);
-                Log.i(TAG, String.format("Settings after save:\n%s\n", Utils.getSettings(context).toString()));
+                Utils.writeSettings(weakReference.get(), settings);
+                Log.i(TAG, String.format("Settings after save:\n%s\n", Utils.getSettings(weakReference.get()).toString()));
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -419,11 +427,11 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(JsonObject jsonObject) {
             super.onPostExecute(jsonObject);
             Log.i(TAG, "OUTPUT: " + jsonObject.toString());
-            JsonObject settings = Utils.getSettings(context);
+            JsonObject settings = Utils.getSettings(weakReference.get());
             if (settings.get(Literals.statuses.name()) == null) {
-                Toast.makeText(context, "Account created. Setup a status configuration.", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(context, StatusConfigActivity.class);
-                startActivity(intent);
+                Toast.makeText(weakReference.get(), "Account created. Setup a status configuration.", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(weakReference.get(), StatusConfigActivity.class);
+                weakReference.get().startActivity(intent);
             }
         }
     }
@@ -460,7 +468,7 @@ public class MainActivity extends AppCompatActivity {
                 instance = input.getText().toString();
                 String message = String.format("Instance \"%s\"", instance);
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-                WorkerCreateApp workerCreateApp = new WorkerCreateApp();
+                WorkerCreateApp workerCreateApp = new WorkerCreateApp(mainActivity);
                 workerCreateApp.execute(instance);
             }
         });
@@ -586,11 +594,15 @@ public class MainActivity extends AppCompatActivity {
         ListenableFuture<List<WorkInfo>> workInfoList = WorkManager.getInstance(context).getWorkInfosByTag(tag);
         try {
             List<WorkInfo> workInfos = workInfoList.get(5, TimeUnit.SECONDS);
-            Log.i(TAG, String.format("%d worker info quantity. Worker Info Tag %s", workInfos.size(), tag));
+
+            int quantityNotFinished = 0;
             for (WorkInfo workInfo : workInfos) {
-                if (workInfo != null && !workInfo.getState().isFinished())
+                if (workInfo != null && !workInfo.getState().isFinished()) {
                     Log.i(TAG, String.format("Worker info %s. Worker Info Tag %s", workInfo.toString(), tag));
+                    quantityNotFinished++;
+                }
             }
+            Log.i(TAG, String.format("%d worker info quantity. Worker Info Tag %s. %d not finished.", workInfos.size(), tag, quantityNotFinished));
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage());
         }
