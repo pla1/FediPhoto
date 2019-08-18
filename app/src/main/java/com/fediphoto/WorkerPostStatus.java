@@ -39,7 +39,7 @@ import java.util.Random;
 
 import javax.net.ssl.HttpsURLConnection;
 
-class WorkerPostStatus extends Worker {
+public class WorkerPostStatus extends Worker {
 
     private final String TAG = this.getClass().getCanonicalName();
     private final Context context;

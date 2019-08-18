@@ -29,7 +29,7 @@ import java.util.Random;
 
 import javax.net.ssl.HttpsURLConnection;
 
-class WorkerUpload extends Worker {
+public class WorkerUpload extends Worker {
     private final String TAG = this.getClass().getCanonicalName();
     private final Context context;
 
