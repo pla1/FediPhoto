@@ -34,14 +34,11 @@ import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
-public class Utils {
+class Utils {
     private final static String lineSeparator = System.getProperty("line.separator");
     private final static String TAG = "com.fediphoto.Utils";
     public static final String LINE_FEED = "\r\n";
 
-    public static void main(String[] args) {
-
-    }
 
     public static boolean isBlank(String s) {
         return (s == null || s.trim().length() == 0);
@@ -76,6 +73,7 @@ public class Utils {
         }
         return null;
     }
+
     public static JsonObject getAccountActiveFromSettings(Context context) {
         JsonObject settings = getSettings(context);
         int accountSelectedIndex = Utils.getInt(Utils.getProperty(settings, MainActivity.Literals.accountIndexActive.name()));
@@ -103,6 +101,7 @@ public class Utils {
         }
         return null;
     }
+
     public static JsonObject getStatusActiveFromSettings(Context context) {
         JsonObject settings = getSettings(context);
         int statusSelectedIndex = Utils.getInt(Utils.getProperty(settings, MainActivity.Literals.statusIndexActive.name()));
@@ -203,7 +202,7 @@ public class Utils {
         }
     }
 
-    public static String getClassNames() {
+    private static String getClassNames() {
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
         StringBuilder classNames = new StringBuilder();
         for (StackTraceElement e : stackTraceElements) {
@@ -260,7 +259,7 @@ public class Utils {
         JsonObject jsonObject = jsonElement.getAsJsonObject();
         JsonArray accounts = jsonObject.getAsJsonArray(MainActivity.Literals.accounts.name());
         int accountQuantity = 0;
-        if (accounts!= null && accounts.isJsonArray()) {
+        if (accounts != null && accounts.isJsonArray()) {
             accountQuantity = accounts.size();
         }
         int accountIndexSelected = Utils.getInt(Utils.getProperty(jsonObject, MainActivity.Literals.accountIndexSelected.name()));
@@ -333,20 +332,15 @@ public class Utils {
             if (!sourceFilePath.exists()) {
                 return;
             }
-            FileChannel source;
-            FileChannel destination;
-            source = new FileInputStream(sourceFilePath).getChannel();
-            destination = new FileOutputStream(destinationFilePath).getChannel();
-            if (destination != null && source != null) {
+            FileChannel source = new FileInputStream(sourceFilePath).getChannel();
+            FileChannel destination = new FileOutputStream(destinationFilePath).getChannel();
+            if (source != null) {
                 destination.transferFrom(source, 0, source.size());
             }
             if (source != null) {
                 source.close();
             }
-            if (destination != null) {
-                destination.close();
-            }
-
+            destination.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

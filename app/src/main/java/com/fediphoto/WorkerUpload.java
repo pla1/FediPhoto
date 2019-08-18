@@ -29,9 +29,9 @@ import java.util.Random;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class WorkerUpload extends Worker {
+class WorkerUpload extends Worker {
     private final String TAG = this.getClass().getCanonicalName();
-    private Context context;
+    private final Context context;
 
     public WorkerUpload(@NonNull Context context, @NonNull WorkerParameters params) {
         super(context, params);
@@ -46,13 +46,13 @@ public class WorkerUpload extends Worker {
         String fileName = data.getString(MainActivity.Literals.fileName.name());
         if (Utils.isBlank(fileName)) {
             Toast.makeText(context, "File name is blank.", Toast.LENGTH_LONG).show();
-            return null;
+            return Result.failure();
         }
         File file = new File(fileName);
         Log.i(TAG, String.format("File name %s file exists %s", fileName, file.exists()));
         if (!file.exists()) {
             Toast.makeText(context, String.format("File \"%s\" does not exist.", file.getAbsoluteFile()), Toast.LENGTH_LONG).show();
-            return null;
+            return Result.failure();
         }
         JsonElement account = Utils.getAccountSelectedFromSettings(context);
         String instance = Utils.getProperty(account, MainActivity.Literals.instance.name());

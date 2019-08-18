@@ -153,17 +153,20 @@ public class StatusConfigActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.i(TAG, "Resume");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        Log.i(TAG, "onStop");
         save();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        Log.i(TAG, "onPause");
         save();
     }
 

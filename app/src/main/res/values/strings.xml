@@ -15,6 +15,14 @@
     <string name="label_for_status">Label this status</string>
     <string name="post_visibility">Post visibility:</string>
     <string name="about">About</string>
+    <string name="field_label_instance">Instance:</string>
+    <string name="field_label_user_url">User URL:</string>
+    <string name="radio_button_label_direct">Direct</string>
+    <string name="radio_button_label_followers">Followers</string>
+    <string name="radio_button_label_unlisited">Unlisted</string>
+    <string name="radio_button_label_public">Public</string>
+    <string name="label_data_format_field">Date format:</string>
+    <string name="label_gps_format_field">GPS coordinates format:</string>
     <string-array name="actionAfterPostEntries">
         <item>Leave photo in Fedi Photo folder</item>
         <item>Copy photo to photos folder</item>

@@ -70,16 +70,16 @@ public class MainActivity extends AppCompatActivity {
     private final int REQUEST_ACCOUNT = 569;
     private final int REQUEST_STATUS = 769;
     public static final int REQUEST_ACCOUNT_RETURN = 669;
-    public static final String CHECKMARK = "✔";
+    private static final String CHECKMARK = "✔";
     private final static String TAG = "com.fediphoto.MainActivity";
     private final Context context = this;
     private final Activity activity = this;
     private JsonObject createAppResults = new JsonObject();
-    Button buttonCamera;
+    private Button buttonCamera;
     private String token;
     private String instance;
     private String photoFileName;
-    private MainActivity mainActivity = this;
+    private final MainActivity mainActivity = this;
 
     private void dispatchTakePictureIntent() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         //  File storageDir = getDataDir();
         if (storageDir == null || (!storageDir.exists() && !storageDir.mkdir())) {
-            Log.w(TAG, "Couldn't create photo folder: " + storageDir.getAbsolutePath());
+            Log.w(TAG, "Couldn't create photo folder.");
         }
         File file = File.createTempFile(fileName, ".jpg", storageDir);
         Log.i(TAG, String.format("Photo file: %s", file.getAbsoluteFile()));
@@ -289,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static class WorkerCreateApp extends AsyncTask<String, Void, JsonObject> {
         private String instance;
-        private WeakReference<MainActivity> weakReference;
+        private final WeakReference<MainActivity> weakReference;
 
         WorkerCreateApp(MainActivity context) {
             this.weakReference = new WeakReference<>(context);
@@ -355,7 +355,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private static class WorkerAuthorize extends AsyncTask<String, Void, JsonObject> {
-        WeakReference<MainActivity> weakReference;
+        final WeakReference<MainActivity> weakReference;
         WorkerAuthorize(MainActivity mainActivity) {
             this.weakReference = new WeakReference<>(mainActivity);
         }
@@ -405,7 +405,7 @@ public class MainActivity extends AppCompatActivity {
                 jsonObject.addProperty(Literals.instance.name(), instance[0]);
                 urlString = String.format("https://%s/api/v1/accounts/verify_credentials", instance[0]);
                 JsonObject verifyCredentials = weakReference.get().getJsonObject(urlString, Utils.getProperty(jsonObject, Literals.access_token.name()));
-                if (verifyCredentials != null && Utils.isJsonObject(verifyCredentials)) {
+                if (Utils.isJsonObject(verifyCredentials)) {
                     jsonObject.addProperty(Literals.me.name(), Utils.getProperty(verifyCredentials, Literals.url.name()));
                     jsonObject.addProperty(Literals.display_name.name(), Utils.getProperty(verifyCredentials, Literals.display_name.name()));
                     jsonObject.addProperty(Literals.username.name(), Utils.getProperty(verifyCredentials, Literals.username.name()));

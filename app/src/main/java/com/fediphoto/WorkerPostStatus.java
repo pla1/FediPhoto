@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -38,10 +39,10 @@ import java.util.Random;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class WorkerPostStatus extends Worker {
+class WorkerPostStatus extends Worker {
 
     private final String TAG = this.getClass().getCanonicalName();
-    private Context context;
+    private final Context context;
 
     public WorkerPostStatus(@NonNull Context context, @NonNull WorkerParameters params) {
         super(context, params);
@@ -54,6 +55,10 @@ public class WorkerPostStatus extends Worker {
     public Result doWork() {
         Data dataInput = getInputData();
         String photoFileName = dataInput.getString(MainActivity.Literals.fileName.name());
+        if (Utils.isBlank(photoFileName)) {
+            Toast.makeText(context, "Photo file name is blank.", Toast.LENGTH_LONG).show();
+            return Result.failure();
+        }
         JsonObject params = new JsonObject();
         JsonElement account = Utils.getAccountSelectedFromSettings(context);
         JsonObject statusConfig = Utils.getStatusSelectedFromSettings(context);
@@ -187,8 +192,7 @@ public class WorkerPostStatus extends Worker {
         File pictureFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File finalFolder = new File(pictureFolder, appNameFolder);
         finalFolder.mkdirs();
-        File fileNew = new File(String.format("%s/%s", finalFolder.getAbsolutePath(), file.getName()));
-        return fileNew;
+        return new File(String.format("%s/%s", finalFolder.getAbsolutePath(), file.getName()));
     }
 
     private void sendNotification(String title, String urlString, String photoFileName) {

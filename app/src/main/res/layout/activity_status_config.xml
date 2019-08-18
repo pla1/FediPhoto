@@ -14,7 +14,8 @@
         android:id="@+id/editTextLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName|textCapWords" />
+        android:inputType="textPersonName|textCapWords"
+        android:autofillHints="title" />
 
     <TextView
         android:layout_width="match_parent"
@@ -26,7 +27,8 @@
         android:id="@+id/editTextText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textNoSuggestions" />
+        android:inputType="textNoSuggestions"
+        android:autofillHints="text" />
 
     <TextView
         android:layout_width="match_parent"
@@ -41,26 +43,26 @@
             android:id="@+id/radioVisibilityDirect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Direct" />
+            android:text="@string/radio_button_label_direct" />
 
         <RadioButton
             android:id="@+id/radioVisibilityFollowers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Followers" />
+            android:text="@string/radio_button_label_followers" />
 
         <RadioButton
             android:id="@+id/radioVisibilityUnlisted"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Unlisted" />
+            android:text="@string/radio_button_label_unlisited" />
 
         <RadioButton
             android:id="@+id/radioVisibilityPublic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="Public" />
+            android:text="@string/radio_button_label_public" />
 
     </RadioGroup>
 
@@ -68,26 +70,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:labelFor="@+id/editTextDateFormat"
-        android:text="Date format:" />
+        android:text="@string/label_data_format_field" />
 
     <EditText
         android:id="@+id/editTextDateFormat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textNoSuggestions"
-        android:text="EEEE MMMM dd, yyyy hh:mm:ss a" />
+        android:autofillHints="SimpleDateFormat" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:labelFor="@+id/editTextGpsCoordinatesFormat"
-        android:text="GPS coordinates format:" />
+        android:text="@string/label_gps_format_field" />
 
     <EditText
         android:id="@+id/editTextGpsCoordinatesFormat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textNoSuggestions" />
+        android:inputType="textNoSuggestions"
+        android:autofillHints="String format" />
 
     <CheckBox
         android:id="@+id/checkBoxStatusActive"

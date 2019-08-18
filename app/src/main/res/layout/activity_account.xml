@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Instance:" />
+        android:text="@string/field_label_instance" />
 
     <TextView
         android:id="@+id/textViewInstance"
@@ -17,7 +17,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="User URL:" />
+        android:text="@string/field_label_user_url" />
 
     <TextView
         android:id="@+id/textViewUserUrl"
