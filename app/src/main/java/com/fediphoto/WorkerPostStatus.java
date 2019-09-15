@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
@@ -85,10 +86,16 @@ public class WorkerPostStatus extends Worker {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        boolean isDebuggable =  ( 0 != ( context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE ) );
+        if (isDebuggable) {
+            latitude = 19.677821;
+            longitude = -155.596364;
+            Log.i(TAG, String.format("Debug mode with hard coded lat and long %.3f %.3f", latitude, longitude));
+        }
         Log.i(TAG, String.format("Latitude %f longitude %f", latitude, longitude));
         if (latitude != 0) {
             String gpsCoordinatesFormat = Utils.getProperty(statusConfig, MainActivity.Literals.gpsCoordinatesFormat.name());
-            if (gpsCoordinatesFormat.split("%s").length == 2) {
+            if (gpsCoordinatesFormat.split("%").length == 3) {
                 sb.append("\n").append(String.format(gpsCoordinatesFormat, latitude, longitude));
             } else {
                 sb.append("\n").append(latitude).append(",").append(longitude);

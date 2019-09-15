@@ -3,4 +3,4 @@ pleroma
 mastodon
 photo
 camera
-
+fediphoto

@@ -41,7 +41,7 @@ public class StatusConfigActivity extends AppCompatActivity {
     private JsonObject settings;
     private JsonObject status;
 
-    private final String DEFAULT_GPS_COORDINATES_FORMAT = "https://www.google.com/maps/search/?api=1&query=%s,%s";
+    private final String DEFAULT_GPS_COORDINATES_FORMAT = "https://www.google.com/maps/search/?api=1&query=%.5f,%.5f";
     private final String DEFAULT_DATE_FORMAT = "EEEE MMMM dd, yyyy hh:mm:ss a z";
 
     private void setup() {

@@ -66,6 +66,7 @@ public class WorkerUpload extends Worker {
         PrintWriter writer = null;
         try {
             URL url = new URL(urlString);
+            Log.i(TAG, String.format("URL: %s", url.toString()));
             urlConnection = (HttpsURLConnection) url.openConnection();
             urlConnection.setRequestProperty("Cache-Control", "no-cache");
             urlConnection.setRequestProperty("User-Agent", "FediPhoto");
