@@ -1,5 +1,27 @@
-Fedi Photo - quickly post photos to the Fediverse. 
+Anrdoid app to quickly post photos to the Fediverse.
+
+I wrote this app to scratch an itch which was to post photos to the Fediverse frictionlessly while riding my bike.
+
+You configure the text and hashtags for the status ahead of time. Then with 3 clicks post a photo.
+
+* Click for camera.
+* Frame subject and click to take photo.
+* Click to accept photo and you are done.
+
+The posting of the photo and status text is performed in the background. If connectivity is bad it will upload when connectivity allows.
+
+Other features
+* Multiple accounts.
+* Multiple status configurations.
+* Optional customizable date format using Java Simple Date Format.
+The default format string is "EEEE MMMM dd, yyyy hh:mm:ss a z".
+* Optional customizable latitude and longitude URL or text. Using two format arguments %.5f.
+The default format string is: "https://openstreetmap.org?zoom=17&layers=m&mlat=%.5f&mlon=%.5f"
+If you prefer Google Maps: "https://www.google.com/maps/search/?api=1&query=%.5f,%.5f".
+* After the photo is posted the app can
+- Leave photo in the Fedi Photo folder
+- Copy the photo to the Android Pictures folder
+- Move the photo to the Android Pictures folder
+- Delete the photo
 
 https://fediphoto.com
-
-

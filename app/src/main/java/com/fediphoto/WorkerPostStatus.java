@@ -96,7 +96,7 @@ public class WorkerPostStatus extends Worker {
         if (latitude != 0) {
             String gpsCoordinatesFormat = Utils.getProperty(statusConfig, MainActivity.Literals.gpsCoordinatesFormat.name());
             if (gpsCoordinatesFormat.split("%").length == 3) {
-                sb.append("\n").append(String.format(gpsCoordinatesFormat, latitude, longitude));
+                sb.append("\n").append(String.format(Locale.US, gpsCoordinatesFormat, latitude, longitude));
             } else {
                 sb.append("\n").append(latitude).append(",").append(longitude);
             }
