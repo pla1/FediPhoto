@@ -117,7 +117,6 @@ public class WorkerUpload extends Worker {
             urlConnection.setInstanceFollowRedirects(true);
             inputStream = urlConnection.getInputStream();
             InputStreamReader isr = new InputStreamReader(inputStream);
-            JsonParser jsonParser = new JsonParser();
             BufferedReader reader = new BufferedReader(isr);
 
             String line;
@@ -127,7 +126,7 @@ public class WorkerUpload extends Worker {
             }
             reader.close();
             urlConnection.disconnect();
-            JsonElement jsonElement = jsonParser.parse(responseBody.toString());
+            JsonElement jsonElement = JsonParser.parseString(responseBody.toString());
             Log.i(TAG, String.format("Output from upload: %s", jsonElement));
             Data outputData = new Data.Builder()
                     .putString(MainActivity.Literals.id.name(), Utils.getProperty(jsonElement, MainActivity.Literals.id.name()))

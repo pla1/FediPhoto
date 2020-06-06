@@ -1,4 +1,4 @@
-Anrdoid app to quickly post photos to the Fediverse.
+Android app to quickly post photos to the Fediverse.
 
 I wrote this app to scratch an itch which was to post photos to the Fediverse frictionlessly while riding my bike.
 

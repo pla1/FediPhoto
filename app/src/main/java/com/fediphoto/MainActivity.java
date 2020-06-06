@@ -116,7 +116,10 @@ public class MainActivity extends AppCompatActivity {
         buttonCamera = findViewById(R.id.button_camera);
         JsonObject account = Utils.getAccountSelectedFromSettings(context);
         JsonObject status = Utils.getStatusSelectedFromSettings(context);
-        if (account != null && status != null && Utils.getAccountActiveFromSettings(context).get(Literals.me.name()) != null) {
+        if (account != null
+                && status != null
+                && Utils.getAccountActiveFromSettings(context) != null
+                && Utils.getAccountActiveFromSettings(context).get(Literals.me.name()) != null) {
             setButtonCameraText();
         }
         buttonCamera.setOnClickListener(new View.OnClickListener() {
@@ -238,6 +241,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
         Log.i(TAG, String.format("Request code %d Result code %d", requestCode, resultCode));
         if (requestCode == CAMERA_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
@@ -279,9 +283,9 @@ public class MainActivity extends AppCompatActivity {
 
     public enum Literals {
         client_name, redirect_uris, scopes, website, access_token, POST, urlString, authorization_code,
-        token, client_id, client_secret, redirect_uri, me, exipires_in, created_at, milliseconds,
-        grant_type, code, accounts, account, instance, text, followers, visibility, unlisted, PUBLIC, dateFormat,
-        OK, Cancel, description, file, media_ids, id, status, url, longitude, latitude, gpsCoordinatesFormat, direct, fileName,
+        token, client_id, client_secret, redirect_uri, me,
+        grant_type, code, accounts, instance, text, followers, visibility, unlisted, PUBLIC, dateFormat,
+        OK, Cancel, media_ids, id, status, url, gpsCoordinatesFormat, direct, fileName,
         accountIndexSelected, accountIndexActive, statuses, label, statusIndexActive, statusIndexSelected,
         leave, copy, move, delete, display_name, username, acct, worker_tag_media_upload, worker_tag_post_status
     }
@@ -356,6 +360,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static class WorkerAuthorize extends AsyncTask<String, Void, JsonObject> {
         final WeakReference<MainActivity> weakReference;
+
         WorkerAuthorize(MainActivity mainActivity) {
             this.weakReference = new WeakReference<>(mainActivity);
         }

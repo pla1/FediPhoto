@@ -222,14 +222,6 @@ class Utils {
         return classNames.toString();
     }
 
-    public static long getLong(String s) {
-        try {
-            return Long.parseLong(s);
-        } catch (NumberFormatException nfe) {
-            return 0;
-        }
-    }
-
     public static URL getUrl(String urlString) {
         try {
             return new URL(urlString);
@@ -259,8 +251,7 @@ class Utils {
         if (sb.length() == 0) {
             return new JsonObject();
         }
-        JsonParser jsonParser = new JsonParser();
-        JsonElement jsonElement = jsonParser.parse(sb.toString());
+        JsonElement jsonElement = JsonParser.parseString(sb.toString());
         if (jsonElement == null || jsonElement.isJsonNull()) {
             return new JsonObject();
         }
@@ -325,7 +316,7 @@ class Utils {
 
     public static int getAccountQuantity(Context context) {
         JsonObject settings = getSettings(context);
-        if (settings != null && !settings.isJsonNull() && isJsonObject(settings)) {
+        if (!settings.isJsonNull() && isJsonObject(settings)) {
             JsonArray accounts = settings.getAsJsonArray(MainActivity.Literals.accounts.name());
             if (accounts != null && !accounts.isJsonNull() && accounts.isJsonArray()) {
                 return accounts.size();
