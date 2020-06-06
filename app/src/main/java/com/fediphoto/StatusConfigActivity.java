@@ -111,7 +111,7 @@ public class StatusConfigActivity extends AppCompatActivity {
             return;
         }
         if (editTextLabel.getText().toString().trim().length() == 0) {
-            Toast.makeText(context, "Label can not be blank. Key in a meaningful name for this status config.", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, R.string.label_can_not_be_blank, Toast.LENGTH_LONG).show();
             return;
         }
         Log.i(TAG, String.format("Settings at start of save() %s", settings.toString()));
@@ -201,7 +201,7 @@ public class StatusConfigActivity extends AppCompatActivity {
                 statuses = settings.getAsJsonArray(MainActivity.Literals.statuses.name());
                 if (statuses == null || statuses.isJsonNull() || statuses.size() == 0) {
                     Log.i(TAG, "No status to remove.");
-                    Toast.makeText(context, "No status config to remove.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, R.string.no_status_config_to_remove, Toast.LENGTH_LONG).show();
                 } else {
                     statuses.remove(statusIndexSelected);
                     if (statuses.size() > 0) {
@@ -209,7 +209,7 @@ public class StatusConfigActivity extends AppCompatActivity {
                         settings.addProperty(MainActivity.Literals.statusIndexActive.name(), 0);
                         settings.addProperty(MainActivity.Literals.statusIndexSelected.name(), 0);
                         status = null;
-                        Toast.makeText(context, "Status config removed and status 0 is now the selected active status.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, R.string.status_config_removed_status_0_active, Toast.LENGTH_LONG).show();
                     } else {
                         addNewStatus();
                         return true;

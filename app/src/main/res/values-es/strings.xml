@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Fedi Photo</string>
-    <string name="accounts">Accounts</string>
+    <string name="accounts">Cuentas</string>
     <string name="add_account">Add account</string>
     <string name="add_status">Add status config</string>
     <string name="remove_account">Remove this account</string>

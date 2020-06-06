@@ -57,7 +57,7 @@ public class WorkerPostStatus extends Worker {
         Data dataInput = getInputData();
         String photoFileName = dataInput.getString(MainActivity.Literals.fileName.name());
         if (Utils.isBlank(photoFileName)) {
-            Toast.makeText(context, "Photo file name is blank.", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, R.string.photo_file_name_blank, Toast.LENGTH_LONG).show();
             return Result.failure();
         }
         JsonObject params = new JsonObject();
@@ -149,7 +149,7 @@ public class WorkerPostStatus extends Worker {
             Data dataOutput = new Data.Builder()
                     .putString(MainActivity.Literals.url.name(), urlForPost)
                     .build();
-            sendNotification("Post success", urlForPost, photoFileName);
+            sendNotification(context.getString(R.string.post_success), urlForPost, photoFileName);
             actionAfterPost(dataInput);
             return Result.success(dataOutput);
         } catch (Exception e) {

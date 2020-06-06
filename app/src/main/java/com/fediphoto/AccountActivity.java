@@ -92,8 +92,8 @@ public class AccountActivity extends AppCompatActivity {
                 Log.i(TAG, "Remove account.");
                 JsonArray accounts = settings.getAsJsonArray(MainActivity.Literals.accounts.name());
                 if (accounts == null || accounts.isJsonNull() || accounts.size() == 0) {
-                    Log.i(TAG, "No account to remove.");
-                    Toast.makeText(context, "No account to remove.", Toast.LENGTH_LONG).show();
+                    Log.i(TAG, getString(R.string.no_account_to_remove));
+                    Toast.makeText(context, R.string.no_account_to_remove, Toast.LENGTH_LONG).show();
                     return true;
                 }
                 accounts.remove(accountIndexSelected);
@@ -103,7 +103,7 @@ public class AccountActivity extends AppCompatActivity {
                     settings.addProperty(MainActivity.Literals.accountIndexSelected.name(), 0);
                     Utils.writeSettings(context, settings);
                     account = null;
-                    Toast.makeText(context, "Account removed and account 0 is now the active selected account.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, R.string.account_removed_account_0_is_active, Toast.LENGTH_LONG).show();
                 } else {
                     settings.remove(MainActivity.Literals.accounts.name());
                     settings.remove(MainActivity.Literals.accountIndexActive.name());

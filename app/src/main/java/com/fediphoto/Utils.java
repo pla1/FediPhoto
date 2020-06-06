@@ -66,8 +66,8 @@ class Utils {
         String stringFormat = "Test %.3f %.3f";
         System.out.format(stringFormat, latitude, longitude );
         System.out.format("%nQuantity of percent symbols %d%n", stringFormat.split("[%]").length);
-
     }
+
     public static JsonObject getAccountSelectedFromSettings(Context context) {
         JsonObject settings = getSettings(context);
         int accountSelectedIndex = Utils.getInt(Utils.getProperty(settings, MainActivity.Literals.accountIndexSelected.name()));

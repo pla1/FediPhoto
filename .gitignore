@@ -10,7 +10,7 @@
 .DS_Store
 /build
 /captures
-.externalNativeBuild
+
 
 # Built application files
 *.apk
@@ -47,7 +47,6 @@ proguard/
 captures/
 
 # IntelliJ
-*.iml
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/gradle.xml

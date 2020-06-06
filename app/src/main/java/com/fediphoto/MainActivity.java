@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         JsonObject status = Utils.getStatusActiveFromSettings(context);
         String me = Utils.getProperty(account, Literals.me.name());
         String label = Utils.getProperty(status, Literals.label.name());
-        String buttonCameraText = String.format("Press for camera\n%s\n%s", me, label);
+        String buttonCameraText = String.format(getString(R.string.button_camera_text), me, label);
         buttonCamera.setText(buttonCameraText);
     }
 
@@ -158,16 +158,16 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case REQUEST_PERMISSION_CAMERA: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(context, "Permission to camera granted. Take a photo.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, R.string.camera_permission_granted, Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(context, "Permission to camera denied.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, R.string.camera_permission_denied, Toast.LENGTH_LONG).show();
                 }
             }
             case REQUEST_PERMISSION_STORAGE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(context, "Permission to write to external storage granted. Take a photo.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, R.string.external_storage_permission_granted, Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(context, "Permission to write to external storage denied.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, R.string.external_storage_permission_denied, Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                 != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
                     Manifest.permission.CAMERA)) {
-                Toast.makeText(context, "Need permission to the camera.", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, R.string.need_camera_permission, Toast.LENGTH_LONG).show();
             } else {
                 ActivityCompat.requestPermissions(activity,
                         new String[]{Manifest.permission.CAMERA},
@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
                 != PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                Toast.makeText(context, "Need permission to write to external storage.", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, R.string.external_storage_permission_needed, Toast.LENGTH_LONG).show();
             } else {
                 ActivityCompat.requestPermissions(activity,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
@@ -209,7 +209,6 @@ public class MainActivity extends AppCompatActivity {
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss_", Locale.US).format(new Date());
         String fileName = String.format("photo_%s", timestamp);
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        //  File storageDir = getDataDir();
         if (storageDir == null || (!storageDir.exists() && !storageDir.mkdir())) {
             Log.w(TAG, "Couldn't create photo folder.");
         }
@@ -259,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
             token = intent.getStringExtra(Literals.token.name());
             Log.i(TAG, String.format("Token \"%s\"", token));
             if (token == null || token.length() < 20) {
-                String message = String.format("Token \"%s\" does not look valid. Try again.", token);
+                String message = String.format(getString(R.string.token_does_not_look_valid), token);
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show();
                 return;
             }
@@ -434,7 +433,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i(TAG, "OUTPUT: " + jsonObject.toString());
             JsonObject settings = Utils.getSettings(weakReference.get());
             if (settings.get(Literals.statuses.name()) == null) {
-                Toast.makeText(weakReference.get(), "Account created. Setup a status configuration.", Toast.LENGTH_LONG).show();
+                Toast.makeText(weakReference.get(), R.string.account_created, Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(weakReference.get(), StatusConfigActivity.class);
                 weakReference.get().startActivity(intent);
             }
@@ -463,7 +462,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void askForInstance() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Enter an instance name. For example: pleroma.site");
+        builder.setTitle(R.string.enter_an_instance_name);
         final EditText input = new EditText(context);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         builder.setView(input);
@@ -471,7 +470,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 instance = input.getText().toString();
-                String message = String.format("Instance \"%s\"", instance);
+                String message = String.format(getString(R.string.instance_string_format), instance);
                 Toast.makeText(context, message, Toast.LENGTH_LONG).show();
                 WorkerCreateApp workerCreateApp = new WorkerCreateApp(mainActivity);
                 workerCreateApp.execute(instance);
@@ -488,7 +487,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void multipleChoiceAccount() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setTitle("Select account...");
+        alertDialog.setTitle(R.string.select_account);
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         JsonObject settings = Utils.getSettings(context);
         JsonElement accounts = settings.get(Literals.accounts.name());
@@ -520,7 +519,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void multipleChoiceStatuses() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setTitle("Select status...");
+        alertDialog.setTitle(R.string.select_status);
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         JsonObject settings = Utils.getSettings(context);
         JsonElement statuses = settings.get(Literals.statuses.name());
