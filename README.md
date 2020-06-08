@@ -14,10 +14,32 @@ http://fediphoto.com
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
      alt="Get it on Google Play"
      height="80">](https://play.google.com/store/apps/details?id=com.fediphoto)
+     
+## How-To
+
+[EDIT]
+
+* connect **FediPhoto** client with your _fediverse_ account (only mastodon and pleroma at the moment) to retrieve auth token.
+     * multiple accounts are supported.
+* you'll be requested to concede this [permissions](https://fediphoto.com/privacy-policy.html)
+* configure status settings
+     * multiple status configurations are supported.
+* tap on main screen to open camera, take picture and click on check mark icon (bottom right)
+* it's done!! FediPhoto will publish your status and will receive a confirmation message afterwards
+
+## Known Issues
+
+* []
+
+## Changelog
+
+[FediPhoto ChangeLog](https://fediphoto.com/changeLog.html)
 
 ## Privacy
 
-[PLEASE EDIT] 
+[PLEASE EDIT]
+
+[FediPhoto Privacy Policy](https://fediphoto.com/privacy-policy.html)
 
 **FediPhoto** does NOT collect any personal data and/or information. It works locally on your device and information about your account is not shared or stored.
 
@@ -25,7 +47,7 @@ http://fediphoto.com
 
 * [pla1](https://github.com/pla1)
 
-## Contribute
+## Bug Reports & Contributions
 
 [PLEASE EDIT IF YOU DON'T WANT/NEED CONTRIBUTIONS]
 
