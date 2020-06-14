@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name">Fedi Photo</string>
+    <string name="accounts">Contas</string>
+    <string name="add_account">Engadir conta</string>
+    <string name="add_status">Engadir config. estado</string>
+    <string name="remove_account">Elimina esta conta</string>
+    <string name="remove_status">Elimina esta configuración</string>
+    <string name="settings">Axustes</string>
+    <string name="camera_on_start">Cámara ao inicio</string>
+    <string name="camera_on_start_summary">Inicia a cámara cando abres FediPhoto, así podes facer a foto e publicala máis rápido.</string>
+    <string name="active_account">Establece esta conta como activa</string>
+    <string name="active_status">Establece este estado como activo</string>
+    <string name="text_for_post">Texto a publicar:</string>
+    <string name="status_config">Configuración de estados</string>
+    <string name="label_for_status">Etiqueta do estado</string>
+    <string name="post_visibility">Visibilidade:</string>
+    <string name="about">Acerca de</string>
+    <string name="field_label_instance">Instancia:</string>
+    <string name="field_label_user_url">URL da usuaria:</string>
+    <string name="radio_button_label_direct">Directa</string>
+    <string name="radio_button_label_followers">Seguidoras</string>
+    <string name="radio_button_label_unlisted">Non listado</string>
+    <string name="radio_button_label_public">Público</string>
+    <string name="label_data_format_field">Formato da data:</string>
+    <string name="label_gps_format_field">Formato coord. GPS:</string>
+    <string name="no_account_to_remove">Sen conta que eliminar.</string>
+    <string name="account_removed_account_0_is_active">Conta eliminada e a conta 0 é agora a conta activa.</string>
+    <string name="button_camera_text">Toca para abrir cámara\n%s\n%s</string>
+    <string name="camera_permission_granted">Permiso de cámara concedido. Fai unha foto.</string>
+    <string name="camera_permission_denied">Permiso de cámara non concedido.</string>
+    <string name="external_storage_permission_granted">Permiso de escritura no almacenaxe externo concedido. Fai unha foto.</string>
+    <string name="external_storage_permission_denied">Permiso de escritura no almacenaxe externo non concedido.</string>
+    <string name="need_camera_permission">Precísase o permiso de acceso a cámara.</string>
+    <string name="external_storage_permission_needed">Precísase o permiso de escritura no almacenaxe externo.</string>
+    <string name="token_does_not_look_valid">O token \"%s\" non semella ser válido, inténtao outra vez.</string>
+    <string name="account_created">Conta creada. Configura o estado a publicar.</string>
+    <string name="enter_an_instance_name">Escribe o nome da instancia. Exemplo: pleroma.site</string>
+    <string name="instance_string_format">Instancia \"%s\"</string>
+    <string name="select_account">Escolle conta...</string>
+    <string name="select_status">Escolle estado...</string>
+    <string name="label_can_not_be_blank">A etiqueta non pode estar baleira. Escribe un termo descriptivo para axudarche a identificalo.</string>
+    <string name="no_status_config_to_remove">Sen configuracións que eliminar.</string>
+    <string name="status_config_removed_status_0_active">Borraches a configuración da publicación e a configuración 0 está agora activa.</string>
+    <string name="photo_file_name_blank">O nome do ficheiro da foto está baleiro.</string>
+    <string name="post_success">Publicación correcta</string>
+    <string-array name="actionAfterPostEntries">
+        <item>Deixar foto no cartafol Fedi Photo</item>
+        <item>Copiar foto ao cartafol fotos</item>
+        <item>Mover foto ao cartafol fotos</item>
+        <item>Eliminar foto</item>
+    </string-array>
+    <string-array name="actionAfterPostValues">
+        <item>deixar</item>
+        <item>copiar</item>
+        <item>mover</item>
+        <item>eliminar</item>
+    </string-array>
+</resources>
