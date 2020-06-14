@@ -2,7 +2,7 @@
 
 Post a photo quickly to the Fediverse.
 
-http://fediphoto.com
+https://fediphoto.com
 
 *Open, Click, Shared!*
 
