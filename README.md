@@ -17,8 +17,6 @@ http://fediphoto.com
      
 ## How-To
 
-[EDIT]
-
 * connect **FediPhoto** client with your _fediverse_ account (only mastodon and pleroma at the moment) to retrieve auth token.
      * multiple accounts are supported.
 * you'll be requested to concede this [permissions](https://fediphoto.com/privacy-policy.html)
@@ -29,15 +27,13 @@ http://fediphoto.com
 
 ## Known Issues
 
-* []
+[Issues](https://github.com/pla1/FediPhoto/issues)
 
 ## Changelog
 
 [FediPhoto ChangeLog](https://fediphoto.com/changeLog.html)
 
 ## Privacy
-
-[PLEASE EDIT]
 
 [FediPhoto Privacy Policy](https://fediphoto.com/privacy-policy.html)
 
@@ -49,17 +45,11 @@ http://fediphoto.com
 
 ## Bug Reports & Contributions
 
-[PLEASE EDIT IF YOU DON'T WANT/NEED CONTRIBUTIONS]
-
 Please **open** a [github issue](https://github.com/pla1/FediPhoto/issues) with detailed information about the problem
 
 **Contribute** making feature requests and **code** contributions
 
 Contact translators for translation issues
-
-## Roadmap
-
-* []
 
 ## Localization
 
@@ -72,8 +62,6 @@ Translate **FediPhoto** _UI_
  * Translate it and make a PR to this repository
 
 ### Contributors (A-Z)
-
-[GIVING CREDIT AND CONTACT INFO IF THERE WERE ANY PROBLEM]
 
 * Galician - [xmgz](https://github.com/xmgz) 
 * Spanish - [xmgz](https://github.com/xmgz) 
