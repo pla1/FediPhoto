@@ -27,6 +27,8 @@ https://fediphoto.com
 
 ## Known Issues
 
+PixelFed does not allow direct posts via the API as far as I can determine. 
+
 [Issues](https://github.com/pla1/FediPhoto/issues)
 
 ## Changelog

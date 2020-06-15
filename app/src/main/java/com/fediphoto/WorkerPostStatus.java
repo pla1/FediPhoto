@@ -62,6 +62,7 @@ public class WorkerPostStatus extends Worker {
         }
         JsonObject params = new JsonObject();
         JsonElement account = Utils.getAccountSelectedFromSettings(context);
+        Log.i(TAG, String.format("Selected account from settings: %s", account));
         JsonObject statusConfig = Utils.getStatusSelectedFromSettings(context);
         String instance = Utils.getProperty(account, MainActivity.Literals.instance.name());
         String visibility = Utils.getProperty(statusConfig, MainActivity.Literals.visibility.name());
@@ -115,7 +116,8 @@ public class WorkerPostStatus extends Worker {
         JsonArray mediaJsonArray = new JsonArray();
         mediaJsonArray.add(dataInput.getString(MainActivity.Literals.id.name()));
         params.add(MainActivity.Literals.media_ids.name(), mediaJsonArray);
-        params.addProperty(MainActivity.Literals.client_name.name(), "Fedi Photo for Android ");
+        params.addProperty(MainActivity.Literals.client_name.name(), context.getString(R.string.fedi_photo_for_android));
+
         String urlString = String.format("https://%s/api/v1/statuses", instance);
         Log.i(TAG, "URL " + urlString);
         HttpsURLConnection urlConnection;
@@ -131,6 +133,11 @@ public class WorkerPostStatus extends Worker {
             urlConnection.setRequestMethod(MainActivity.Literals.POST.name());
             urlConnection.setRequestProperty("Content-type", "application/json; charset=UTF-8");
             urlConnection.setDoOutput(true);
+            // test
+            String token = Utils.getProperty(account, MainActivity.Literals.access_token.name());
+            String authorization = String.format("Bearer %s", token);
+            urlConnection.setRequestProperty("Authorization", authorization);
+            // end test
             String json = params.toString();
             Log.i(TAG, String.format("Posting JSON: %s", json));
             urlConnection.setRequestProperty("Content-length", Integer.toString(json.length()));
