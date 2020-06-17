@@ -67,5 +67,6 @@ Translate **FediPhoto** _UI_
 
 * Catalan - [spla](https://github.com/splacat)
 * Galician - [xmgz](https://github.com/xmgz) 
+* Italian - [Sylke Vicious](https://github.com/silkevicious)
 * Spanish - [xmgz](https://github.com/xmgz) 
 
