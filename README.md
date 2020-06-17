@@ -65,7 +65,7 @@ Translate **FediPhoto** _UI_
 
 ### Contributors (A-Z)
 
+* Catalan - [spla](https://github.com/splacat)
 * Galician - [xmgz](https://github.com/xmgz) 
 * Spanish - [xmgz](https://github.com/xmgz) 
-
 
