@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name">Fedi Photo</string>
+    <string name="accounts">Comptes</string>
+    <string name="add_account">Afegir compte</string>
+    <string name="add_status">Afegir config. d'estat</string>
+    <string name="remove_account">Elimina aquest compte</string>
+    <string name="remove_status">Elimina aquesta config. d'estat</string>
+    <string name="settings">Preferències</string>
+    <string name="camera_on_start">Càmera al inici</string>
+    <string name="camera_on_start_summary">Obre la càmera al iniciar Fedi Photo, així pots compartir més ràpit.</string>
+    <string name="active_account">Marcar com a compte actiu</string>
+    <string name="active_status">Marcar com a estat actiu</string>
+    <string name="text_for_post">Text a publicar:</string>
+    <string name="status_config">Configura els estats</string>
+    <string name="label_for_status">Etiqueta de l'estat</string>
+    <string name="post_visibility">Visibilitat:</string>
+    <string name="about">Quant a</string>
+    <string name="field_label_instance">Instància:</string>
+    <string name="field_label_user_url">URL d'usuari:</string>
+    <string name="radio_button_label_direct">Directe</string>
+    <string name="radio_button_label_followers">Seguidors</string>
+    <string name="radio_button_label_unlisted">No llistat</string>
+    <string name="radio_button_label_public">Públic</string>
+    <string name="label_data_format_field">Format de data:</string>
+    <string name="label_gps_format_field">Format de Coordenades GPS:</string>
+    <string name="no_account_to_remove">Sense comptes per a eliminar.</string>
+    <string name="account_removed_account_0_is_active">Compte eliminat i el compte 0 està seleccionat com a actiu.</string>
+    <string name="button_camera_text">Prem per la càmaera\n%s\n%s</string>
+    <string name="camera_permission_granted">Permís de càmera concedit. Fes una foto.</string>
+    <string name="camera_permission_denied">Perm´s de càmera denegat.</string>
+    <string name="external_storage_permission_granted">Permís d'escriptura en emmagatzematge extern concedit. Fes una foto.</string>
+    <string name="external_storage_permission_denied">Permís d'escriptura en emmagatzematge extern denegat.</string>
+    <string name="need_camera_permission">Necessita el permís d'accés a la càmera.</string>
+    <string name="external_storage_permission_needed">Necessita permís d'escriptura en emmagatzematge extern.</string>
+    <string name="token_does_not_look_valid">El Token \"%s\" no sembla vàlid, intenta-ho de nou.</string>
+    <string name="account_created">Compte creat. Configura l'estat a publicar.</string>
+    <string name="enter_an_instance_name">Escriu el nom de l'instància. Exemple: pleroma.site</string>
+    <string name="instance_string_format">Instància \"%s\"</string>
+    <string name="select_account">Tria compte...</string>
+    <string name="select_status">Tria estat...</string>
+    <string name="label_can_not_be_blank">El valor etiqueta no pot quedar buit. Usa una etiqueta que el descrigui.</string>
+    <string name="no_status_config_to_remove">No hi ha configuracions a eliminar.</string>
+    <string name="status_config_removed_status_0_active">Eliminada la configuració d'estat i l'estat 0 és ara l'estat actiu.</string>
+    <string name="photo_file_name_blank">El nom del fitxer de la foto està buit.</string>
+    <string name="post_success">Publicació correcte</string>
+    <string-array name="actionAfterPostEntries">
+        <item>Deixar foto en la carpeta Photo</item>
+        <item>Copiar a fotos</item>
+        <item>Moure foto a fotos</item>
+        <item>Eliminar foto</item>
+    </string-array>
+    <string-array name="actionAfterPostValues">
+        <item>deixar</item>
+        <item>copiar</item>
+        <item>moure</item>
+        <item>eliminar</item>
+    </string-array>
+</resources>
