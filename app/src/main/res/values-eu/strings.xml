@@ -1,0 +1,63 @@
+<resources> 
+  <string name="app_name">Fedi Photo</string> 
+	<string name="accounts">Kontua</string> 
+	<string name="add_account">Gehitu kontua</string>
+	<string name="add_status">Gehitu egoera</string>
+	<string name="remove_account">Ezabatu kontu hau</string>
+	<string name="remove_status">Ezabatu egoera-konfigurazio hau</string>
+	<string name="settings">Ezarpenak</string> 
+	<string name="camera_on_start">Kamera martxan</string> 
+	<string name="camera_on_start_summary">Piztu kamera Fedi Photo hasten denean argazki bat azkar atera eta argitaratzeko</string> 
+	<string name="active_account">Egin ezazu kontu hau aktibo </string> 
+	<string name="active_status">Egin ezazu egoera hau aktibo</string>
+	<string name="text_for_post">Testua argitalpenerako</string>
+	<string name="status_config">Egoeraren konfigurazioa</string>
+	<string name="label_for_status">Etiketa jarri egoerari</string>
+	<string name="post_visibility">Argitalpenaren ikusgaitasuna:</string> 
+	<string name="about">Honi buruz</string>
+	<string name="field_label_instance">Instantzia:</string> 
+	<string name="field_label_user_url">Erabiltzailearen URL-a:</string>
+	<string name="radio_button_label_direct">Zuzena</string> 
+	<string name="radio_button_label_followers">Jarraitzaileak</string>
+	<string name="radio_button_label_unlisted">Zerrendatu gabe</string>
+	<string name="radio_button_label_public">Publikoa</string> 
+	<string name="label_data_format_field">Dataren formatua:</string>
+	<string name="label_gps_format_field">GPS koordenatuen formatua:</string> 
+	<string name="no_account_to_remove">Ez dago konturik ezabatzeko.</string> 
+	<string name="account_removed_account_0_is_active">Kontua ezabatuta eta 0 kontua da orain aukeratutako aktiboa.</string> 
+	<string name="button_camera_text">Sakatu kamera\n%s\n%s</string> 
+	<string name="camera_permission_granted">Baimena bermaturik kamera erabiltzeko. Atera argazki bat.</string> 
+	<string name="camera_permission_denied">Baimenik ez duzu kamara erabiltzeko.</string> 
+	<string name="external_storage_permission_granted">Baimena bermaturik kanpoko biltegiratze-gailu bat erabiltzeko. Atera argazki bat.</string> 
+	<string name="external_storage_permission_denied">Baimenik ez duzu kanpoko biltegiratze-gailu bat erabiltzeko.</string>
+	<string name="need_camera_permission">Baimena behar duzu kamera erabiltzeko.</string>
+	<string name="external_storage_permission_needed">Baimena behar duzu kanpoko biltegiratze-gailua erabiltzeko.</string>
+	<string name="token_does_not_look_valid">Token \"%s\" ez da baliozkoa. Saiatu berriz.</string> 
+	<string name="account_created">Kontua sortu duzu. Konfiguratu egoera.</string>
+	<string name="enter_an_instance_name">Sartu instantzia izen bat. Adibidez: pleroma.site</string>
+	<string name="instance_string_format">Instantzia \"%s\"</string>
+	<string name="select_account">Aukeratu kontua...</string>
+	<string name="select_status">Aukeratu egoera...</string> 
+	<string name="label_can_not_be_blank">Etiketa ezin da hutsik utzi. Idatzi izen esanguratsu bat egoera-konfigurazio honetarako.</string> 
+	<string name="no_status_config_to_remove">Ez dago egoera-konfiguraziorik ezabatzeko.</string> 
+	<string name="status_config_removed_status_0_active">Egoera-konfigurazioa ezabatu da eta egoera 0 da orain aukeratutako egoera aktiboa.</string>
+	<string name="photo_file_name_blank">Argazkiaren artxibo izena hutsik dago.</string>
+	<string name="post_success">Argitalpena behar bezala gauzatu da</string> 
+	<string name="older_workers_prompt">%d egiteke dagoen(dauden) ataza(k) egun bat baino gehiagoko aintzinatasuna du(te). Ezeztatu nahi duzu(dituzu)?</string>
+	<string name="yes">Bai</string>
+	<string name="no">Ez</string>
+	<string name="workers_cancelled">%d egiteke zegoen ataza ezezaztatu da.</string>
+	<string name="fedi_photo_for_android">\"Androiderako Fedi Photo \"</string>
+	<string-array name="actionAfterPostEntries"> 
+        <item>Utzi argazkia Fedi Photo karpetan</item> 
+        <item>Kopiatua argazkia argazkien karpetara</item> 
+        <item>Mugitu argazkia argazkien karpetara</item> 
+        <item>Ezabatu argazkia</item> 
+	</string-array> 
+	<string-array name="actionAfterPostValues"> 
+        <item>utzi</item> 
+        <item>kopiatu</item> 
+        <item>mugitu</item> 
+        <item>ezabatu</item> 
+    </string-array> 
+    </resources>

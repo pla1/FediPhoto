@@ -17,7 +17,7 @@ https://fediphoto.com
      
 ## How-To
 
-* connect **FediPhoto** client with your _fediverse_ account (only mastodon and pleroma at the moment) to retrieve auth token.
+* connect **FediPhoto** client with your _fediverse_ account (mastodon, pleroma and pixelfed*) to retrieve auth token.
      * multiple accounts are supported.
 * you'll be requested to concede this [permissions](https://fediphoto.com/privacy-policy.html)
 * configure status settings
@@ -27,7 +27,8 @@ https://fediphoto.com
 
 ## Known Issues
 
-PixelFed does not allow direct posts via the API as far as I can determine. 
+* PixelFed does not allow direct posts via the API as far as I can determine. 
+* Not working if PixelFed's 2FA is enabled (this happens with any client).
 
 [Issues](https://github.com/pla1/FediPhoto/issues)
 
@@ -66,6 +67,7 @@ Translate **FediPhoto** _UI_
 ### Contributors (A-Z)
 
 * Catalan - [spla](https://github.com/splacat)
+* Euskera - [Izaro](https://pleroma.libretux.com/users/izaro)
 * Galician - [xmgz](https://github.com/xmgz) 
 * Italian - [Sylke Vicious](https://github.com/silkevicious)
 * Spanish - [xmgz](https://github.com/xmgz) 
