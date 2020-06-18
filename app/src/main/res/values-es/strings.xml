@@ -43,6 +43,11 @@
     <string name="status_config_removed_status_0_active">Eliminada la configuración de estado y estado 0 es ahora el estado activo.</string>
     <string name="photo_file_name_blank">Nombre del fichero de foto está vacío.</string>
     <string name="post_success">Publicación correcta</string>
+    <string name="older_workers_prompt">%d trabajo(s) anteriores a un día. ¿Deseas cancelarlos?</string>
+    <string name="yes">Si</string>
+    <string name="no">No</string>
+    <string name="workers_cancelled">%d trabajos cancelados.</string>
+    <string name="fedi_photo_for_android">\"Fedi Photo para Android \"</string>
     <string-array name="actionAfterPostEntries">
         <item>Dejar foto en carpeta Photo</item>
         <item>Copiar a fotos</item>
