@@ -48,6 +48,20 @@ class Utils {
         return !isBlank(s);
     }
 
+    public static long DAY_ONE = 1000 * 60 * 60 * 24;
+    public static long MINUTES_ONE = 1000 * 60;
+
+    public static long getLong(String s) {
+        if (isBlank(s)) {
+            return 0;
+        }
+        try {
+            return Long.parseLong(s);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
     public static int getInt(String s) {
         if (isBlank(s)) {
             return 0;
@@ -64,7 +78,7 @@ class Utils {
         double latitude = 12.123456789;
         double longitude = 21.123456789;
         String stringFormat = "Test %.3f %.3f";
-        System.out.format(stringFormat, latitude, longitude );
+        System.out.format(stringFormat, latitude, longitude);
         System.out.format("%nQuantity of percent symbols %d%n", stringFormat.split("[%]").length);
     }
 

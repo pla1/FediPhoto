@@ -66,13 +66,13 @@ public class StatusConfigActivity extends AppCompatActivity {
         if (MainActivity.Literals.direct.name().equals(Utils.getProperty(status, MainActivity.Literals.visibility.name()))) {
             radioVisibilityDirect.setChecked(true);
         }
-        if (MainActivity.Literals.followers.name().equals(Utils.getProperty(status, MainActivity.Literals.visibility.name()))) {
+        if ("private".equals(Utils.getProperty(status, MainActivity.Literals.visibility.name()))) {
             radioVisibilityFollowers.setChecked(true);
         }
         if (MainActivity.Literals.unlisted.name().equals(Utils.getProperty(status, MainActivity.Literals.visibility.name()))) {
             radioVisibilityUnlisted.setChecked(true);
         }
-        if (MainActivity.Literals.PUBLIC.name().equals(Utils.getProperty(status, MainActivity.Literals.visibility.name()))) {
+        if ("public".equals(Utils.getProperty(status, MainActivity.Literals.visibility.name()))) {
             radioVisibilityPublic.setChecked(true);
         }
         editTextLabel = findViewById(R.id.editTextLabel);
@@ -124,10 +124,10 @@ public class StatusConfigActivity extends AppCompatActivity {
             statusJsonObject.addProperty(MainActivity.Literals.visibility.name(), MainActivity.Literals.direct.name());
         }
         if (radioVisibilityFollowers.isChecked()) {
-            statusJsonObject.addProperty(MainActivity.Literals.visibility.name(), MainActivity.Literals.followers.name());
+            statusJsonObject.addProperty(MainActivity.Literals.visibility.name(), "private");
         }
         if (radioVisibilityPublic.isChecked()) {
-            statusJsonObject.addProperty(MainActivity.Literals.visibility.name(), MainActivity.Literals.PUBLIC.name());
+            statusJsonObject.addProperty(MainActivity.Literals.visibility.name(), "public");
         }
         if (radioVisibilityUnlisted.isChecked()) {
             statusJsonObject.addProperty(MainActivity.Literals.visibility.name(), MainActivity.Literals.unlisted.name());

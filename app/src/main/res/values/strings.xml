@@ -43,6 +43,11 @@
     <string name="status_config_removed_status_0_active">Status config removed and status 0 is now the selected active status.</string>
     <string name="photo_file_name_blank">Photo file name is blank.</string>
     <string name="post_success">Post success</string>
+    <string name="older_workers_prompt">%d worker(s) over a day old. Would you like to cancel them?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="workers_cancelled">%d workers cancelled.</string>
+    <string name="fedi_photo_for_android">\"Fedi Photo for Android \"</string>
     <string-array name="actionAfterPostEntries">
         <item>Leave photo in Fedi Photo folder</item>
         <item>Copy photo to photos folder</item>

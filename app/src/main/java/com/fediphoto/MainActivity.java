@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
@@ -39,6 +40,7 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkContinuation;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
+import androidx.work.impl.WorkManagerImpl;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
@@ -57,6 +59,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -228,11 +231,13 @@ public class MainActivity extends AppCompatActivity {
         final OneTimeWorkRequest uploadWorkRequest = new OneTimeWorkRequest
                 .Builder(com.fediphoto.WorkerUpload.class)
                 .addTag(Literals.worker_tag_media_upload.name())
+                .addTag(String.format("%s%d",Literals.created_milliseconds.name(), System.currentTimeMillis()))
                 .setInputData(data).build();
         WorkContinuation workContinuation = WorkManager.getInstance(context).beginWith(uploadWorkRequest);
         OneTimeWorkRequest postStatusWorkRequest = new OneTimeWorkRequest
                 .Builder(com.fediphoto.WorkerPostStatus.class)
                 .addTag(Literals.worker_tag_post_status.name())
+                .addTag(String.format("%s%d",Literals.created_milliseconds.name(), System.currentTimeMillis()))
                 .setInputData(data).build();
         workContinuation = workContinuation.then(postStatusWorkRequest);
         workContinuation.enqueue();
@@ -283,10 +288,10 @@ public class MainActivity extends AppCompatActivity {
     public enum Literals {
         client_name, redirect_uris, scopes, website, access_token, POST, urlString, authorization_code,
         token, client_id, client_secret, redirect_uri, me,
-        grant_type, code, accounts, instance, text, followers, visibility, unlisted, PUBLIC, dateFormat,
+        grant_type, code, accounts, instance, text, visibility, unlisted, dateFormat,
         OK, Cancel, media_ids, id, status, url, gpsCoordinatesFormat, direct, fileName,
         accountIndexSelected, accountIndexActive, statuses, label, statusIndexActive, statusIndexSelected,
-        leave, copy, move, delete, display_name, username, acct, worker_tag_media_upload, worker_tag_post_status
+        leave, copy, move, delete, display_name, username, acct, worker_tag_media_upload, worker_tag_post_status, created_milliseconds
     }
 
 
@@ -328,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
                 outputStream.write(json.getBytes());
                 outputStream.flush();
                 int responseCode = urlConnection.getResponseCode();
-                Log.i(TAG, String.format("Response code: %d\n", responseCode));
+                Log.i(TAG, String.format("Response code: %d in WorkerCreateApp.\n", responseCode));
                 urlConnection.setInstanceFollowRedirects(true);
                 inputStream = urlConnection.getInputStream();
                 InputStreamReader isr = new InputStreamReader(inputStream);
@@ -336,6 +341,7 @@ public class MainActivity extends AppCompatActivity {
                 jsonObject = gson.fromJson(isr, JsonObject.class);
             } catch (Exception e) {
                 e.printStackTrace();
+                Log.e(TAG, e.getLocalizedMessage());
             } finally {
                 Utils.close(inputStream, outputStream);
             }
@@ -345,7 +351,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(JsonObject jsonObject) {
             super.onPostExecute(jsonObject);
-            Log.i(TAG, "OUTPUT: " + jsonObject.toString());
+            Log.i(TAG, "WorkerCreateApp OUTPUT: " + jsonObject.toString());
             weakReference.get().createAppResults = jsonObject;
             String urlString = String.format("https://%s/oauth/authorize?scope=%s&response_type=code&redirect_uri=%s&client_id=%s",
                     instance, Utils.urlEncodeComponent("write read follow push"), Utils.urlEncodeComponent(jsonObject.get("redirect_uri").getAsString()), jsonObject.get("client_id").getAsString());
@@ -373,7 +379,7 @@ public class MainActivity extends AppCompatActivity {
             params.addProperty(Literals.code.name(), weakReference.get().token);
             params.addProperty(Literals.redirect_uri.name(), weakReference.get().createAppResults.get(Literals.redirect_uri.name()).getAsString());
             String urlString = String.format("https://%s/oauth/token", instance[0]);
-            Log.i(TAG, "URL " + urlString);
+            Log.i(TAG, "URL in WorkerAuthorize: " + urlString);
             HttpsURLConnection urlConnection;
             InputStream inputStream = null;
             OutputStream outputStream = null;
@@ -394,13 +400,13 @@ public class MainActivity extends AppCompatActivity {
                 outputStream.write(json.getBytes());
                 outputStream.flush();
                 int responseCode = urlConnection.getResponseCode();
-                Log.i(TAG, String.format("Response code: %d\n", responseCode));
+                Log.i(TAG, String.format("WorkerAuthorize Response code: %d\n", responseCode));
                 urlConnection.setInstanceFollowRedirects(true);
                 inputStream = urlConnection.getInputStream();
                 InputStreamReader isr = new InputStreamReader(inputStream);
                 Gson gson = new Gson();
                 jsonObject = gson.fromJson(isr, JsonObject.class);
-                Log.i(TAG, String.format("JSON from oauth/token %s", jsonObject.toString()));
+                Log.i(TAG, String.format("WorkerAuthorize JSON from oauth/token %s", jsonObject.toString()));
                 JsonObject settings = Utils.getSettings(weakReference.get());
                 JsonArray accounts = settings.getAsJsonArray(Literals.accounts.name());
                 if (accounts == null) {
@@ -418,7 +424,7 @@ public class MainActivity extends AppCompatActivity {
                 accounts.add(jsonObject);
                 settings.add(Literals.accounts.name(), accounts);
                 Utils.writeSettings(weakReference.get(), settings);
-                Log.i(TAG, String.format("Settings after save:\n%s\n", Utils.getSettings(weakReference.get()).toString()));
+                Log.i(TAG, String.format("WorkerAuthorize settings after save:\n%s\n", Utils.getSettings(weakReference.get()).toString()));
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -596,20 +602,60 @@ public class MainActivity extends AppCompatActivity {
 
     private void workerStatus(String tag) {
         ListenableFuture<List<WorkInfo>> workInfoList = WorkManager.getInstance(context).getWorkInfosByTag(tag);
+        int quantityNotFinishedDayOrOlder = 0;
         try {
             List<WorkInfo> workInfos = workInfoList.get(5, TimeUnit.SECONDS);
-
             int quantityNotFinished = 0;
+            boolean isDebuggable = (0 != (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
             for (WorkInfo workInfo : workInfos) {
                 if (workInfo != null && !workInfo.getState().isFinished()) {
-                    Log.i(TAG, String.format("Worker info %s. Worker Info Tag %s", workInfo.toString(), tag));
+                    long createdMilliseconds = 0;
+                    Set<String> tags = workInfo.getTags();
+                    for (String workerTag:tags) {
+                        Log.i(TAG, String.format("Worker tag: %s", workerTag));
+                        if (workerTag.startsWith(Literals.created_milliseconds.name())) {
+                           createdMilliseconds = Utils.getLong(workerTag.substring(Literals.created_milliseconds.name().length()));
+                        }
+                    }
+                    Log.i(TAG, String.format("Worker created %s info %s. Worker Info Tag %s.",  new Date(createdMilliseconds), workInfo.toString(), tag));
                     quantityNotFinished++;
+                    if (createdMilliseconds > 0
+                            && (System.currentTimeMillis() - createdMilliseconds > Utils.DAY_ONE
+                            || (isDebuggable && System.currentTimeMillis() - createdMilliseconds > Utils.MINUTES_ONE))) {
+                        quantityNotFinishedDayOrOlder++;
+                    }
                 }
             }
             Log.i(TAG, String.format("%d worker info quantity. Worker Info Tag %s. %d not finished.", workInfos.size(), tag, quantityNotFinished));
         } catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage());
         }
+        if (quantityNotFinishedDayOrOlder > 0) {
+            promptUserToDeleteWorkers(quantityNotFinishedDayOrOlder);
+        }
+    }
+
+    private void promptUserToDeleteWorkers(final int quantity) {
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        WorkManager.getInstance(context).cancelAllWork();
+                        String message = String.format(Locale.getDefault(), getString(R.string.workers_cancelled), quantity);
+                        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        break;
+                }
+            }
+        };
+        String message = String.format(Locale.getDefault(), getString(R.string.older_workers_prompt), quantity);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(message).setPositiveButton(R.string.yes, dialogClickListener)
+                .setNegativeButton(R.string.no, dialogClickListener).show();
+
     }
 
     private void setTitle() {

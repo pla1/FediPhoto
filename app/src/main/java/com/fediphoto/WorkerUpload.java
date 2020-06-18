@@ -41,7 +41,7 @@ public class WorkerUpload extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        Log.i(TAG, String.format("WorkerUpload test started %s", new Date()));
+        Log.i(TAG, String.format("WorkerUpload started %s", new Date()));
         Data data = getInputData();
         String fileName = data.getString(MainActivity.Literals.fileName.name());
         if (Utils.isBlank(fileName)) {
@@ -57,13 +57,14 @@ public class WorkerUpload extends Worker {
         JsonElement account = Utils.getAccountSelectedFromSettings(context);
         String instance = Utils.getProperty(account, MainActivity.Literals.instance.name());
         String token = Utils.getProperty(account, MainActivity.Literals.access_token.name());
+        Log.i(TAG, String.format("WorkerUploadWorkerUpload account: %s Instance: %s Token: %s", Utils.getProperty(account, MainActivity.Literals.display_name.name()), instance, token));
         String boundary = new BigInteger(256, new Random()).toString();
         String urlString = String.format("https://%s/api/v1/media", instance);
-        Log.i(TAG, "URL " + urlString);
         HttpsURLConnection urlConnection;
         InputStream inputStream = null;
         OutputStream outputStream = null;
         PrintWriter writer = null;
+        StringBuilder responseBody = new StringBuilder();
         try {
             URL url = new URL(urlString);
             Log.i(TAG, String.format("URL: %s", url.toString()));
@@ -74,23 +75,24 @@ public class WorkerUpload extends Worker {
             urlConnection.setRequestMethod(MainActivity.Literals.POST.name());
             urlConnection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
             urlConnection.setDoOutput(true);
+            // test
+            String authorization = String.format("Bearer %s", token);
+            urlConnection.setRequestProperty("Authorization", authorization);
+            // end test
             outputStream = urlConnection.getOutputStream();
             writer = new PrintWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), true);
-
             writer.append("--").append(boundary).append(Utils.LINE_FEED);
             writer.append("Content-Disposition: form-data; name=\"access_token\"").append(Utils.LINE_FEED);
             writer.append("Content-Type: text/plain; charset=UTF-8").append(Utils.LINE_FEED);
-            writer.append(Utils.LINE_FEED);
-            writer.append(token).append(Utils.LINE_FEED);
-            writer.flush();
+            writer.append(Utils.LINE_FEED).append(token).append(Utils.LINE_FEED).flush();
 
             writer.append("--").append(boundary).append(Utils.LINE_FEED);
             writer.append("Content-Disposition: form-data; name=\"file\"; filename=\"");
             writer.append(file.getName()).append("\"").append(Utils.LINE_FEED);
             writer.append("Content-Type: image/jpeg").append(Utils.LINE_FEED);
             writer.append("Content-Transfer-Encoding: binary").append(Utils.LINE_FEED);
-            writer.append(Utils.LINE_FEED);
-            writer.flush();
+            writer.append(Utils.LINE_FEED).flush();
+
 
             inputStream = new FileInputStream(file);
             byte[] buffer = new byte[4096];
@@ -101,8 +103,7 @@ public class WorkerUpload extends Worker {
             outputStream.flush();
             inputStream.close();
 
-            writer.append(Utils.LINE_FEED);
-            writer.flush();
+       //     writer.append(Utils.LINE_FEED).flush();
 
 
             writer.append(Utils.LINE_FEED).flush();
@@ -112,7 +113,7 @@ public class WorkerUpload extends Worker {
             outputStream.flush();
 
             int responseCode = urlConnection.getResponseCode();
-            String responseCodeMessage = String.format(Locale.US, "Response code: %d\n", responseCode);
+            String responseCodeMessage = String.format(Locale.US, "WorkerUpload response code: %d\n", responseCode);
             Log.i(TAG, responseCodeMessage);
             urlConnection.setInstanceFollowRedirects(true);
             inputStream = urlConnection.getInputStream();
@@ -120,20 +121,20 @@ public class WorkerUpload extends Worker {
             BufferedReader reader = new BufferedReader(isr);
 
             String line;
-            StringBuilder responseBody = new StringBuilder();
             while ((line = reader.readLine()) != null) {
                 responseBody.append(line);
             }
             reader.close();
             urlConnection.disconnect();
             JsonElement jsonElement = JsonParser.parseString(responseBody.toString());
-            Log.i(TAG, String.format("Output from upload: %s", jsonElement));
+            Log.i(TAG, String.format("WorkerUpload output from upload: %s", jsonElement));
             Data outputData = new Data.Builder()
                     .putString(MainActivity.Literals.id.name(), Utils.getProperty(jsonElement, MainActivity.Literals.id.name()))
                     .putString(MainActivity.Literals.fileName.name(), fileName)
                     .build();
             return Result.success(outputData);
         } catch (Exception e) {
+            System.out.format("Error: %s\nResponse body: %s\n", e.getLocalizedMessage(), responseBody);
             e.printStackTrace();
             return Result.retry();
         } finally {

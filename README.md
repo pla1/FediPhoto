@@ -2,7 +2,7 @@
 
 Post a photo quickly to the Fediverse.
 
-http://fediphoto.com
+https://fediphoto.com
 
 *Open, Click, Shared!*
 
@@ -17,8 +17,6 @@ http://fediphoto.com
      
 ## How-To
 
-[EDIT]
-
 * connect **FediPhoto** client with your _fediverse_ account (only mastodon and pleroma at the moment) to retrieve auth token.
      * multiple accounts are supported.
 * you'll be requested to concede this [permissions](https://fediphoto.com/privacy-policy.html)
@@ -29,15 +27,15 @@ http://fediphoto.com
 
 ## Known Issues
 
-* []
+PixelFed does not allow direct posts via the API as far as I can determine. 
+
+[Issues](https://github.com/pla1/FediPhoto/issues)
 
 ## Changelog
 
 [FediPhoto ChangeLog](https://fediphoto.com/changeLog.html)
 
 ## Privacy
-
-[PLEASE EDIT]
 
 [FediPhoto Privacy Policy](https://fediphoto.com/privacy-policy.html)
 
@@ -49,17 +47,11 @@ http://fediphoto.com
 
 ## Bug Reports & Contributions
 
-[PLEASE EDIT IF YOU DON'T WANT/NEED CONTRIBUTIONS]
-
 Please **open** a [github issue](https://github.com/pla1/FediPhoto/issues) with detailed information about the problem
 
 **Contribute** making feature requests and **code** contributions
 
 Contact translators for translation issues
-
-## Roadmap
-
-* []
 
 ## Localization
 
@@ -73,9 +65,8 @@ Translate **FediPhoto** _UI_
 
 ### Contributors (A-Z)
 
-[GIVING CREDIT AND CONTACT INFO IF THERE WERE ANY PROBLEM]
-
+* Catalan - [spla](https://github.com/splacat)
 * Galician - [xmgz](https://github.com/xmgz) 
+* Italian - [Sylke Vicious](https://github.com/silkevicious)
 * Spanish - [xmgz](https://github.com/xmgz) 
-
 

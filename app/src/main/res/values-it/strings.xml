@@ -1,0 +1,63 @@
+<resources>
+    <string name="app_name">Fedi Photo</string>
+    <string name="accounts">Account</string>
+    <string name="add_account">Aggiungi account</string>
+    <string name="add_status">Aggiungi configurazione stato</string>
+    <string name="remove_account">Rimuovi questo account</string>
+    <string name="remove_status">Rimuovi questa configurazione stato</string>
+    <string name="settings">Impostazioni</string>
+    <string name="camera_on_start">Fotocamera all\'apertura</string>
+    <string name="camera_on_start_summary">Apri la fotocamera quando apri Fedi Photo in modo da scattare e postare una foto più velocemente.</string>
+    <string name="active_account">Rendi questo account quello attivo</string>
+    <string name="active_status">Rendi questo stato quello attivo</string>
+    <string name="text_for_post">Testo per il post:</string>
+    <string name="status_config">Configurazioni dello stato</string>
+    <string name="label_for_status">Etichetta questo stato</string>
+    <string name="post_visibility">Visibilità del post:</string>
+    <string name="about">Info</string>
+    <string name="field_label_instance">Istanza:</string>
+    <string name="field_label_user_url">URL utente:</string>
+    <string name="radio_button_label_direct">Diretto</string>
+    <string name="radio_button_label_followers">Solo Seguaci</string>
+    <string name="radio_button_label_unlisted">Non Elencato</string>
+    <string name="radio_button_label_public">Pubblico</string>
+    <string name="label_data_format_field">Formato Data:</string>
+    <string name="label_gps_format_field">Formato Coordinate GPS</string>
+    <string name="no_account_to_remove">Nessun account da rimuovere.</string>
+    <string name="account_removed_account_0_is_active">Account rimosso e ora l\'account 0 è selezionato come attivo.</string>
+    <string name="button_camera_text">Premi per la fotocamera\n%s\n%s</string>
+    <string name="camera_permission_granted">Autorizzazione per la fotocamera consentita. Scatta una foto.</string>
+    <string name="camera_permission_denied">Autorizzazione per la fotocamera rifiutata.</string>
+    <string name="external_storage_permission_granted">Autorizzazione per l\'archiviazione consentito. Scatta una foto.</string>
+    <string name="external_storage_permission_denied">Autorizzazione per l\'archiviazione rifiutata.</string>
+    <string name="need_camera_permission">Occorre l\'autorizzazione per la fotocamera.</string>
+    <string name="external_storage_permission_needed">Occorre l\'autorizzazione per l\'archiviazione.</string>
+    <string name="token_does_not_look_valid">Il token \"%s\" non sembra valido. Riprova.</string>
+    <string name="account_created">Account creato. Imposta una configurazione di stato.</string>
+    <string name="enter_an_instance_name">Inserisci un nome dell\'istanza. Per esempio: pleroma.site</string>
+    <string name="instance_string_format">Istanza \"%s\"</string>
+    <string name="select_account">Seleziona account&#8230;</string>
+    <string name="select_status">Seleziona stato&#8230;</string>
+    <string name="label_can_not_be_blank">L\'etichetta non può essere vuota. Dalle un nome significativo per questa configurazione di stato.</string>
+    <string name="no_status_config_to_remove">Nessuna configurazione di stato da rimuovere.</string>
+    <string name="status_config_removed_status_0_active">Configurazione dello stato rimossa e ora lo stato 0 è selezionato come attivo.</string>
+    <string name="photo_file_name_blank">Il nome file della foto è vuoto.</string>
+    <string name="post_success">Postato con successo</string>
+    <string name="older_workers_prompt">%d temporane(s) vecchi più di un giorno. Vorresti eliminarli?</string>
+    <string name="yes">Si</string>
+    <string name="no">No</string>
+    <string name="workers_cancelled">%d temporanei eliminati.</string>
+    <string name="fedi_photo_for_android">\"Fedi Photo per Android \"</string>
+    <string-array name="actionAfterPostEntries">
+        <item>Lascia foto nella cartella Fedi Photo</item>
+        <item>Copia foto nella cartella foto</item>
+        <item>Sposta foto nella cartella foto</item>
+        <item>Elimina foto</item>
+    </string-array>
+    <string-array name="actionAfterPostValues">
+        <item>lascia</item>
+        <item>copia</item>
+        <item>sposta</item>
+        <item>elimina</item>
+    </string-array>
+</resources>
