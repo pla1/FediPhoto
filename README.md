@@ -67,6 +67,7 @@ Translate **FediPhoto** _UI_
 ### Contributors (A-Z)
 
 * Catalan - [spla](https://github.com/splacat)
+* Euskera - [Izaro](https://pleroma.libretux.com/users/izaro)
 * Galician - [xmgz](https://github.com/xmgz) 
 * Italian - [Sylke Vicious](https://github.com/silkevicious)
 * Spanish - [xmgz](https://github.com/xmgz) 
