@@ -43,6 +43,11 @@
     <string name="status_config_removed_status_0_active">Borraches a configuración da publicación e a configuración 0 está agora activa.</string>
     <string name="photo_file_name_blank">O nome do ficheiro da foto está baleiro.</string>
     <string name="post_success">Publicación correcta</string>
+    <string name="older_workers_prompt">%d tarefa(s) anteriores a un día. ¿Desexas cancelalas?</string>
+    <string name="yes">Si</string>
+    <string name="no">Non</string>
+    <string name="workers_cancelled">%d tarefas canceladas.</string>
+    <string name="fedi_photo_for_android">\"Fedi Photo para Android \"</string>
     <string-array name="actionAfterPostEntries">
         <item>Deixar foto no cartafol Fedi Photo</item>
         <item>Copiar foto ao cartafol fotos</item>
