@@ -36,12 +36,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".AccountActivity"
-            android:label="Account"
+            android:label="@string/account"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".StatusConfigActivity"
-            android:label="Status Config"
+            android:label="@string/status_config_activity_title"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" />
         <activity

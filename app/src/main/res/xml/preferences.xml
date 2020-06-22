@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="General">
+    <PreferenceCategory android:title="@string/general">
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/camera_on_start"
@@ -8,7 +8,7 @@
             android:title="@string/camera_on_start" />
          <ListPreference
              android:key="actionAfterPost"
-             android:title="Action after posting photo"
+             android:title="@string/action_after_posting_photo"
              android:summary="%s"
              android:entries="@array/actionAfterPostEntries"
              android:entryValues="@array/actionAfterPostValues"/>
