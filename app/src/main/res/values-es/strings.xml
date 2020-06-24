@@ -48,6 +48,10 @@
     <string name="no">No</string>
     <string name="workers_cancelled">%d trabajos cancelados.</string>
     <string name="fedi_photo_for_android">\"Fedi Photo para Android \"</string>
+    <string name="account">Cuenta</string>
+    <string name="status_config_activity_title">Config. estado</string>
+    <string name="action_after_posting_photo">Acción tras publicar foto</string>
+    <string name="general">General</string>
     <string-array name="actionAfterPostEntries">
         <item>Dejar foto en carpeta Photo</item>
         <item>Copiar a fotos</item>
