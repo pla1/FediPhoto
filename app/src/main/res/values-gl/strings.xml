@@ -11,7 +11,7 @@
     <string name="active_account">Establece esta conta como activa</string>
     <string name="active_status">Establece este estado como activo</string>
     <string name="text_for_post">Texto a publicar:</string>
-    <string name="status_config">Configuración de estados</string>
+    <string name="status_config">Config. Estados</string>
     <string name="label_for_status">Etiqueta do estado</string>
     <string name="post_visibility">Visibilidade:</string>
     <string name="about">Acerca de</string>
@@ -48,6 +48,10 @@
     <string name="no">Non</string>
     <string name="workers_cancelled">%d tarefas canceladas.</string>
     <string name="fedi_photo_for_android">\"Fedi Photo para Android \"</string>
+    <string name="account">Conta</string>
+    <string name="status_config_activity_title">Config. do Estado</string>
+    <string name="action_after_posting_photo">Acción tras publicar foto</string>
+    <string name="general">Xeral</string>
     <string-array name="actionAfterPostEntries">
         <item>Deixar foto no cartafol Fedi Photo</item>
         <item>Copiar foto ao cartafol fotos</item>
