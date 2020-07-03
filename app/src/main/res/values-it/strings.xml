@@ -7,7 +7,7 @@
     <string name="remove_status">Rimuovi questa configurazione stato</string>
     <string name="settings">Impostazioni</string>
     <string name="camera_on_start">Fotocamera all\'apertura</string>
-    <string name="camera_on_start_summary">Apri la fotocamera quando apri Fedi Photo in modo da scattare e postare una foto più velocemente.</string>
+    <string name="camera_on_start_summary">Apri la fotocamera quando apri Fedi Photo in modo da scattare e pubblicare una foto più velocemente.</string>
     <string name="active_account">Rendi questo account quello attivo</string>
     <string name="active_status">Rendi questo stato quello attivo</string>
     <string name="text_for_post">Testo per il post:</string>
@@ -42,12 +42,16 @@
     <string name="no_status_config_to_remove">Nessuna configurazione di stato da rimuovere.</string>
     <string name="status_config_removed_status_0_active">Configurazione dello stato rimossa e ora lo stato 0 è selezionato come attivo.</string>
     <string name="photo_file_name_blank">Il nome file della foto è vuoto.</string>
-    <string name="post_success">Postato con successo</string>
-    <string name="older_workers_prompt">%d temporane(s) vecchi più di un giorno. Vorresti eliminarli?</string>
+    <string name="post_success">Pubblicato con successo</string>
+    <string name="older_workers_prompt">%d temporane(i) vecchi più di un giorno. Vorresti eliminarli?</string>
     <string name="yes">Si</string>
     <string name="no">No</string>
     <string name="workers_cancelled">%d temporanei eliminati.</string>
     <string name="fedi_photo_for_android">\"Fedi Photo per Android \"</string>
+    <string name="account">Account</string>
+    <string name="status_config_activity_title">Configurazione dello stato</string>
+    <string name="action_after_posting_photo">Azione dopo aver pubblicato la foto</string>
+    <string name="general">Generale</string>
     <string-array name="actionAfterPostEntries">
         <item>Lascia foto nella cartella Fedi Photo</item>
         <item>Copia foto nella cartella foto</item>
