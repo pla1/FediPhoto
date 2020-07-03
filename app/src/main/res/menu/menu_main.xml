@@ -2,21 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/accounts"
-        android:icon="@drawable/ic_launcher_background"
         android:title="@string/accounts" />
     <item
         android:id="@+id/settings"
-        android:icon="@drawable/ic_launcher_background"
         android:title="@string/settings" />
 
     <item
         android:id="@+id/status_config"
-        android:icon="@drawable/ic_launcher_background"
         android:title="@string/status_config" />
 
     <item
         android:id="@+id/about"
-        android:icon="@drawable/ic_launcher_background"
         android:title="@string/about" />
 
 </menu>

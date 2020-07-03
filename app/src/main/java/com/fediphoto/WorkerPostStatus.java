@@ -227,7 +227,7 @@ public class WorkerPostStatus extends Worker {
                 .setContentTitle(title)
                 .setContentText(urlString)
                 .setContentIntent(pendingIntent)
-                .setSmallIcon(R.drawable.notification_icon)
+                .setSmallIcon(R.drawable.fediphoto_foreground)
                 .setLargeIcon(BitmapFactory.decodeFile(photoFileName))
                 .setAutoCancel(true);
         Random random = new Random();
