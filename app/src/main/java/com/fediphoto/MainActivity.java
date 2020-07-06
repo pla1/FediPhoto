@@ -659,6 +659,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setTitle() {
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.fediphoto_foreground);
         String version = "";
         try {
             PackageInfo pInfo = context.getPackageManager().getPackageInfo(getPackageName(), 0);
