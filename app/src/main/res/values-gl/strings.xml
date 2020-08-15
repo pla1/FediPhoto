@@ -53,6 +53,12 @@
     <string name="action_after_posting_photo">Acción tras publicar foto</string>
     <string name="general">Xeral</string>
     <string-array name="actionAfterPostEntries">
+    <string name="radio_button_label_never">Nunca</string>
+    <string name="radio_button_label_always">Sempre</string>
+    <string name="radio_button_label_daily">Cada día</string>
+    <string name="threading">Crear tema:</string>
+    <string name="button_label_start_new_thread">Iniciar novo tema</string>
+    <string name="threading_id_cleared">Eliminado o ID do tema.</string>
         <item>Deixar foto no cartafol Fedi Photo</item>
         <item>Copiar foto ao cartafol fotos</item>
         <item>Mover foto ao cartafol fotos</item>
