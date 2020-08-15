@@ -32,6 +32,9 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Scanner;
 
 class Utils {
@@ -122,6 +125,14 @@ class Utils {
             }
         }
         return null;
+    }
+
+    public static void saveStatusSelectedToSettings(Context context, JsonObject statusConfig) {
+        JsonObject settings = getSettings(context);
+        int statusSelectedIndex = Utils.getInt(Utils.getProperty(settings, MainActivity.Literals.statusIndexSelected.name()));
+        JsonArray jsonArray = settings.getAsJsonArray(MainActivity.Literals.statuses.name());
+        jsonArray.set(statusSelectedIndex, statusConfig);
+        writeSettings(context, settings);
     }
 
     public static JsonObject getStatusActiveFromSettings(Context context) {
@@ -360,5 +371,31 @@ class Utils {
 
     }
 
+    public static String getDateYyyymmdd() {
+        Date date = new Date();
+        String yyyymmdd = new SimpleDateFormat("yyyyMMdd", Locale.US).format(date);
+        Log.i(TAG, String.format("Date: %s formatted: %s", date, yyyymmdd));
+        return yyyymmdd;
+    }
 
+    public static void log(String tag, String s) {
+        if (s == null || s.length() < 3500) {
+            Log.i(tag, s);
+            return;
+        }
+        StringBuilder sb = new StringBuilder(s);
+        if (sb.length() >= 3500) {
+            Log.v(TAG, "sb.length = " + sb.length());
+            int chunkCount = sb.length() / 3500;     // integer division
+            for (int i = 0; i <= chunkCount; i++) {
+                int max = 3500 * (i + 1);
+                if (max >= sb.length()) {
+                    Log.v(TAG, "chunk " + i + " of " + chunkCount + ":" + sb.substring(3500 * i));
+                } else {
+                    Log.v(TAG, "chunk " + i + " of " + chunkCount + ":" + sb.substring(3500 * i, max));
+                }
+            }
+        }
+
+    }
 }

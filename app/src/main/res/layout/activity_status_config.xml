@@ -39,7 +39,8 @@
 
     <RadioGroup
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/radioVisibilityDirect"
@@ -67,6 +68,43 @@
             android:text="@string/radio_button_label_public" />
 
     </RadioGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/threading" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupThreading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radioThreadingNever"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_button_label_never" />
+
+        <RadioButton
+            android:id="@+id/radioThreadingAlways"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_button_label_always" />
+
+        <RadioButton
+            android:id="@+id/radioThreadingDaily"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/radio_button_label_daily" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/buttonClearThread"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_label_start_new_thread" />
 
     <TextView
         android:layout_width="match_parent"

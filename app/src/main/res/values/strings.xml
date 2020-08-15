@@ -12,7 +12,7 @@
     <string name="active_status">Make this status the active one</string>
     <string name="text_for_post">Text for post:</string>
     <string name="status_config">Status configs</string>
-    <string name="label_for_status">Label this status</string>
+    <string name="label_for_status">Label this status:</string>
     <string name="post_visibility">Post visibility:</string>
     <string name="about">About</string>
     <string name="field_label_instance">Instance:</string>
@@ -36,8 +36,8 @@
     <string name="account_created">Account created. Setup a status configuration.</string>
     <string name="enter_an_instance_name">Enter an instance name. For example: pleroma.site</string>
     <string name="instance_string_format">Instance \"%s\"</string>
-    <string name="select_account">Select account...</string>
-    <string name="select_status">Select status...</string>
+    <string name="select_account">Select account…</string>
+    <string name="select_status">Select status…</string>
     <string name="label_can_not_be_blank">Label can not be blank. Key in a meaningful name for this status config.</string>
     <string name="no_status_config_to_remove">No status config to remove.</string>
     <string name="status_config_removed_status_0_active">Status config removed and status 0 is now the selected active status.</string>
@@ -52,6 +52,12 @@
     <string name="status_config_activity_title">Status Config</string>
     <string name="action_after_posting_photo">Action after posting photo</string>
     <string name="general">General</string>
+    <string name="radio_button_label_never">Never</string>
+    <string name="radio_button_label_always">Always</string>
+    <string name="radio_button_label_daily">Daily</string>
+    <string name="threading">Threading:</string>
+    <string name="button_label_start_new_thread">Start new thread</string>
+    <string name="threading_id_cleared">Threading ID cleared.</string>
     <string-array name="actionAfterPostEntries">
         <item>Leave photo in Fedi Photo folder</item>
         <item>Copy photo to photos folder</item>

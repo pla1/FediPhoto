@@ -9,9 +9,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.QuickContactBadge;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +35,9 @@ public class StatusConfigActivity extends AppCompatActivity {
     private RadioButton radioVisibilityUnlisted;
     private RadioButton radioVisibilityFollowers;
     private RadioButton radioVisibilityPublic;
+    private RadioButton radioThreadingNever;
+    private RadioButton radioThreadingAlways;
+    private RadioButton radioThreadingDaily;
     private EditText editTextLabel;
     private EditText editTextText;
     private EditText editTextDateFormat;
@@ -40,6 +46,7 @@ public class StatusConfigActivity extends AppCompatActivity {
     private int statusIndexSelected;
     private JsonObject settings;
     private JsonObject status;
+    private Button buttonStartNewThread;
 
     private final String DEFAULT_GPS_COORDINATES_FORMAT = "https://openstreetmap.org?zoom=17&layers=m&mlat=%.5f&mlon=%.5f";
     private final String DEFAULT_DATE_FORMAT = "EEEE MMMM dd, yyyy hh:mm:ss a z";
@@ -59,6 +66,9 @@ public class StatusConfigActivity extends AppCompatActivity {
         radioVisibilityUnlisted = findViewById(R.id.radioVisibilityUnlisted);
         radioVisibilityFollowers = findViewById(R.id.radioVisibilityFollowers);
         radioVisibilityPublic = findViewById(R.id.radioVisibilityPublic);
+        radioThreadingAlways = findViewById(R.id.radioThreadingAlways);
+        radioThreadingNever = findViewById(R.id.radioThreadingNever);
+        radioThreadingDaily = findViewById(R.id.radioThreadingDaily);
         checkBoxActiveStatus = findViewById(R.id.checkBoxStatusActive);
         int statusIndexActive = Utils.getInt(Utils.getProperty(settings, MainActivity.Literals.statusIndexActive.name()));
         statusIndexSelected = Utils.getInt(Utils.getProperty(settings, MainActivity.Literals.statusIndexSelected.name()));
@@ -74,6 +84,32 @@ public class StatusConfigActivity extends AppCompatActivity {
         }
         if ("public".equals(Utils.getProperty(status, MainActivity.Literals.visibility.name()))) {
             radioVisibilityPublic.setChecked(true);
+        }
+        buttonStartNewThread = findViewById(R.id.buttonClearThread);
+        buttonStartNewThread.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                status.remove(MainActivity.Literals.threadingId.name());
+                status.remove(MainActivity.Literals.threadingDate.name());
+                Log.i(TAG, "Threading ID cleared.");
+                Toast.makeText(context, R.string.threading_id_cleared, Toast.LENGTH_LONG).show();
+            }
+        });
+        RadioGroup radioGroupThreading = findViewById(R.id.radioGroupThreading);
+        radioGroupThreading.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                buttonStartNewThread.setEnabled(!radioThreadingNever.isChecked());
+            }
+        });
+        if (MainActivity.Literals.never.name().equals(Utils.getProperty(status, MainActivity.Literals.threading.name()))) {
+            radioThreadingNever.setChecked(true);
+        }
+        if (MainActivity.Literals.always.name().equals(Utils.getProperty(status, MainActivity.Literals.threading.name()))) {
+            radioThreadingAlways.setChecked(true);
+        }
+        if (MainActivity.Literals.daily.name().equals(Utils.getProperty(status, MainActivity.Literals.threading.name()))) {
+            radioThreadingDaily.setChecked(true);
         }
         editTextLabel = findViewById(R.id.editTextLabel);
         editTextLabel.setText(Utils.getProperty(status, MainActivity.Literals.label.name()));
@@ -131,6 +167,15 @@ public class StatusConfigActivity extends AppCompatActivity {
         }
         if (radioVisibilityUnlisted.isChecked()) {
             statusJsonObject.addProperty(MainActivity.Literals.visibility.name(), MainActivity.Literals.unlisted.name());
+        }
+        if (radioThreadingNever.isChecked()) {
+            statusJsonObject.addProperty(MainActivity.Literals.threading.name(), MainActivity.Literals.never.name());
+        }
+        if (radioThreadingAlways.isChecked()) {
+            statusJsonObject.addProperty(MainActivity.Literals.threading.name(), MainActivity.Literals.always.name());
+        }
+        if (radioThreadingDaily.isChecked()) {
+            statusJsonObject.addProperty(MainActivity.Literals.threading.name(), MainActivity.Literals.daily.name());
         }
         if (checkBoxActiveStatus.isChecked()) {
             settings.addProperty(MainActivity.Literals.statusIndexActive.name(), statusIndexSelected);
