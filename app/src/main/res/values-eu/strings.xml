@@ -36,8 +36,8 @@
 	<string name="account_created">Kontua sortu duzu. Konfiguratu egoera.</string>
 	<string name="enter_an_instance_name">Sartu instantzia izen bat. Adibidez: pleroma.site</string>
 	<string name="instance_string_format">Instantzia \"%s\"</string>
-	<string name="select_account">Aukeratu kontua...</string>
-	<string name="select_status">Aukeratu egoera...</string> 
+	<string name="select_account">Aukeratu kontua…</string>
+	<string name="select_status">Aukeratu egoera…</string>
 	<string name="label_can_not_be_blank">Etiketa ezin da hutsik utzi. Idatzi izen esanguratsu bat egoera-konfigurazio honetarako.</string> 
 	<string name="no_status_config_to_remove">Ez dago egoera-konfiguraziorik ezabatzeko.</string> 
 	<string name="status_config_removed_status_0_active">Egoera-konfigurazioa ezabatu da eta egoera 0 da orain aukeratutako egoera aktiboa.</string>
