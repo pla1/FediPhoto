@@ -2,10 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/add_status"
-        android:icon="@drawable/ic_launcher_background"
         android:title="@string/add_status" />
     <item
         android:id="@+id/remove_status"
-        android:icon="@drawable/ic_launcher_background"
         android:title="@string/remove_status" />
 </menu>

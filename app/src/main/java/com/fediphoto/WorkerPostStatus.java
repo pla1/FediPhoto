@@ -66,6 +66,7 @@ public class WorkerPostStatus extends Worker {
         JsonObject statusConfig = Utils.getStatusSelectedFromSettings(context);
         String instance = Utils.getProperty(account, MainActivity.Literals.instance.name());
         String visibility = Utils.getProperty(statusConfig, MainActivity.Literals.visibility.name());
+        String threading = Utils.getProperty(statusConfig, MainActivity.Literals.threading.name());
         StringBuilder sb = new StringBuilder();
         sb.append(Utils.getProperty(statusConfig, MainActivity.Literals.text.name()));
         File file = new File(photoFileName);
@@ -87,7 +88,7 @@ public class WorkerPostStatus extends Worker {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        boolean isDebuggable =  ( 0 != ( context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE ) );
+        boolean isDebuggable = (0 != (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
         if (isDebuggable) {
             latitude = 19.677821;
             longitude = -155.596364;
@@ -112,12 +113,19 @@ public class WorkerPostStatus extends Worker {
         params.addProperty(MainActivity.Literals.status.name(), sb.toString());
         params.addProperty(MainActivity.Literals.access_token.name(), Utils.getProperty(account, MainActivity.Literals.access_token.name()));
         params.addProperty(MainActivity.Literals.visibility.name(), visibility);
-
         JsonArray mediaJsonArray = new JsonArray();
         mediaJsonArray.add(dataInput.getString(MainActivity.Literals.id.name()));
         params.add(MainActivity.Literals.media_ids.name(), mediaJsonArray);
         params.addProperty(MainActivity.Literals.client_name.name(), context.getString(R.string.fedi_photo_for_android));
-
+        String threadingId = Utils.getProperty(statusConfig, MainActivity.Literals.threadingId.name());
+        String threadingDate = Utils.getProperty(statusConfig, MainActivity.Literals.threadingDate.name());
+        if (Utils.isNotBlank(threadingId)) {
+            if ((MainActivity.Literals.daily.name().equals(threading) && Utils.getDateYyyymmdd().equals(threadingDate))
+                    || MainActivity.Literals.always.name().equals(threading)) {
+                params.addProperty(MainActivity.Literals.in_reply_to_id.name(), threadingId);
+                Log.i(TAG, String.format("%s threading ID: %s set to in_reply_to_id.", threading, threadingId));
+            }
+        }
         String urlString = String.format("https://%s/api/v1/statuses", instance);
         Log.i(TAG, "URL " + urlString);
         HttpsURLConnection urlConnection;
@@ -133,11 +141,9 @@ public class WorkerPostStatus extends Worker {
             urlConnection.setRequestMethod(MainActivity.Literals.POST.name());
             urlConnection.setRequestProperty("Content-type", "application/json; charset=UTF-8");
             urlConnection.setDoOutput(true);
-            // test
             String token = Utils.getProperty(account, MainActivity.Literals.access_token.name());
             String authorization = String.format("Bearer %s", token);
             urlConnection.setRequestProperty("Authorization", authorization);
-            // end test
             String json = params.toString();
             Log.i(TAG, String.format("Posting JSON: %s", json));
             urlConnection.setRequestProperty("Content-length", Integer.toString(json.length()));
@@ -150,14 +156,15 @@ public class WorkerPostStatus extends Worker {
             inputStream = urlConnection.getInputStream();
             InputStreamReader isr = new InputStreamReader(inputStream);
             Gson gson = new Gson();
-            JsonObject jsonObject = gson.fromJson(isr, JsonObject.class);
-            Log.i(TAG, String.format("Output: %s", jsonObject.toString()));
-            String urlForPost = Utils.getProperty(jsonObject, MainActivity.Literals.url.name());
+            JsonObject jsonObjectFromPost = gson.fromJson(isr, JsonObject.class);
+            Utils.log(TAG, String.format("Output: %s", jsonObjectFromPost.toString()));
+            String urlForPost = Utils.getProperty(jsonObjectFromPost, MainActivity.Literals.url.name());
             Data dataOutput = new Data.Builder()
                     .putString(MainActivity.Literals.url.name(), urlForPost)
                     .build();
             sendNotification(context.getString(R.string.post_success), urlForPost, photoFileName);
-            actionAfterPost(dataInput);
+            mediaActionAfterPost(dataInput);
+            threadingMaintenanceAfterPost(jsonObjectFromPost);
             return Result.success(dataOutput);
         } catch (Exception e) {
             e.printStackTrace();
@@ -167,7 +174,38 @@ public class WorkerPostStatus extends Worker {
         }
     }
 
-    private void actionAfterPost(Data data) {
+    private void threadingMaintenanceAfterPost(JsonObject jsonObjectFromPost) {
+        JsonObject statusConfig = Utils.getStatusSelectedFromSettings(context);
+        String threading = Utils.getProperty(statusConfig, MainActivity.Literals.threading.name());
+        String id = Utils.getProperty(jsonObjectFromPost, MainActivity.Literals.id.name());
+        Log.i(TAG, String.format("Threading: %s ID of post: %s", threading, id));
+        String threadingId = Utils.getProperty(statusConfig, MainActivity.Literals.threadingId.name());
+        String threadingDate = Utils.getProperty(statusConfig, MainActivity.Literals.threadingDate.name());
+        if (threading.equals(MainActivity.Literals.always.name())) {
+            if (Utils.isBlank(threadingId)) {
+                statusConfig.addProperty(MainActivity.Literals.threadingId.name(), id);
+                statusConfig.addProperty(MainActivity.Literals.threadingDate.name(), Utils.getDateYyyymmdd());
+            }
+        }
+        if (threading.equals(MainActivity.Literals.daily.name())) {
+            if (Utils.isBlank(threadingId)) {
+                statusConfig.addProperty(MainActivity.Literals.threadingId.name(), id);
+                statusConfig.addProperty(MainActivity.Literals.threadingDate.name(), Utils.getDateYyyymmdd());
+            } else {
+                if (!Utils.getDateYyyymmdd().equals(threadingDate)) {
+                    statusConfig.addProperty(MainActivity.Literals.threadingId.name(), id);
+                    statusConfig.addProperty(MainActivity.Literals.threadingDate.name(), Utils.getDateYyyymmdd());
+                }
+            }
+        }
+        if (threading.equals(MainActivity.Literals.never.name())) {
+            statusConfig.remove(MainActivity.Literals.threadingId.name());
+            statusConfig.remove(MainActivity.Literals.threadingDate.name());
+        }
+        Utils.saveStatusSelectedToSettings(context, statusConfig);
+    }
+
+    private void mediaActionAfterPost(Data data) {
         String fileName = data.getString(MainActivity.Literals.fileName.name());
         if (Utils.isBlank(fileName)) {
             Log.i(TAG, "File name if blank. No action after post taken.");
@@ -202,7 +240,7 @@ public class WorkerPostStatus extends Worker {
     }
 
     private File getNewFile(File file) {
-        String appNameFolder = Utils.getApplicationName(context).replaceAll(" ","_");
+        String appNameFolder = Utils.getApplicationName(context).replaceAll(" ", "_");
         File pictureFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File finalFolder = new File(pictureFolder, appNameFolder);
         finalFolder.mkdirs();
@@ -216,7 +254,7 @@ public class WorkerPostStatus extends Worker {
 
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
 
-        NotificationManager notificationManager = (NotificationManager)getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel("default", "Default", NotificationManager.IMPORTANCE_DEFAULT);
@@ -227,7 +265,7 @@ public class WorkerPostStatus extends Worker {
                 .setContentTitle(title)
                 .setContentText(urlString)
                 .setContentIntent(pendingIntent)
-                .setSmallIcon(R.drawable.notification_icon)
+                .setSmallIcon(R.drawable.fediphoto_foreground)
                 .setLargeIcon(BitmapFactory.decodeFile(photoFileName))
                 .setAutoCancel(true);
         Random random = new Random();

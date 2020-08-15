@@ -1,7 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp">
 
 
     <TextView
@@ -14,8 +16,8 @@
         android:id="@+id/editTextLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName|textCapWords"
-        android:autofillHints="title" />
+        android:autofillHints="title"
+        android:inputType="textPersonName|textCapWords" />
 
     <TextView
         android:layout_width="match_parent"
@@ -27,8 +29,8 @@
         android:id="@+id/editTextText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textNoSuggestions"
-        android:autofillHints="text" />
+        android:autofillHints="text"
+        android:inputType="textNoSuggestions" />
 
     <TextView
         android:layout_width="match_parent"
@@ -37,7 +39,8 @@
 
     <RadioGroup
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/radioVisibilityDirect"
@@ -69,6 +72,43 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/threading" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupThreading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radioThreadingNever"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_button_label_never" />
+
+        <RadioButton
+            android:id="@+id/radioThreadingAlways"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_button_label_always" />
+
+        <RadioButton
+            android:id="@+id/radioThreadingDaily"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/radio_button_label_daily" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/buttonClearThread"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_label_start_new_thread" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:labelFor="@+id/editTextDateFormat"
         android:text="@string/label_data_format_field" />
 
@@ -76,8 +116,8 @@
         android:id="@+id/editTextDateFormat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textNoSuggestions"
-        android:autofillHints="SimpleDateFormat" />
+        android:autofillHints="SimpleDateFormat"
+        android:inputType="textNoSuggestions" />
 
     <TextView
         android:layout_width="match_parent"
@@ -89,8 +129,8 @@
         android:id="@+id/editTextGpsCoordinatesFormat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textNoSuggestions"
-        android:autofillHints="String format" />
+        android:autofillHints="String format"
+        android:inputType="textNoSuggestions" />
 
     <CheckBox
         android:id="@+id/checkBoxStatusActive"

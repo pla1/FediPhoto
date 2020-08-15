@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (Utils.getAccountQuantity(context) == 0) {
                     askForInstance();
-                    return;
+                    return;             
                 }
                 dispatchTakePictureIntent();
             }
@@ -231,13 +231,13 @@ public class MainActivity extends AppCompatActivity {
         final OneTimeWorkRequest uploadWorkRequest = new OneTimeWorkRequest
                 .Builder(com.fediphoto.WorkerUpload.class)
                 .addTag(Literals.worker_tag_media_upload.name())
-                .addTag(String.format("%s%d",Literals.created_milliseconds.name(), System.currentTimeMillis()))
+                .addTag(String.format(Locale.ENGLISH,"%s%d",Literals.created_milliseconds.name(), System.currentTimeMillis()))
                 .setInputData(data).build();
         WorkContinuation workContinuation = WorkManager.getInstance(context).beginWith(uploadWorkRequest);
         OneTimeWorkRequest postStatusWorkRequest = new OneTimeWorkRequest
                 .Builder(com.fediphoto.WorkerPostStatus.class)
                 .addTag(Literals.worker_tag_post_status.name())
-                .addTag(String.format("%s%d",Literals.created_milliseconds.name(), System.currentTimeMillis()))
+                .addTag(String.format(Locale.ENGLISH,"%s%d",Literals.created_milliseconds.name(), System.currentTimeMillis()))
                 .setInputData(data).build();
         workContinuation = workContinuation.then(postStatusWorkRequest);
         workContinuation.enqueue();
@@ -291,7 +291,8 @@ public class MainActivity extends AppCompatActivity {
         grant_type, code, accounts, instance, text, visibility, unlisted, dateFormat,
         OK, Cancel, media_ids, id, status, url, gpsCoordinatesFormat, direct, fileName,
         accountIndexSelected, accountIndexActive, statuses, label, statusIndexActive, statusIndexSelected,
-        leave, copy, move, delete, display_name, username, acct, worker_tag_media_upload, worker_tag_post_status, created_milliseconds
+        leave, copy, move, delete, display_name, username, acct, worker_tag_media_upload, worker_tag_post_status, created_milliseconds,
+        threading, never, daily, always, threadingDate, threadingId, in_reply_to_id
     }
 
 
@@ -659,6 +660,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setTitle() {
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.fediphoto_foreground);
         String version = "";
         try {
             PackageInfo pInfo = context.getPackageManager().getPackageInfo(getPackageName(), 0);
