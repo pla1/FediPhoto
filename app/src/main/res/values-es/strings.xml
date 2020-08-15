@@ -52,6 +52,12 @@
     <string name="status_config_activity_title">Config. estado</string>
     <string name="action_after_posting_photo">Acción tras publicar foto</string>
     <string name="general">General</string>
+    <string name="radio_button_label_never">Nunca</string>
+    <string name="radio_button_label_always">Siempre</string>
+    <string name="radio_button_label_daily">Diariamente</string>
+    <string name="threading">Crear tema:</string>
+    <string name="button_label_start_new_thread">Iniciar nuevo tema</string>
+    <string name="threading_id_cleared">Eliminado el ID del tema.</string>
     <string-array name="actionAfterPostEntries">
         <item>Dejar foto en carpeta Photo</item>
         <item>Copiar a fotos</item>
