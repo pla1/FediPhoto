@@ -146,7 +146,7 @@ public class WorkerPostStatus extends Worker {
             urlConnection.setRequestProperty("Authorization", authorization);
             String json = params.toString();
             Log.i(TAG, String.format("Posting JSON: %s", json));
-            urlConnection.setRequestProperty("Content-length", Integer.toString(json.length()));
+       //     urlConnection.setRequestProperty("Content-length", Integer.toString(json.length()));
             outputStream = urlConnection.getOutputStream();
             outputStream.write(json.getBytes());
             outputStream.flush();

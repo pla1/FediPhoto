@@ -329,7 +329,7 @@ public class MainActivity extends AppCompatActivity {
                 urlConnection.setRequestProperty("Content-type", "application/json; charset=UTF-8");
                 urlConnection.setDoOutput(true);
                 String json = params.toString();
-                urlConnection.setRequestProperty("Content-length", Integer.toString(json.length()));
+            //    urlConnection.setRequestProperty("Content-length", Integer.toString(json.length()));
                 outputStream = urlConnection.getOutputStream();
                 outputStream.write(json.getBytes());
                 outputStream.flush();
@@ -396,7 +396,7 @@ public class MainActivity extends AppCompatActivity {
                 urlConnection.setRequestProperty("Content-type", "application/json; charset=UTF-8");
                 urlConnection.setDoOutput(true);
                 String json = params.toString();
-                urlConnection.setRequestProperty("Content-length", Integer.toString(json.length()));
+           //     urlConnection.setRequestProperty("Content-length", Integer.toString(json.length()));
                 outputStream = urlConnection.getOutputStream();
                 outputStream.write(json.getBytes());
                 outputStream.flush();
