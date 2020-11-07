@@ -58,6 +58,10 @@
     <string name="threading">Crear tema:</string>
     <string name="button_label_start_new_thread">Iniciar novo tema</string>
     <string name="threading_id_cleared">Eliminado o ID do tema.</string>
+    <string name="restore_defaults">Restablecer por omisión</string>
+    <string name="invalid_date_format">Formato de data non válido.</string>
+    <string name="test_gps_coordinates_format">Test do formato GPS</string>
+    <string name="test_date_format">Test da data</string>
     <string-array name="actionAfterPostEntries">
         <item>Deixar foto no cartafol Fedi Photo</item>
         <item>Copiar foto ao cartafol fotos</item>

@@ -58,6 +58,10 @@
     <string name="threading">Crear tema:</string>
     <string name="button_label_start_new_thread">Iniciar nuevo tema</string>
     <string name="threading_id_cleared">Eliminado el ID del tema.</string>
+    <string name="restore_defaults">Restablecer valores</string>
+    <string name="invalid_date_format">Formato de fecha no válido.</string>
+    <string name="test_gps_coordinates_format">Test de coordenadas GPS</string>
+    <string name="test_date_format">Test del formato de fecha</string>
     <string-array name="actionAfterPostEntries">
         <item>Dejar foto en carpeta Photo</item>
         <item>Copiar a fotos</item>
