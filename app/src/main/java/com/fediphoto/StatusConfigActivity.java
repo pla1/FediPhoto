@@ -2,6 +2,7 @@ package com.fediphoto;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -22,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -48,8 +50,10 @@ public class StatusConfigActivity extends AppCompatActivity {
     private JsonObject status;
     private Button buttonStartNewThread;
 
-    private final String DEFAULT_GPS_COORDINATES_FORMAT = "https://openstreetmap.org?zoom=17&layers=m&mlat=%.5f&mlon=%.5f";
+    private final String DEFAULT_GPS_COORDINATES_FORMAT = "https://www.openstreetmap.org/?mlat=%.5f&mlon=%.5f&zoom=17#layers=m";
     private final String DEFAULT_DATE_FORMAT = "EEEE MMMM dd, yyyy hh:mm:ss a z";
+    private final double EIFFEL_TOWER_LATITUDE = 48.85827;
+    private final double EIFFEL_TOWER_LONGITUDE = 2.29443;
 
     private void setup() {
         setContentView(R.layout.activity_status_config);
@@ -122,18 +126,6 @@ public class StatusConfigActivity extends AppCompatActivity {
         editTextGpsCoordinatesFormat = findViewById(R.id.editTextGpsCoordinatesFormat);
         editTextGpsCoordinatesFormat.setText(Utils.getProperty(status, MainActivity.Literals.gpsCoordinatesFormat.name()));
         final StringBuilder dateFormat = new StringBuilder();
-        editTextDateFormat.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                if (!dateFormat.toString().equals(editTextDateFormat.getText().toString())) {
-                    SimpleDateFormat sdf = new SimpleDateFormat(editTextDateFormat.getText().toString(), Locale.US);
-                    Toast.makeText(context, sdf.format(new Date()), Toast.LENGTH_SHORT).show();
-                } else {
-                    dateFormat.replace(0, dateFormat.length(), editTextDateFormat.getText().toString());
-                }
-                return false;
-            }
-        });
     }
 
     @Override
@@ -263,6 +255,29 @@ public class StatusConfigActivity extends AppCompatActivity {
                 }
                 setResult(MainActivity.RESULT_OK, intent);
                 finish();
+                return true;
+            case R.id.restore_defaults:
+                radioVisibilityPublic.setChecked(true);
+                radioThreadingDaily.setChecked(true);
+                editTextDateFormat.setText(DEFAULT_DATE_FORMAT);
+                editTextGpsCoordinatesFormat.setText(DEFAULT_GPS_COORDINATES_FORMAT);
+                return true;
+            case R.id.test_date_format:
+                String dateDisplay;
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat(editTextDateFormat.getText().toString());
+                    dateDisplay = sdf.format(new Date());
+                } catch (IllegalArgumentException e) {
+                    dateDisplay = getString(R.string.invalid_date_format);
+                }
+                Toast.makeText(context, dateDisplay, Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.test_gps_coordinates_format:
+                save();
+                intent = new Intent(Intent.ACTION_VIEW);
+                String urlString = String.format(editTextGpsCoordinatesFormat.getText().toString(), EIFFEL_TOWER_LATITUDE, EIFFEL_TOWER_LONGITUDE);
+                intent.setData(Uri.parse(urlString));
+                startActivity(intent);
                 return true;
             default:
                 Log.i(TAG, "Default menu option.");

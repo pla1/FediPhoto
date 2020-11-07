@@ -6,4 +6,13 @@
     <item
         android:id="@+id/remove_status"
         android:title="@string/remove_status" />
+    <item
+        android:id="@+id/restore_defaults"
+        android:title="@string/restore_defaults" />
+    <item
+        android:id="@+id/test_date_format"
+        android:title="@string/test_date_format" />
+    <item
+        android:id="@+id/test_gps_coordinates_format"
+        android:title="@string/test_gps_coordinates_format" />
 </menu>

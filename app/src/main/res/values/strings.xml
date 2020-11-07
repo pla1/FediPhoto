@@ -58,6 +58,10 @@
     <string name="threading">Threading:</string>
     <string name="button_label_start_new_thread">Start new thread</string>
     <string name="threading_id_cleared">Threading ID cleared.</string>
+    <string name="restore_defaults">Restore defaults</string>
+    <string name="invalid_date_format">Invalid date format.</string>
+    <string name="test_gps_coordinates_format">Test GPS coordinates format</string>
+    <string name="test_date_format">Test date format</string>
     <string-array name="actionAfterPostEntries">
         <item>Leave photo in Fedi Photo folder</item>
         <item>Copy photo to photos folder</item>

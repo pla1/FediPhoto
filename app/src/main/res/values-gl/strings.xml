@@ -36,8 +36,8 @@
     <string name="account_created">Conta creada. Configura o estado a publicar.</string>
     <string name="enter_an_instance_name">Escribe o nome da instancia. Exemplo: pleroma.site</string>
     <string name="instance_string_format">Instancia \"%s\"</string>
-    <string name="select_account">Escolle conta...</string>
-    <string name="select_status">Escolle estado...</string>
+    <string name="select_account">Escolle conta…</string>
+    <string name="select_status">Escolle estado…</string>
     <string name="label_can_not_be_blank">A etiqueta non pode estar baleira. Escribe un termo descriptivo para axudarche a identificalo.</string>
     <string name="no_status_config_to_remove">Sen configuracións que eliminar.</string>
     <string name="status_config_removed_status_0_active">Borraches a configuración da publicación e a configuración 0 está agora activa.</string>
@@ -52,13 +52,13 @@
     <string name="status_config_activity_title">Config. do Estado</string>
     <string name="action_after_posting_photo">Acción tras publicar foto</string>
     <string name="general">Xeral</string>
-    <string-array name="actionAfterPostEntries">
     <string name="radio_button_label_never">Nunca</string>
     <string name="radio_button_label_always">Sempre</string>
     <string name="radio_button_label_daily">Cada día</string>
     <string name="threading">Crear tema:</string>
     <string name="button_label_start_new_thread">Iniciar novo tema</string>
     <string name="threading_id_cleared">Eliminado o ID do tema.</string>
+    <string-array name="actionAfterPostEntries">
         <item>Deixar foto no cartafol Fedi Photo</item>
         <item>Copiar foto ao cartafol fotos</item>
         <item>Mover foto ao cartafol fotos</item>

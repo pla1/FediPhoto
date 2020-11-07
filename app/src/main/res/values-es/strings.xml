@@ -36,8 +36,8 @@
     <string name="account_created">Cuenta creada. Configura el estado a publicar.</string>
     <string name="enter_an_instance_name">Escribe el nombre de la instancia. Ejemplo: pleroma.site</string>
     <string name="instance_string_format">Instancia \"%s\"</string>
-    <string name="select_account">Elije cuenta...</string>
-    <string name="select_status">Elije estado...</string>
+    <string name="select_account">Elije cuenta…</string>
+    <string name="select_status">Elije estado…</string>
     <string name="label_can_not_be_blank">El valor etiqueta no puede quedar vacío. Usa una etiqueta que lo describa.</string>
     <string name="no_status_config_to_remove">No hay configuraciones que eliminar.</string>
     <string name="status_config_removed_status_0_active">Eliminada la configuración de estado y estado 0 es ahora el estado activo.</string>
